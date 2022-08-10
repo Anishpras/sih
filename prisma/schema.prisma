@@ -10,10 +10,59 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-model Arbitrator{
-  id          Int @id @default(autoincrement())
+model Arbitrator {
+  id          String   @id @default(cuid())
   name        String
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  Case        Case[]
+}
+
+model Client {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  Case Case[]
+}
+
+model Case {
+  id          String     @id @default(cuid())
+  name        String
+  description String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  arbitrator  Arbitrator @relation(fields: [arbitratorId], references: [id])
+  client      Client     @relation(fields: [clientId], references: [id])
+  hearing     Hearing    @relation(fields: [hearingId], references: [id])
+  orders      Order      @relation(fields: [orderId], references: [id])
+
+  arbitratorId String
+  clientId     String
+  hearingId    String
+  orderId      String
+}
+
+model Hearing {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  //TODO: Need to add more details about the hearing
+  Case        Case[]
+}
+
+model Order {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // TODO: Need to add more details about the rewards and orders passed
+  Case Case[]
 }
