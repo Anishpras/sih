@@ -3,8 +3,7 @@ import z from "zod";
 export const createArbitratorSchema = z.object({
   name: z.string(),
   description: z.string(),
+  password: z.string(),
 });
 
-export type CreateArbitratorSchema = z.TypeOf<
-  typeof createArbitratorSchema
->;
+export type CreateArbitratorSchema = z.TypeOf<typeof createArbitratorSchema>;
