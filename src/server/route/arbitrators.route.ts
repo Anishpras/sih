@@ -8,12 +8,13 @@ export const arbitratorRouter = createRouter()
   .mutation("register-arbitrator", {
     input: createArbitratorSchema,
     async resolve({ ctx, input }) {
-      const { name, description, password } = input;
+      const { name, description, password, registrationId } = input;
       try {
         const arbitrator = await ctx.prisma.arbitrator.create({
           data: {
             name,
             description,
+            registrationId,
             password: sha256(password).toString(),
           },
         });
@@ -40,8 +41,4 @@ export const arbitratorRouter = createRouter()
       return ctx.arbitrator;
     },
   })
-  .query("test", {
-    resolve({ ctx }) {
-      return "Testing";
-    },
-  });
+  

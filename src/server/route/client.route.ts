@@ -8,7 +8,7 @@ export const clientRouter = createRouter()
   .mutation("register-arbitrator", {
     input: createClientSchema,
     async resolve({ ctx, input }) {
-      const { name, description, password } = input;
+      const { name, description, password, username } = input;
       try {
         const client = await ctx.prisma.arbitrator.create({
           data: {
