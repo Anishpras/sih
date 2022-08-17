@@ -39,7 +39,7 @@ model Case {
   client      Client     @relation(fields: [clientId], references: [id])
   hearing     Hearing    @relation(fields: [hearingId], references: [id])
   orders      Order      @relation(fields: [orderId], references: [id])
-
+Awards Awards
   arbitratorId String
   clientId     String
   hearingId    String
