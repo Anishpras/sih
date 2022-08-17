@@ -25,6 +25,6 @@ function ArbitratorCentreContextProvider({
   );
 }
 
-const useUserContext = () => useContext(ArbitratorCentreContext);
+const useArbitrationCentreContext = () => useContext(ArbitratorCentreContext);
 
-export { useUserContext, ArbitratorCentreContextProvider };
+export { useArbitrationCentreContext, ArbitratorCentreContextProvider };
