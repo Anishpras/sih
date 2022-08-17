@@ -30,20 +30,21 @@ model Client {
 }
 
 model Case {
-  id          String     @id @default(cuid())
-  name        String
-  description String
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  arbitrator  Arbitrator @relation(fields: [arbitratorId], references: [id])
-  client      Client     @relation(fields: [clientId], references: [id])
-  hearing     Hearing    @relation(fields: [hearingId], references: [id])
-  orders      Order      @relation(fields: [orderId], references: [id])
-Awards Awards
+  id           String     @id @default(cuid())
+  name         String
+  description  String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  arbitrator   Arbitrator @relation(fields: [arbitratorId], references: [id])
+  client       Client     @relation(fields: [clientId], references: [id])
+  hearing      Hearing    @relation(fields: [hearingId], references: [id])
+  orders       Order      @relation(fields: [orderId], references: [id])
+  Awards       Awards     @relation(fields: [awardsId], references: [id])
   arbitratorId String
   clientId     String
   hearingId    String
   orderId      String
+  awardsId     String
 }
 
 model Hearing {
@@ -53,6 +54,8 @@ model Hearing {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   //TODO: Need to add more details about the hearing
+  evidence    String
+  arguements  String
   Case        Case[]
 }
 
@@ -65,4 +68,31 @@ model Order {
 
   // TODO: Need to add more details about the rewards and orders passed
   Case Case[]
+}
+
+model Awards {
+  id          String   @id @default(cuid())
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Case        Case[]
+}
+
+model ArbitrationCentre {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Admins      Admin[]
+}
+
+model Admin {
+  id                  String            @id @default(cuid())
+  name                String
+  description         String
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  ArbitrationCentre   ArbitrationCentre @relation(fields: [arbitrationCentreId], references: [id])
+  arbitrationCentreId String
 }
