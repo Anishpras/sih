@@ -8,18 +8,32 @@ import { AppRouter } from "../server/route/app.router";
 import { url } from "../utils/constants";
 import { trpc } from "../utils/trpc";
 import { ArbitratorContextProvider } from "../context/arbitrator.context";
+import { ArbitratorCentreContextProvider } from "../context/arbitrationCentre.context";
 function MyApp({ Component, pageProps }: AppProps) {
-  const { data, error, isLoading } = trpc.useQuery(["arbitrators.detail"]);
-  if (isLoading) {
+  const {
+    data: arbitratorData,
+    error,
+    isLoading: arbitratorIsLoading,
+  } = trpc.useQuery(["arbitrators.detail"]);
+
+  const {
+    data: arbitrationCentreData,
+    error: arbitrationCentreError,
+    isLoading: arbitrationCentreIsLoading,
+  } = trpc.useQuery(["arbitration-centres.detail"]);
+
+  if (arbitratorIsLoading || arbitrationCentreIsLoading) {
     return <>Loading...</>;
   }
 
   return (
-    <ArbitratorContextProvider value={data}>
-      <main>
-        <Component {...pageProps} />
-      </main>
-    </ArbitratorContextProvider>
+    <ArbitratorCentreContextProvider value={arbitrationCentreData}>
+      <ArbitratorContextProvider value={arbitratorData}>
+        <main>
+          <Component {...pageProps} />
+        </main>
+      </ArbitratorContextProvider>
+    </ArbitratorCentreContextProvider>
   );
 }
 
