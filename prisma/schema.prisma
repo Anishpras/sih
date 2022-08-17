@@ -30,21 +30,23 @@ model Client {
 }
 
 model Case {
-  id           String     @id @default(cuid())
-  name         String
-  description  String
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  arbitrator   Arbitrator @relation(fields: [arbitratorId], references: [id])
-  client       Client     @relation(fields: [clientId], references: [id])
-  hearing      Hearing    @relation(fields: [hearingId], references: [id])
-  orders       Order      @relation(fields: [orderId], references: [id])
-  Awards       Awards     @relation(fields: [awardsId], references: [id])
-  arbitratorId String
-  clientId     String
-  hearingId    String
-  orderId      String
-  awardsId     String
+  id                  String             @id @default(cuid())
+  name                String
+  description         String
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  arbitrator          Arbitrator         @relation(fields: [arbitratorId], references: [id])
+  client              Client             @relation(fields: [clientId], references: [id])
+  hearing             Hearing            @relation(fields: [hearingId], references: [id])
+  orders              Order              @relation(fields: [orderId], references: [id])
+  Awards              Awards             @relation(fields: [awardsId], references: [id])
+  arbitratorId        String
+  clientId            String
+  hearingId           String
+  orderId             String
+  awardsId            String
+  ArbitrationCentre   ArbitrationCentre? @relation(fields: [arbitrationCentreId], references: [id])
+  arbitrationCentreId String
 }
 
 model Hearing {
@@ -85,6 +87,7 @@ model ArbitrationCentre {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   Admins      Admin[]
+  cases       Case[]
 }
 
 model Admin {
