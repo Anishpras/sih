@@ -16,7 +16,8 @@ model Arbitrator {
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  Case        Case[]
+  verified    Boolean  @default(false)
+  cases       Case[]
 }
 
 model Client {
@@ -25,28 +26,29 @@ model Client {
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-
-  Case Case[]
+  username    String   @unique
+  cases       Case[]
 }
 
 model Case {
-  id                  String             @id @default(cuid())
-  name                String
-  description         String
-  createdAt           DateTime           @default(now())
-  updatedAt           DateTime           @updatedAt
-  arbitrator          Arbitrator         @relation(fields: [arbitratorId], references: [id])
-  client              Client             @relation(fields: [clientId], references: [id])
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  arbitrators         Arbitrator[]
+  clients             Client[]
   hearing             Hearing            @relation(fields: [hearingId], references: [id])
-  orders              Order              @relation(fields: [orderId], references: [id])
-  Awards              Awards             @relation(fields: [awardsId], references: [id])
-  arbitratorId        String
-  clientId            String
+  orders              Order[]
+  award               String
+  annexures           Annexure[]
   hearingId           String
   orderId             String
   awardsId            String
   ArbitrationCentre   ArbitrationCentre? @relation(fields: [arbitrationCentreId], references: [id])
   arbitrationCentreId String
+  awardId             String
 }
 
 model Hearing {
@@ -69,15 +71,9 @@ model Order {
   updatedAt   DateTime @updatedAt
 
   // TODO: Need to add more details about the rewards and orders passed
-  Case Case[]
-}
 
-model Awards {
-  id          String   @id @default(cuid())
-  description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  Case        Case[]
+  Case   Case   @relation(fields: [caseId], references: [id])
+  caseId String
 }
 
 model ArbitrationCentre {
@@ -93,9 +89,20 @@ model ArbitrationCentre {
 model Admin {
   id                  String            @id @default(cuid())
   name                String
-  description         String
+  username            String            @unique
   createdAt           DateTime          @default(now())
   updatedAt           DateTime          @updatedAt
   ArbitrationCentre   ArbitrationCentre @relation(fields: [arbitrationCentreId], references: [id])
   arbitrationCentreId String
+}
+
+model Annexure {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  link        String
+  Case   Case?   @relation(fields: [caseId], references: [id])
+  caseId String?
 }
