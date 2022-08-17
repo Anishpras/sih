@@ -4,6 +4,7 @@ import { trpc } from "../../utils/trpc";
 const ArbitrationCentre = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [password, setPassword] = useState("");
   const { mutate, error } = trpc.useMutation(
     ["arbitration-centres.register-arbitration-centre"],
     {
@@ -18,7 +19,7 @@ const ArbitrationCentre = () => {
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    mutate({ name, description });
+    mutate({ name, description,password });
   };
   return (
     <div>
@@ -34,6 +35,11 @@ const ArbitrationCentre = () => {
           type="text"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+        />
+          <input
+          type="text"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <button onClick={(e) => handleSubmit(e)}>Submit</button>
       </div>
