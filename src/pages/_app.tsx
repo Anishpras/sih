@@ -10,6 +10,7 @@ import { trpc } from "../utils/trpc";
 import { ArbitratorContextProvider } from "../context/arbitrator.context";
 import { ArbitratorCentreContextProvider } from "../context/arbitrationCentre.context";
 import { AdminContextProvider } from "../context/admin.context";
+import { ClientContextProvider } from "../context/client.context";
 function MyApp({ Component, pageProps }: AppProps) {
   const {
     data: arbitratorData,
@@ -27,6 +28,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     error: adminError,
     isLoading: adminIsLoading,
   } = trpc.useQuery(["admin.detail"]);
+  const {
+    data: clientData,
+    error: clientError,
+    isLoading: clientIsLoading,
+  } = trpc.useQuery(["clients.detail"]);
 
   if (arbitratorIsLoading || arbitrationCentreIsLoading || adminIsLoading) {
     return <>Loading...</>;
@@ -36,9 +42,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ArbitratorCentreContextProvider value={arbitrationCentreData}>
       <AdminContextProvider value={adminData}>
         <ArbitratorContextProvider value={arbitratorData}>
-          <main>
-            <Component {...pageProps} />
-          </main>
+          <ClientContextProvider value={clientData}>
+            <main>
+              <Component {...pageProps} />
+            </main>
+          </ClientContextProvider>
         </ArbitratorContextProvider>
       </AdminContextProvider>
     </ArbitratorCentreContextProvider>
