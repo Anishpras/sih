@@ -76,7 +76,12 @@ export const arbitrationCentreRouter = createRouter()
   })
   .query("all-admins", {
     resolve: ({ ctx }) => {
-      return ctx.prisma.admin.findMany();
+      console.log(ctx);
+      return ctx.prisma.admin.findMany({
+        where: {
+          arbitrationCentreId: ctx?.arbitrationCentre?.arbitrationCentreId,
+        },
+      });
     },
   })
   .mutation("verify-admin", {

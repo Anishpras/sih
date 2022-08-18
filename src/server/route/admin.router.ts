@@ -75,4 +75,14 @@ export const adminRouter = createRouter()
       );
       return admin;
     },
+  })
+  .query("all-arbitrators", {
+    async resolve({ ctx }) {
+      const arbitrators = await ctx.prisma.arbitrator.findMany({
+        where: {
+          adminId: ctx?.admin?.id,
+        },
+      });
+      return arbitrators;
+    },
   });

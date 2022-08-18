@@ -20,6 +20,8 @@ model Arbitrator {
   updatedAt      DateTime @updatedAt
   verified       Boolean  @default(false)
   cases          Case[]
+  Admin          Admin?   @relation(fields: [adminId], references: [id])
+  adminId        String?
 }
 
 model Client {
@@ -98,6 +100,7 @@ model Admin {
   password            String
   createdAt           DateTime          @default(now())
   updatedAt           DateTime          @updatedAt
+  arbitrators         Arbitrator[]
   arbitrationCentre   ArbitrationCentre @relation(fields: [arbitrationCentreId], references: [arbitrationCentreId])
   arbitrationCentreId String
 }

@@ -32,21 +32,25 @@ const ArbitrationCentreRegister = () => {
         <input
           type="text"
           value={name}
+          placeholder={"Name"}
           onChange={(e) => setName(e.target.value)}
         />
         <input
           type="text"
           value={description}
+          placeholder={"Description"}
           onChange={(e) => setDescription(e.target.value)}
         />
         <input
           type="text"
           value={arbitrationCentreId}
+          placeholder={"Arbitration Centre Id"}
           onChange={(e) => setArbitrationCentreId(e.target.value)}
         />
-         <input
-          type="text"
+        <input
+          type="password"
           value={password}
+          placeholder={"Password"}
           onChange={(e) => setPassword(e.target.value)}
         />
         <button onClick={(e) => handleSubmit(e)}>Submit</button>

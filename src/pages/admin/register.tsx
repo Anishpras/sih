@@ -29,21 +29,25 @@ const AdminRegister = () => {
         <input
           type="text"
           value={name}
+          placeholder={"Name"}
           onChange={(e) => setName(e.target.value)}
         />
         <input
           type="text"
           value={arbitrationCentreId}
+          placeholder={"Arbitration Centre Id"}
           onChange={(e) => setArbitrationCentreId(e.target.value)}
         />
         <input
           type="text"
           value={username}
+          placeholder={"Username"}
           onChange={(e) => setUsername(e.target.value)}
         />
         <input
           type="password"
           value={password}
+          placeholder={"Password"}
           onChange={(e) => setPassword(e.target.value)}
         />
         <button onClick={(e) => handleSubmit(e)}>Submit</button>
