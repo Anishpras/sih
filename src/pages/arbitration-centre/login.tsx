@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { trpc } from "../../utils/trpc";
 import { useForm } from "react-hook-form";
+import { useArbitrationCentreContext } from "../../context/arbitrationCentre.context";
 
 interface FormData {
   userName: string;
@@ -23,14 +24,13 @@ const LoginSubmit = ({
       password: password,
     },
   ]);
-//   console.log(name, password, "name");
+  //   console.log(name, password, "name");
   if (error) {
     console.log(error.message);
   }
 
-  router.push("/arbitration-centre/land");
-  //   window.location.href = "/arbitration-centre/land";
-//   console.log("Login Done");
+  console.log("Login Done");
+  router.push("/arbitration-centre");
   return <p>Redirecting</p>;
 };
 

@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     error: arbitrationCentreError,
     isLoading: arbitrationCentreIsLoading,
   } = trpc.useQuery(["arbitration-centres.detail"]);
-
+  console.log(arbitrationCentreData, "arbitrationCentreData");
   if (arbitratorIsLoading || arbitrationCentreIsLoading) {
     return <>Loading...</>;
   }
