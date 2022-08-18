@@ -72,7 +72,7 @@ const ClientLogin = () => {
           />
         </div>
         <div>
-          <h1 className="font-bol text-xl">ARBITRATOR LOGIN</h1>
+          <h1 className="font-bol text-xl">CLIENT LOGIN</h1>
         </div>
 
         <form

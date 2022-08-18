@@ -59,7 +59,7 @@ const Login = () => {
     );
   }
   if (arbitrationCentreData) {
-    router.push("/arbitration-centre");
+    window.location.href = "/arbitration-centre";
   }
   return (
     <div className="min-h-screen w-full bg-primary text-white ">
@@ -83,7 +83,7 @@ const Login = () => {
           />
         </div>
         <div>
-          <h1 className="font-bol text-xl">ARBITRATOR LOGIN</h1>
+          <h1 className="font-bol text-xl">Arbitration Centre LOGIN</h1>
         </div>
 
         <form
