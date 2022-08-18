@@ -8,6 +8,7 @@ interface CtxArbitrator {
   name: string;
   iat: string;
   exp: number;
+  registrationId:string
 }
 interface CtxClient {
   id: string;

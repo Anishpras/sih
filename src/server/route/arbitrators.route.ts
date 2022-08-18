@@ -1,8 +1,13 @@
-import { createArbitratorSchema } from "../../../schema/arbitratorSchema.schema";
+import {
+  createArbitratorSchema,
+  loginArbitratorSchema,
+} from "../../../schema/arbitratorSchema.schema";
 import { createRouter } from "../createRouter";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import * as trpc from "@trpc/server";
 import sha256 from "crypto-js/sha256";
+import { signJwt } from "../../utils/jwt";
+import { serialize } from "cookie";
 
 export const arbitratorRouter = createRouter()
   .mutation("register-arbitrator", {
@@ -41,4 +46,31 @@ export const arbitratorRouter = createRouter()
       return ctx.arbitrator;
     },
   })
-  
+  .query("arbitrator-login", {
+    input: loginArbitratorSchema,
+    async resolve({ ctx, input }) {
+      const { registrationId, password } = input;
+      const arbitrator = await ctx.prisma.arbitrator.findFirst({
+        where: {
+          registrationId,
+          password: sha256(password).toString(),
+        },
+      });
+      if (!arbitrator) {
+        throw new trpc.TRPCError({
+          code: "NOT_FOUND",
+          message: "User not found",
+        });
+      }
+      const jwt = signJwt({
+        name: arbitrator.name,
+        registrationId: arbitrator.registrationId,
+        id: arbitrator.id,
+      });
+      ctx.res.setHeader(
+        "Set-Cookie",
+        serialize("arbitratorToken", jwt, { path: "/" })
+      );
+      return arbitrator;
+    },
+  });

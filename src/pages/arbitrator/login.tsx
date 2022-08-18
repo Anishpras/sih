@@ -4,22 +4,22 @@ import { trpc } from "../../utils/trpc";
 import { useForm } from "react-hook-form";
 
 interface FormData {
-  userName: string;
+  registrationId: string;
   password: string;
 }
 
 const LoginSubmit = ({
-  name,
+  registrationId,
   password,
 }: {
-  name: string;
+  registrationId: string;
   password: string;
 }) => {
   const router = useRouter();
   const { data, error } = trpc.useQuery([
-    "arbitrators.login-arbitrator",
+    "arbitrators.arbitrator-login",
     {
-      name: name,
+      registrationId: registrationId,
       password: password,
     },
   ]);
@@ -28,9 +28,7 @@ const LoginSubmit = ({
     console.log(error.message);
   }
 
-  router.push("/arbitrator/land");
-  //   window.location.href = "/arbitration-centre/land";
-  //   console.log("Login Done");
+  router.push("/arbitrator");
   return <p>Redirecting</p>;
 };
 
@@ -44,7 +42,10 @@ const Login = () => {
   }
   if (verificationDone) {
     return (
-      <LoginSubmit name={loginData.userName} password={loginData.password} />
+      <LoginSubmit
+        registrationId={loginData.registrationId}
+        password={loginData.password}
+      />
     );
   }
 
@@ -53,7 +54,7 @@ const Login = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
           className="text-black"
-          {...register("userName")}
+          {...register("registrationId")}
           placeholder="First name"
         />
         <input
