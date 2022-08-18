@@ -11,25 +11,25 @@ datasource db {
 }
 
 model Arbitrator {
-  id          String   @id @default(cuid())
-  name        String
-  description String
-  registrationId String
-  password String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  verified    Boolean  @default(false)
-  cases       Case[]
+  id             String   @id @default(cuid())
+  name           String
+  description    String
+  registrationId String   @unique
+  password       String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  verified       Boolean  @default(false)
+  cases          Case[]
 }
 
 model Client {
-  id          String   @id @default(cuid())
-  name        String
-  password    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  username    String   @unique
-  cases       Case[]
+  id        String   @id @default(cuid())
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  username  String   @unique
+  cases     Case[]
 }
 
 model Case {
@@ -81,7 +81,7 @@ model Order {
 model ArbitrationCentre {
   id          String   @id @default(cuid())
   name        String   @unique
-  password String
+  password    String
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -93,7 +93,7 @@ model Admin {
   id                  String            @id @default(cuid())
   name                String
   username            String            @unique
-  password  String
+  password            String
   createdAt           DateTime          @default(now())
   updatedAt           DateTime          @updatedAt
   ArbitrationCentre   ArbitrationCentre @relation(fields: [arbitrationCentreId], references: [id])
@@ -107,6 +107,6 @@ model Annexure {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   link        String
-  Case   Case?   @relation(fields: [caseId], references: [id])
-  caseId String?
+  Case        Case?    @relation(fields: [caseId], references: [id])
+  caseId      String?
 }
