@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   console.log(arbitrationCentreData, "arbitrationCentreData");
   if (arbitratorIsLoading || arbitrationCentreIsLoading) {
     return (
-      <div className="bg-primary w-full min-h-screen text-white text-3xl font-bold flex justify-center items-center ">
+      <div className="flex min-h-screen w-full items-center justify-center bg-primary text-3xl font-bold text-white ">
         Loading...
       </div>
     );
