@@ -25,6 +25,6 @@ function ArbitratorContextProvider({
   );
 }
 
-const useUserContext = () => useContext(ArbitratorContext);
+const useArbitratorContext = () => useContext(ArbitratorContext);
 
-export { useUserContext, ArbitratorContextProvider };
+export { useArbitratorContext, ArbitratorContextProvider };
