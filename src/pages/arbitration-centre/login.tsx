@@ -1,8 +1,9 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { trpc } from "../../utils/trpc";
+
 import { useForm } from "react-hook-form";
 import { useArbitrationCentreContext } from "../../context/arbitrationCentre.context";
+import { trpc } from "../../utils/trpc";
 
 interface FormData {
   userName: string;
@@ -38,6 +39,9 @@ const Login = () => {
   const { register, handleSubmit } = useForm<FormData>();
   const [loginData, setLoginData] = useState({} as FormData);
   const [verificationDone, setVerificationDone] = useState(false);
+  const router = useRouter();
+  const arbitrationCentreData = useArbitrationCentreContext();
+
   async function onSubmit(data: FormData) {
     setLoginData(data);
     setVerificationDone(true);
@@ -47,7 +51,9 @@ const Login = () => {
       <LoginSubmit name={loginData.userName} password={loginData.password} />
     );
   }
-
+  if (arbitrationCentreData) {
+    router.push("/arbitration-centre");
+  }
   return (
     <div className="bg-black text-white w-full min-h-screen ">
       <form onSubmit={handleSubmit(onSubmit)}>
