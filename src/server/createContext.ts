@@ -4,22 +4,31 @@ import { prisma } from "../utils/prisma";
 
 interface CtxArbitrator {
   id: string;
-  email: string;
+
   name: string;
   iat: string;
   exp: number;
+  registrationId: string;
 }
 interface CtxClient {
   id: string;
-  email: string;
+
+  username: string;
   name: string;
   iat: string;
   exp: number;
 }
 interface CtxArbitrationCentre {
   id: string;
-  email: string;
+  arbitrationCentreId: string;
   name: string;
+  iat: string;
+  exp: number;
+}
+interface CtxAdmin {
+  id: string;
+  name: string;
+  username: string;
   iat: string;
   exp: number;
 }
@@ -60,6 +69,18 @@ function getArbitrationCentreFromRequest(req: NextApiRequest) {
     }
   }
 }
+function getAdminFromRequest(req: NextApiRequest) {
+  const token = req.cookies.adminToken;
+
+  if (token) {
+    try {
+      const verified = verifyJwt<CtxAdmin>(token);
+      return verified;
+    } catch (e) {
+      return null;
+    }
+  }
+}
 export function createContext({
   req,
   res,
@@ -70,7 +91,8 @@ export function createContext({
   const arbitrator = getArbitratorFromRequest(req);
   const client = getClientFromRequest(req);
   const arbitrationCentre = getArbitrationCentreFromRequest(req);
-  return { req, res, prisma, arbitrator, client, arbitrationCentre };
+  const admin = getAdminFromRequest(req);
+  return { req, res, prisma, arbitrator, client, arbitrationCentre, admin };
 }
 
 export type Context = ReturnType<typeof createContext>;

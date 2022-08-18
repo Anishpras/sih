@@ -4,11 +4,16 @@ export const createArbitrationCentreSchema = z.object({
   name: z.string(),
   description: z.string(),
   password: z.string(),
+  arbitrationCentreId: z.string(),
 });
 
 export const loginArbitrationCentreSchema = z.object({
-  name: z.string(),
+  arbitrationCentreId: z.string(),
   password: z.string(),
+});
+
+export const verifyAdminSchema = z.object({
+  adminId: z.string(),
 });
 
 export type CreateArbitrationCentreSchema = z.TypeOf<
@@ -18,3 +23,5 @@ export type CreateArbitrationCentreSchema = z.TypeOf<
 export type LoginArbitrationCentreSchema = z.TypeOf<
   typeof loginArbitrationCentreSchema
 >;
+
+export type VerifyAdminSchema = z.TypeOf<typeof verifyAdminSchema>;

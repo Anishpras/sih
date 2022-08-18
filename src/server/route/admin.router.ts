@@ -1,20 +1,28 @@
+import { loginAdminSchema } from "./../../../schema/adminSchema.schema";
 import { createAdminSchema } from "../../../schema/adminSchema.schema";
 import { createRouter } from "../createRouter";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import * as trpc from "@trpc/server";
 import sha256 from "crypto-js/sha256";
+import { signJwt } from "../../utils/jwt";
+import { serialize } from "cookie";
 
 export const adminRouter = createRouter()
-  .mutation("register-admin", {
+  .mutation("admin-register", {
     input: createAdminSchema,
     async resolve({ ctx, input }) {
-      const { name, arbitrationCentreId, password } = input;
+      const { name, username, arbitrationCentreId, password } = input;
       try {
         const admin = await ctx.prisma.admin.create({
           data: {
             name,
-            arbitrationCentreId,
+            username,
             password: sha256(password).toString(),
+            arbitrationCentre: {
+              connect: {
+                arbitrationCentreId: arbitrationCentreId,
+              },
+            },
           },
         });
         return admin;
@@ -30,7 +38,7 @@ export const adminRouter = createRouter()
 
         throw new trpc.TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Internal server error",
+          message: "Internal Server Error or Check connection error.",
         });
       }
     },
@@ -40,8 +48,31 @@ export const adminRouter = createRouter()
       return ctx.admin;
     },
   })
-  .query("test", {
-    resolve({ ctx }) {
-      return "Testing";
+  .query("login-admin", {
+    input: loginAdminSchema,
+    async resolve({ ctx, input }) {
+      const { username, password } = input;
+      const admin = await ctx.prisma.admin.findFirst({
+        where: {
+          username,
+          password: sha256(password).toString(),
+        },
+      });
+      if (!admin) {
+        throw new trpc.TRPCError({
+          code: "NOT_FOUND",
+          message: "User not found",
+        });
+      }
+      const jwt = signJwt({
+        name: admin.name,
+        id: admin.id,
+        username: admin.username,
+      });
+      ctx.res.setHeader(
+        "Set-Cookie",
+        serialize("adminToken", jwt, { path: "/" })
+      );
+      return admin;
     },
   });

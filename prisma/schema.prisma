@@ -79,24 +79,26 @@ model Order {
 }
 
 model ArbitrationCentre {
-  id          String   @id @default(cuid())
-  name        String   @unique
-  password    String
-  description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  Admins      Admin[]
-  cases       Case[]
+  id                  String   @id @default(cuid())
+  name                String   @unique
+  arbitrationCentreId String   @unique
+  password            String
+  description         String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  Admins              Admin[]
+  cases               Case[]
 }
 
 model Admin {
   id                  String            @id @default(cuid())
   name                String
   username            String            @unique
+  verified            Boolean           @default(false)
   password            String
   createdAt           DateTime          @default(now())
   updatedAt           DateTime          @updatedAt
-  ArbitrationCentre   ArbitrationCentre @relation(fields: [arbitrationCentreId], references: [id])
+  arbitrationCentre   ArbitrationCentre @relation(fields: [arbitrationCentreId], references: [arbitrationCentreId])
   arbitrationCentreId String
 }
 
