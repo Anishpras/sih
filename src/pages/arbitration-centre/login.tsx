@@ -6,32 +6,34 @@ import { useArbitrationCentreContext } from "../../context/arbitrationCentre.con
 import { trpc } from "../../utils/trpc";
 
 interface FormData {
-  userName: string;
+  arbitrationCentreId: string;
   password: string;
 }
 
 const LoginSubmit = ({
-  name,
+  arbitrationCentreId,
   password,
 }: {
-  name: string;
+  arbitrationCentreId: string;
   password: string;
 }) => {
-  const router = useRouter();
-  const { data, error } = trpc.useQuery([
+  const { data, error, isLoading } = trpc.useQuery([
     "arbitration-centres.login-arbitration-centre",
     {
-      name: name,
+      arbitrationCentreId: arbitrationCentreId,
       password: password,
     },
   ]);
-  //   console.log(name, password, "name");
   if (error) {
     console.log(error.message);
   }
-
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+  if (data) {
+    window.location.reload();
+  }
   console.log("Login Done");
-  window.location.href = "/arbitration-centre";
   return <p>Redirecting</p>;
 };
 
@@ -48,19 +50,22 @@ const Login = () => {
   }
   if (verificationDone) {
     return (
-      <LoginSubmit name={loginData.userName} password={loginData.password} />
+      <LoginSubmit
+        arbitrationCentreId={loginData.arbitrationCentreId}
+        password={loginData.password}
+      />
     );
   }
   if (arbitrationCentreData) {
     router.push("/arbitration-centre");
   }
   return (
-    <div className="min-h-screen w-full bg-black text-white ">
+    <div className="bg-black text-white w-full min-h-screen ">
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
           className="text-black"
-          {...register("userName")}
-          placeholder="First name"
+          {...register("arbitrationCentreId")}
+          placeholder="arbitrationCentreId"
         />
         <input
           className="text-black"
