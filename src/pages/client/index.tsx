@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useClientContext } from "../../context/client.context";
 
-const Admin = () => {
+const Client = () => {
   const router = useRouter();
   const clientData = useClientContext();
   if (!clientData) {
@@ -19,4 +19,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default Client;
