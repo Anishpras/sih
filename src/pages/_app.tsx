@@ -23,7 +23,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   } = trpc.useQuery(["arbitration-centres.detail"]);
   console.log(arbitrationCentreData, "arbitrationCentreData");
   if (arbitratorIsLoading || arbitrationCentreIsLoading) {
-    return <>Loading...</>;
+    return (
+      <div className="bg-primary w-full min-h-screen text-white text-3xl font-bold flex justify-center items-center ">
+        Loading...
+      </div>
+    );
   }
 
   return (

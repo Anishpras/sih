@@ -31,7 +31,7 @@ const LoginSubmit = ({
   }
 
   console.log("Login Done");
-  router.push("/arbitration-centre");
+  window.location.href = "/arbitration-centre";
   return <p>Redirecting</p>;
 };
 
@@ -55,7 +55,7 @@ const Login = () => {
     router.push("/arbitration-centre");
   }
   return (
-    <div className="bg-black text-white w-full min-h-screen ">
+    <div className="min-h-screen w-full bg-black text-white ">
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
           className="text-black"

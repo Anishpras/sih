@@ -52,12 +52,12 @@ const Login = () => {
     <div className="bg-black text-white w-full min-h-screen ">
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
-          className="text-black"
+          className=""
           {...register("userName")}
           placeholder="First name"
         />
         <input
-          className="text-black"
+          className=""
           {...register("password")}
           placeholder="Last name"
         />

@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Button } from "../../components/login/Button";
-import { Input } from "../../components/login/Input";
+/* eslint-disable @next/next/no-img-element */
+import { forwardRef, ReactNode, useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { Button } from "./Button";
+import { Input } from "./Input";
 
-export default function ClientLogin() {
+export default function LoginScreen() {
   const [loginData, setLoginData] = useState({});
   const { register, handleSubmit } = useForm();
   async function onSubmit(data: any) {
@@ -52,7 +53,6 @@ export default function ClientLogin() {
           />
           <Button type="submit">Login</Button>
         </form>
-        {JSON.stringify(loginData)}
       </div>
     </div>
   );
