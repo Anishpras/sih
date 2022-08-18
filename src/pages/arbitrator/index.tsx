@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useArbitratorContext } from "../../context/arbitrator.context";
 
-const Land = () => {
+const Arbitrator = () => {
   const router = useRouter();
   const arbitratorData = useArbitratorContext();
   if (!arbitratorData) {
@@ -19,4 +19,4 @@ const Land = () => {
   );
 };
 
-export default Land;
+export default Arbitrator;

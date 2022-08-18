@@ -32,7 +32,7 @@ const LoginSubmit = ({
   return <p>Redirecting</p>;
 };
 
-const Login = () => {
+const ArbitratorLogin = () => {
   const { register, handleSubmit } = useForm<FormData>();
   const [loginData, setLoginData] = useState({} as FormData);
   const [verificationDone, setVerificationDone] = useState(false);
@@ -68,4 +68,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ArbitratorLogin;

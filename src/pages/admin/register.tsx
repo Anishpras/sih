@@ -2,27 +2,24 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import { trpc } from "../../utils/trpc";
-const ArbitrationCentreRegister = () => {
+const AdminRegister = () => {
   const router = useRouter();
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
   const [arbitrationCentreId, setArbitrationCentreId] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { mutate, error } = trpc.useMutation(
-    ["arbitration-centres.register-arbitration-centre"],
-    {
-      onError: (error) => {
-        console.log(error);
-      },
-      onSuccess: () => {
-        router.push("/arbitration-centre/login");
-      },
-    }
-  );
+  const { mutate, error } = trpc.useMutation(["admin.admin-register"], {
+    onError: (error) => {
+      console.log(error);
+    },
+    onSuccess: () => {
+      router.push("/admin/login");
+    },
+  });
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    mutate({ name, description, password, arbitrationCentreId });
+    mutate({ name, username, arbitrationCentreId, password });
   };
   return (
     <div>
@@ -36,16 +33,16 @@ const ArbitrationCentreRegister = () => {
         />
         <input
           type="text"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <input
-          type="text"
           value={arbitrationCentreId}
           onChange={(e) => setArbitrationCentreId(e.target.value)}
         />
-         <input
+        <input
           type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <input
+          type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
@@ -55,4 +52,4 @@ const ArbitrationCentreRegister = () => {
   );
 };
 
-export default ArbitrationCentreRegister;
+export default AdminRegister;

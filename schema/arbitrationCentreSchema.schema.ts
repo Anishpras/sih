@@ -4,10 +4,11 @@ export const createArbitrationCentreSchema = z.object({
   name: z.string(),
   description: z.string(),
   password: z.string(),
+  arbitrationCentreId: z.string(),
 });
 
 export const loginArbitrationCentreSchema = z.object({
-  name: z.string(),
+  arbitrationCentreId: z.string(),
   password: z.string(),
 });
 

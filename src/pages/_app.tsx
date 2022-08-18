@@ -9,6 +9,7 @@ import { url } from "../utils/constants";
 import { trpc } from "../utils/trpc";
 import { ArbitratorContextProvider } from "../context/arbitrator.context";
 import { ArbitratorCentreContextProvider } from "../context/arbitrationCentre.context";
+import { AdminContextProvider } from "../context/admin.context";
 function MyApp({ Component, pageProps }: AppProps) {
   const {
     data: arbitratorData,
@@ -21,17 +22,25 @@ function MyApp({ Component, pageProps }: AppProps) {
     error: arbitrationCentreError,
     isLoading: arbitrationCentreIsLoading,
   } = trpc.useQuery(["arbitration-centres.detail"]);
-  if (arbitratorIsLoading || arbitrationCentreIsLoading) {
+  const {
+    data: adminData,
+    error: adminError,
+    isLoading: adminIsLoading,
+  } = trpc.useQuery(["admin.detail"]);
+
+  if (arbitratorIsLoading || arbitrationCentreIsLoading || adminIsLoading) {
     return <>Loading...</>;
   }
 
   return (
     <ArbitratorCentreContextProvider value={arbitrationCentreData}>
-      <ArbitratorContextProvider value={arbitratorData}>
-        <main>
-          <Component {...pageProps} />
-        </main>
-      </ArbitratorContextProvider>
+      <AdminContextProvider value={adminData}>
+        <ArbitratorContextProvider value={arbitratorData}>
+          <main>
+            <Component {...pageProps} />
+          </main>
+        </ArbitratorContextProvider>
+      </AdminContextProvider>
     </ArbitratorCentreContextProvider>
   );
 }

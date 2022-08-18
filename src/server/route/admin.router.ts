@@ -5,16 +5,21 @@ import * as trpc from "@trpc/server";
 import sha256 from "crypto-js/sha256";
 
 export const adminRouter = createRouter()
-  .mutation("register-admin", {
+  .mutation("admin-register", {
     input: createAdminSchema,
     async resolve({ ctx, input }) {
-      const { name, arbitrationCentreId, password } = input;
+      const { name, username, arbitrationCentreId, password } = input;
       try {
         const admin = await ctx.prisma.admin.create({
           data: {
             name,
-            arbitrationCentreId,
+            username,
             password: sha256(password).toString(),
+            arbitrationCentre: {
+              connect: {
+                id: arbitrationCentreId,
+              },
+            },
           },
         });
         return admin;

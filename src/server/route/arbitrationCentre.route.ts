@@ -12,12 +12,13 @@ export const arbitrationCentreRouter = createRouter()
   .mutation("register-arbitration-centre", {
     input: createArbitrationCentreSchema,
     async resolve({ ctx, input }) {
-      const { name, description, password } = input;
+      const { name, description, password, arbitrationCentreId } = input;
       try {
         const arbitrationCentre = await ctx.prisma.arbitrationCentre.create({
           data: {
             name,
             description,
+            arbitrationCentreId,
             password: sha256(password).toString(),
           },
         });
@@ -47,10 +48,10 @@ export const arbitrationCentreRouter = createRouter()
   .query("login-arbitration-centre", {
     input: loginArbitrationCentreSchema,
     async resolve({ ctx, input }) {
-      const { name, password } = input;
+      const { arbitrationCentreId, password } = input;
       const arbitrationCentre = await ctx.prisma.arbitrationCentre.findFirst({
         where: {
-          name,
+          arbitrationCentreId,
           password: sha256(password).toString(),
         },
       });
@@ -63,6 +64,7 @@ export const arbitrationCentreRouter = createRouter()
       const jwt = signJwt({
         name: arbitrationCentre.name,
         id: arbitrationCentre.id,
+        arbitrationCentreId: arbitrationCentre.arbitrationCentreId,
       });
       ctx.res.setHeader(
         "Set-Cookie",
