@@ -7,4 +7,10 @@ export const createAdminSchema = z.object({
   password: z.string(),
 });
 
+export const loginAdminSchema = z.object({
+  username: z.string(),
+  password: z.string(),
+});
+
 export type CreateAdminSchema = z.TypeOf<typeof createAdminSchema>;
+export type LoginAdminSchema = z.TypeOf<typeof loginAdminSchema>;

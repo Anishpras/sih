@@ -12,6 +12,10 @@ export const loginArbitrationCentreSchema = z.object({
   password: z.string(),
 });
 
+export const verifyAdminSchema = z.object({
+  adminId: z.string(),
+});
+
 export type CreateArbitrationCentreSchema = z.TypeOf<
   typeof createArbitrationCentreSchema
 >;
@@ -19,3 +23,5 @@ export type CreateArbitrationCentreSchema = z.TypeOf<
 export type LoginArbitrationCentreSchema = z.TypeOf<
   typeof loginArbitrationCentreSchema
 >;
+
+export type VerifyAdminSchema = z.TypeOf<typeof verifyAdminSchema>;

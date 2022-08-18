@@ -94,6 +94,7 @@ model Admin {
   id                  String            @id @default(cuid())
   name                String
   username            String            @unique
+  verified            Boolean           @default(false)
   password            String
   createdAt           DateTime          @default(now())
   updatedAt           DateTime          @updatedAt
