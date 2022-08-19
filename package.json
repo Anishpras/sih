@@ -16,6 +16,8 @@
     "@trpc/server": "^9.26.0",
     "cookie": "^0.5.0",
     "crypto-js": "^4.1.1",
+    "flowbite": "^1.5.2",
+    "flowbite-react": "^0.1.8",
     "jotai": "^1.7.5",
     "jsonwebtoken": "^8.5.1",
     "next": "12.2.2",
