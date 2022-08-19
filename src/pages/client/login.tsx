@@ -65,13 +65,11 @@ const ClientLogin = () => {
         <div className="mb-5 flex-col justify-center items-center">
           <img
             alt="header-logo"
-            src="/header-logo.svg"
-            height="100"
-            width="100"
+            src="/header-logo-title.svg"
+            height="250"
+            width="250"
             loading="lazy"
-            className="ml-14"
           />
-          <h3>Arbitration & Mediation Centre</h3>
         </div>
         <div>
           <h1 className="font-bol text-xl">CLIENT LOGIN</h1>
