@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
+
 import { trpc } from "../../utils/trpc";
 const ArbitratorRegister = () => {
   const router = useRouter();
@@ -24,27 +25,71 @@ const ArbitratorRegister = () => {
     mutate({ name, description, password, registrationId: "123" });
   };
   return (
-    <div>
-      <div>
-        <h1>Arbitrator</h1>
-        {error && <p>{error.message}</p>}
+    <div className="min-h-screen w-full bg-primary text-white ">
+      <div >
+        <div className="p-4">
+
+        <img
+          src="/minister-of-finance-logo.svg"
+          alt="minister-of-finance-logo"
+          loading="lazy"
+          width="250"
+          height="150"
+          />
+          </div>
+
+          <div className="relative top-20 flex h-full w-full flex-col items-center justify-center ">
+      <div className="mb-5 flex-col justify-center items-center">
+        
+      <img
+            alt="header-logo"
+            src="/header-logo-title.svg"
+            height="250"
+            width="250"
+            loading="lazy"
+          />
+        
+        
+        </div>  
+
+      
+      <h1 className="font-bol text-xl">ARBITRATOR REGISTRATION</h1>
+        <div className="ite container mx-auto flex w-full flex-col content-center items-center justify-center justify-self-center object-center "
+         >
+          
+           
+           {error && <p>{error.message}</p>}
+
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-        />
+          placeholder={"NAME"}
+          className="my-3 min-w-[200px] rounded-md border border-white bg-transparent px-6  py-2 text-center  shadow placeholder:text-center  placeholder:text-sm placeholder:font-light placeholder:text-white placeholder:sm:text-lg md:min-w-[330px] "
+
+          />
         <input
           type="text"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-        />
+          placeholder={"DESCRIPTION"}
+          className="my-3 min-w-[200px] rounded-md border border-white bg-transparent px-6  py-2 text-center  shadow placeholder:text-center  placeholder:text-sm placeholder:font-light placeholder:text-white placeholder:sm:text-lg md:min-w-[330px] "
+
+          />
         <input
           type="text"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-        />
-        <button onClick={(e) => handleSubmit(e)}>Submit</button>
+          placeholder={"PASSWORD"}
+          className="my-3 min-w-[200px] rounded-md border border-white bg-transparent px-6  py-2 text-center  shadow placeholder:text-center  placeholder:text-sm placeholder:font-light placeholder:text-white placeholder:sm:text-lg md:min-w-[330px] "
+
+          />
+        <button onClick={(e) => handleSubmit(e)}>Register</button>
+          
+          </div>
       </div>
+      </div>
+      
     </div>
   );
 };
