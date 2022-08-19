@@ -16,7 +16,7 @@ const ArbitratorRegister = () => {
         console.log(error);
       },
       onSuccess: () => {
-        router.push("/arbitration-centre/login");
+        router.push("/arbitrator/login");
       },
     }
   );
