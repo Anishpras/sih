@@ -14,7 +14,7 @@ export default function Home() {
           height="150"
         />
       </div>
-      <div className="flex flex-col justify-center items-center">
+      <div className="flex flex-col justify-center items-center sm:ml-2 lg:ml-0 sm:mb-10">
           <img
             alt="header-logo"
             src="/header-logo.svg"
@@ -24,7 +24,7 @@ export default function Home() {
           />
           <h3>Arbitration & Mediation Centre</h3>
         </div>
-      <div className="flex min-h-[70vh] w-full flex-col items-center justify-center ">
+      <div className="flex min-h-[40vh] w-full flex-col items-center justify-center ">
         <div className="grid gap-10 md:grid-cols-2 md:grid-rows-2">
           <Link href="/arbitrator/login">
             <button className={ButtonStyle} type="button">
