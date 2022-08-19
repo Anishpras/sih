@@ -1,5 +1,6 @@
 import {
   createArbitratorSchema,
+  createCaseSchema,
   loginArbitratorSchema,
 } from "../../../schema/arbitratorSchema.schema";
 import { createRouter } from "../createRouter";
@@ -73,4 +74,40 @@ export const arbitratorRouter = createRouter()
       );
       return arbitrator;
     },
-  });
+  })
+  .mutation("create-case",{
+    input: createCaseSchema,
+    async resolve({ ctx, input }) {
+      const { caseName, description,caseId } = input;
+       try{
+        const cases = await ctx.prisma.case.create({
+          data: {
+            name: caseName,
+            description,
+            caseId,
+            Arbitrator:{
+              connect:{
+                id:ctx?.arbitrator?.id
+              }
+            },
+          },
+        });
+        return cases;
+      } catch (e) {
+        if (e instanceof PrismaClientKnownRequestError) {
+          if (e.code === "P2002") {
+            throw new trpc.TRPCError({
+              code: "CONFLICT",
+              message: "Case already exists",
+            });
+          }
+        }
+
+        throw new trpc.TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Internal server error",
+        });
+      }
+       }
+    }
+  )

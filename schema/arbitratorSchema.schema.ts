@@ -12,6 +12,15 @@ export const loginArbitratorSchema = z.object({
   password: z.string(),
 });
 
+
+export const createCaseSchema = z.object({
+  caseName: z.string(),
+  description: z.string(),
+  caseId: z.string(),
+})
+
+export type CreateCaseSchema = z.infer<typeof createCaseSchema>;
+
 export type CreateArbitratorSchema = z.TypeOf<typeof createArbitratorSchema>;
 
 export type LoginArbitratorSchema = z.TypeOf<typeof loginArbitratorSchema>;
