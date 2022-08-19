@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import { useForm } from "react-hook-form";
@@ -43,7 +42,7 @@ const Login = () => {
   const { register, handleSubmit } = useForm<FormData>();
   const [loginData, setLoginData] = useState({} as FormData);
   const [verificationDone, setVerificationDone] = useState(false);
-  const router = useRouter();
+
   const arbitrationCentreData = useArbitrationCentreContext();
 
   async function onSubmit(data: FormData) {
