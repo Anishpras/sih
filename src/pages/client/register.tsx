@@ -25,7 +25,16 @@ const ClientRegister = () => {
       <div>
         <h1>Client</h1>
         {error && <p>{error.message}</p>}
-        <input
+
+
+        <div>
+          <h1 className="font-bol text-xl">CLIENT </h1>
+        </div>
+
+
+
+        <div className="ite container mx-auto flex w-full flex-col content-center items-center justify-center justify-self-center object-center ">
+<input
           type="text"
           value={name}
           placeholder="Name"
@@ -44,6 +53,10 @@ const ClientRegister = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <button onClick={(e) => handleSubmit(e)}>Submit</button>
+
+
+        </div>
+        
       </div>
     </div>
   );
