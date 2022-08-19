@@ -4,6 +4,7 @@ import { trpc } from "../../utils/trpc";
 import { useForm } from "react-hook-form";
 import { Input } from "../../components/login/Input";
 import { Button } from "../../components/login/Button";
+import { useArbitratorContext } from "../../context/arbitrator.context";
 
 interface FormData {
   registrationId: string;
@@ -18,7 +19,7 @@ const LoginSubmit = ({
   password: string;
 }) => {
   const router = useRouter();
-  const { data, error } = trpc.useQuery([
+  const { data, error, isLoading } = trpc.useQuery([
     "arbitrators.arbitrator-login",
     {
       registrationId: registrationId,
@@ -29,19 +30,29 @@ const LoginSubmit = ({
   if (error) {
     console.log(error.message);
   }
-
-  router.push("/arbitrator");
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+  if (data) {
+    window.location.reload();
+  }
+  console.log("Login Done");
   return <p>Redirecting</p>;
+  // router.push("/arbitrator");
 };
 
 const ArbitratorLogin = () => {
   const { register, handleSubmit } = useForm<FormData>();
   const [loginData, setLoginData] = useState({} as FormData);
   const [verificationDone, setVerificationDone] = useState(false);
+
+  const arbitratorData = useArbitratorContext();
+
   async function onSubmit(data: FormData) {
     setLoginData(data);
     setVerificationDone(true);
   }
+
   if (verificationDone) {
     return (
       <LoginSubmit
@@ -49,6 +60,10 @@ const ArbitratorLogin = () => {
         password={loginData.password}
       />
     );
+  }
+
+  if(arbitratorData) {
+    window.location.href = "/arbitrator"
   }
   return (
     <div className="min-h-screen w-full bg-primary text-white ">
@@ -65,13 +80,12 @@ const ArbitratorLogin = () => {
       <div className="mb-5 flex-col justify-center items-center">
           <img
             alt="header-logo"
-            src="/header-logo.svg"
-            height="100"
-            width="100"
+            src="/header-logo-title.svg"
+            height="250"
+            width="250"
             loading="lazy"
-            className="ml-14"
           />
-          <h3>Arbitration & Mediation Centre</h3>
+        
         </div>
         <div>
           <h1 className="font-bol text-xl">ARBITRATOR LOGIN</h1>
