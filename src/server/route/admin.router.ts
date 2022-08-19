@@ -1,4 +1,4 @@
-import { loginAdminSchema } from "./../../../schema/adminSchema.schema";
+import { loginAdminSchema, verifyArbitratorSchema } from "./../../../schema/adminSchema.schema";
 import { createAdminSchema } from "../../../schema/adminSchema.schema";
 import { createRouter } from "../createRouter";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
@@ -84,5 +84,36 @@ export const adminRouter = createRouter()
         },
       });
       return arbitrators;
+    },
+  })
+  .mutation("verify-arbitrator", {
+    input: verifyArbitratorSchema,
+    async resolve({ ctx, input }) {
+      const { arbitratorId } = input;
+      try {
+        const arbitrator = await ctx.prisma.arbitrator.update({
+          where: {
+            id: arbitratorId,
+          },
+          data: {
+            verified: true,
+          },
+        });
+        return arbitrator;
+      } catch (e) {
+        if (e instanceof PrismaClientKnownRequestError) {
+          if (e.code === "P2002") {
+            throw new trpc.TRPCError({
+              code: "CONFLICT",
+              message: "Arbitrator already verified",
+            });
+          }
+        }
+
+        throw new trpc.TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Internal server error",
+        });
+      }
     },
   });
