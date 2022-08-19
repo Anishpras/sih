@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
+import Sidebar from "../../components/sidebar";
 import { useArbitratorContext } from "../../context/arbitrator.context";
 
 const Arbitrator = () => {
