@@ -14,6 +14,16 @@ export default function Home() {
           height="150"
         />
       </div>
+      <div className="flex flex-col justify-center items-center">
+          <img
+            alt="header-logo"
+            src="/header-logo.svg"
+            height="100"
+            width="100"
+            loading="lazy"
+          />
+          <h3>Arbitration & Mediation Centre</h3>
+        </div>
       <div className="flex min-h-[70vh] w-full flex-col items-center justify-center ">
         <div className="grid gap-10 md:grid-cols-2 md:grid-rows-2">
           <Link href="/arbitrator/login">
