@@ -1,3 +1,4 @@
+import { getSingleCaseSchema } from "./../../../schema/arbitratorSchema.schema";
 import {
   createArbitratorSchema,
   createCaseSchema,
@@ -120,5 +121,22 @@ export const arbitratorRouter = createRouter()
         },
       });
       return cases;
+    },
+  })
+  .query("get-single-case", {
+    input: getSingleCaseSchema,
+    async resolve({ ctx, input }) {
+      const { caseId } = input;
+      const singleCase = await ctx.prisma.case.findFirst({
+        where: {
+          id: caseId,
+        },
+      });
+      const orders = await ctx.prisma.order.findMany({
+        where: {
+          caseId: caseId,
+        },
+      });
+      return { caseDetail: singleCase, orders };
     },
   });
