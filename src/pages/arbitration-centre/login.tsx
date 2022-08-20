@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 import { useForm } from "react-hook-form";
-import { LoadingSpinner } from "../../components/loading";
+import { Loader } from "../../components/loader/Loader";
 import { Button } from "../../components/login/Button";
 import { Input } from "../../components/login/Input";
 import { useArbitrationCentreContext } from "../../context/arbitrationCentre.context";
@@ -31,11 +31,8 @@ const LoginSubmit = ({
     console.log(error.message);
   }
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-primary text-white">
-        <LoadingSpinner />
-      </div>
-    );
+
+    return <p><Loader /></p>;
   }
   if (data) {
     window.location.reload();

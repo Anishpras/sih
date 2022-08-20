@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import MainLayout from "../../components/layout";
+import { Loader } from "../../components/loader/Loader";
 import Sidebar from "../../components/sidebar";
 import { useArbitrationCentreContext } from "../../context/arbitrationCentre.context";
 
@@ -29,7 +30,7 @@ const ArbitratorCentre = () => {
   const arbitrationCentreData = useArbitrationCentreContext();
   if (!arbitrationCentreData) {
     router.push("/arbitration-centre/login");
-    return <p>Loading...</p>;
+    return <p><Loader /></p>;
   }
   return (
     // <div className="grid grid-cols-2 min-h-screen w-full bg-primary ">

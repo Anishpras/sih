@@ -11,6 +11,7 @@ import { ArbitratorContextProvider } from "../context/arbitrator.context";
 import { ArbitratorCentreContextProvider } from "../context/arbitrationCentre.context";
 import { AdminContextProvider } from "../context/admin.context";
 import { ClientContextProvider } from "../context/client.context";
+import { Loader } from "../components/loader/Loader";
 function MyApp({ Component, pageProps }: AppProps) {
   const {
     data: arbitratorData,
@@ -35,7 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   } = trpc.useQuery(["clients.detail"]);
 
   if (arbitratorIsLoading || arbitrationCentreIsLoading || adminIsLoading) {
-    return <>Loading...</>;
+    return <><Loader /></>;
   }
 
   return (
