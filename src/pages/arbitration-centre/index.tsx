@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import MainLayout from "../../components/layout";
 import Sidebar from "../../components/sidebar";
 import { useArbitrationCentreContext } from "../../context/arbitrationCentre.context";
@@ -23,6 +23,8 @@ const sidebarData = [
 ];
 
 const ArbitratorCentre = () => {
+  const [toggleSidebar, setToggleSidebar] = useState<boolean>(false);
+
   const router = useRouter();
   const arbitrationCentreData = useArbitrationCentreContext();
   if (!arbitrationCentreData) {
@@ -31,7 +33,7 @@ const ArbitratorCentre = () => {
   }
   return (
     // <div className="grid grid-cols-2 min-h-screen w-full bg-primary ">
-    <MainLayout sidebarData={sidebarData} headerData={headerData}>
+    <MainLayout sidebarData={sidebarData} headerData={headerData} setToggleSidebar={setToggleSidebar} toggleSidebar={toggleSidebar}>
       <div>
         {arbitrationCentreData?.name}
         <h1>Land</h1>
