@@ -22,12 +22,12 @@ export default function NavBar({ headerData, setToggleSidebar }: NavBarProps) {
           ></path>
         </svg>
       </button>
-      {headerData.map((n, index) => {
+      {headerData!.map((n, index) => {
         return (
           <Link key={index} href={n.route}>
             <button
               type="button"
-              className="mx-2 rounded border px-6 py-2 font-semibold dark:border-gray-100 dark:text-gray-100"
+              className="mx-2 rounded px-6 py-2 font-semibold text-white font-Montserrat text-xl "
             >
               {n.name}
             </button>

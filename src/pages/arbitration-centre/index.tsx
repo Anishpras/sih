@@ -7,11 +7,11 @@ import { useArbitrationCentreContext } from "../../context/arbitrationCentre.con
 
 const headerData = [
   {
-    name: "Add user",
-    route: "/arbitration-centre/",
+    name: "Admins",
+    route: "/arbitration-centre/admins",
   },
   {
-    name: "Add Cases",
+    name: "Add Cause",
     route: "/arbitration-centre/",
   },
 ];
@@ -19,7 +19,7 @@ const headerData = [
 const sidebarData = [
   {
     route: "/arbitration-centre",
-    name: "Client",
+    name: "Dashboard",
   },
 ];
 

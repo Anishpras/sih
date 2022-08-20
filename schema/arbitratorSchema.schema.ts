@@ -5,6 +5,7 @@ export const createArbitratorSchema = z.object({
   description: z.string(),
   password: z.string(),
   registrationId: z.string(),
+  adminId: z.string(),
 });
 
 export const loginArbitratorSchema = z.object({
@@ -21,8 +22,6 @@ export const createCaseSchema = z.object({
 export const getSingleCaseSchema = z.object({
   caseId: z.string().optional(),
 });
-
-
 
 export type CreateCaseSchema = z.infer<typeof createCaseSchema>;
 
