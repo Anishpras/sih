@@ -12,12 +12,15 @@ export const loginArbitratorSchema = z.object({
   password: z.string(),
 });
 
-
 export const createCaseSchema = z.object({
   caseName: z.string(),
   description: z.string(),
   caseId: z.string(),
-})
+});
+
+export const getSingleCaseSchema = z.object({
+  caseId: z.string().optional(),
+});
 
 export type CreateCaseSchema = z.infer<typeof createCaseSchema>;
 
