@@ -6,6 +6,7 @@ import { Input } from "../../components/login/Input";
 import { Button } from "../../components/login/Button";
 import { useArbitratorContext } from "../../context/arbitrator.context";
 import { Loader } from "../../components/loader/Loader";
+import Link from "next/link";
 
 interface FormData {
   registrationId: string;
@@ -32,7 +33,11 @@ const LoginSubmit = ({
     console.log(error.message);
   }
   if (isLoading) {
-    return <p><Loader /></p>;
+    return (
+      <p>
+        <Loader />
+      </p>
+    );
   }
   if (data) {
     window.location.reload();
@@ -63,8 +68,8 @@ const ArbitratorLogin = () => {
     );
   }
 
-  if(arbitratorData) {
-    window.location.href = "/arbitrator"
+  if (arbitratorData) {
+    window.location.href = "/arbitrator";
   }
   return (
     <div className="min-h-screen w-full bg-primary text-white ">
@@ -78,7 +83,7 @@ const ArbitratorLogin = () => {
         />
       </div>
       <div className="relative top-20 flex h-full w-full flex-col items-center justify-center ">
-      <div className="mb-5 flex-col justify-center items-center">
+        <div className="mb-5 flex-col items-center justify-center">
           <img
             alt="header-logo"
             src="/header-logo-title.svg"
@@ -86,7 +91,6 @@ const ArbitratorLogin = () => {
             width="250"
             loading="lazy"
           />
-        
         </div>
         <div>
           <h1 className="font-bol text-xl">ARBITRATOR LOGIN</h1>
@@ -94,8 +98,7 @@ const ArbitratorLogin = () => {
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="ite container mx-auto flex w-full flex-col content-center items-center justify-center justify-self-center object-center "
-        >
+          className="ite container mx-auto flex w-full flex-col content-center items-center justify-center justify-self-center object-center ">
           <Input
             type="text"
             register={register}
@@ -109,6 +112,11 @@ const ArbitratorLogin = () => {
             registerName={"password"}
           />
           <Button type="submit">Login</Button>
+          <Link href="/arbitrator/register">
+            <button type="button" className="relative -right-20 font-Montserrat text-xl">
+              Register ?
+            </button>
+          </Link>
         </form>
       </div>
     </div>

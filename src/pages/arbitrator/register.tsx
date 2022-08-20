@@ -80,7 +80,7 @@ const ArbitratorRegister = () => {
               type="text"
               value={registrationId}
               onChange={(e) => setRegistrationId(e.target.value)}
-              placeholder={"Registration ID"}
+              placeholder={"UserName"}
               className="my-3 min-w-[200px] rounded-md border border-white bg-transparent px-6  py-2 text-center  shadow placeholder:text-center  placeholder:text-sm placeholder:font-light  placeholder:sm:text-lg md:min-w-[330px] "
             />
             <input
