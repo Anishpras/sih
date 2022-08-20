@@ -22,6 +22,8 @@ export const getSingleCaseSchema = z.object({
   caseId: z.string().optional(),
 });
 
+
+
 export type CreateCaseSchema = z.infer<typeof createCaseSchema>;
 
 export type CreateArbitratorSchema = z.TypeOf<typeof createArbitratorSchema>;

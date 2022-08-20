@@ -1,3 +1,4 @@
+import { createClientSchema } from "./../../../schema/clientSchema.schema";
 import { getSingleCaseSchema } from "./../../../schema/arbitratorSchema.schema";
 import {
   createArbitratorSchema,
@@ -138,5 +139,40 @@ export const arbitratorRouter = createRouter()
         },
       });
       return { caseDetail: singleCase, orders };
+    },
+  })
+  .mutation("create-client", {
+    input: createClientSchema,
+    async resolve({ ctx, input }) {
+      const { name, password, username, caseId } = input;
+      try {
+        const client = await ctx.prisma.client.create({
+          data: {
+            name,
+            username,
+            password: sha256(password).toString(),
+            case: {
+              connect: {
+                caseId: caseId,
+              },
+            },
+          },
+        });
+        return client;
+      } catch (e) {
+        if (e instanceof PrismaClientKnownRequestError) {
+          if (e.code === "P2002") {
+            throw new trpc.TRPCError({
+              code: "CONFLICT",
+              message: "User already exists",
+            });
+          }
+        }
+
+        throw new trpc.TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Internal server error",
+        });
+      }
     },
   });
