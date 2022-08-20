@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
@@ -8,6 +9,10 @@ import { Button } from "../../components/login/Button";
 import { Input } from "../../components/login/Input";
 import { useAdminContext } from "../../context/admin.context";
 import { useArbitrationCentreContext } from "../../context/arbitrationCentre.context";
+import {
+  loginScreenContainer,
+  loginScreenFormContainer,
+} from "../../styles/custonStyle";
 import { trpc } from "../../utils/trpc";
 
 interface FormData {
@@ -33,7 +38,11 @@ const LoginSubmit = ({
     console.log(error.message);
   }
   if (isLoading) {
-    return <p><Loader /></p>;
+    return (
+      <p>
+        <Loader />
+      </p>
+    );
   }
   if (data) {
     window.location.reload();
@@ -65,28 +74,44 @@ const AdminLogin = () => {
     router.push("/admin");
   }
   return (
-    <div className="min-h-screen w-full bg-primary text-white ">
-      <div className="p-4">
-        <img
-          src="/minister-of-finance-logo.svg"
-          alt="minister-of-finance-logo"
-          loading="lazy"
-          width="250"
-          height="150"
-        />
-      </div>
-      <div className="relative top-20 flex h-full w-full flex-col items-center justify-center ">
-      <div className="mb-5 flex-col justify-center items-center">
-          <img
-            alt="header-logo"
-            src="/header-logo.svg"
-            height="100"
-            width="100"
-            loading="lazy"
-            className="ml-14"
-          />
-          <h3>Arbitration & Mediation Centre</h3>
+    <div className={loginScreenContainer}>
+      <div className="relative lg:bg-black ">
+        <div className="relative h-full w-full lg:hidden">
+          <div className="absolute overflow-hidden">
+            <svg
+              width="1024"
+              height="675"
+              viewBox="0 0 1024 675"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 0V453.692C0 453.692 275.787 415.299 512 562.081C748.213 708.864 1024 670.471 1024 670.471V0.468262L0 0Z"
+                fill="black"
+              />
+            </svg>
+          </div>
         </div>
+        <div className="relative p-4">
+          <img
+            src="/minister-of-finance-logo.svg"
+            alt="minister-of-finance-logo"
+            loading="lazy"
+            width="250"
+            height="150"
+          />
+          <div className="flex justify-center">
+            <img
+              alt="header-logo"
+              src="/header-logo-title.svg"
+              height="250"
+              width="250"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+      <div className={loginScreenFormContainer}>
         <div>
           <h1 className="font-bol text-xl">ADMIN LOGIN</h1>
         </div>
@@ -108,6 +133,14 @@ const AdminLogin = () => {
             registerName={"password"}
           />
           <Button type="submit">Login</Button>
+          <Link href="/admin/register">
+            <button
+              type="button"
+              className="relative -right-20 font-Montserrat text-xl underline"
+            >
+              Register ?
+            </button>
+          </Link>
         </form>
       </div>
     </div>

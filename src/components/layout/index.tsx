@@ -22,7 +22,7 @@ export default function MainLayout({
         setToggleSidebar={setToggleSidebar}
         toggleSidebar={toggleSidebar}
       />
-      <section className="flex w-full flex-col md:w-[calc(100vw-250px)]  ">
+      <section className="flex w-full flex-col md:w-[calc(100vw-200px)]  ">
         <div className="md:px-2 md:pt-5">
           <NavBar headerData={headerData} setToggleSidebar={setToggleSidebar} />
         </div>

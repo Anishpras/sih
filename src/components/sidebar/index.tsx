@@ -46,20 +46,18 @@ export default function SidebarComponent({
       ></div>
 
       <div
-        className={`fixed inset-y-0 top-0 z-30  min-w-[250px] transform  flex-col items-start overflow-y-auto rounded-tr-xl rounded-br-xl md:rounded-xl bg-secondary px-2 pt-10 pl-5 transition duration-300 md:relative md:top-5 md:ml-2 md:flex md:h-[95vh] md:translate-x-0 ${
+        className={`fixed inset-y-0 top-0 z-30  min-w-[200px] transform  flex-col items-start overflow-y-auto rounded-tr-xl rounded-br-xl bg-secondary px-2 pt-10 pl-5 transition duration-300 md:relative md:top-5 md:ml-2 md:flex md:h-[95vh] md:translate-x-0 md:rounded-xl ${
           toggleSidebar
-            ? "h-full translate-x-0 bg-black ease-out"
+            ? "h-full translate-x-0 bg-secondary ease-out"
             : "-translate-x-full ease-in  "
         }`}
       >
-        <nav>
+        <nav className="w-full pr-4">
           {sidebarData.map((n, index) => {
             return (
               <Link key={index} href={n.route}>
-                <button className="flex items-center rounded-lg  bg-primary p-2 text-base  font-normal text-white">
-                  <span className="flex-1 whitespace-nowrap px-3 text-lg ">
-                    {n.name}
-                  </span>
+                <button className="flex w-full items-center  rounded-lg bg-primary p-2 font-Raleway text-xl font-semibold  text-white">
+                  {n.name}
                 </button>
               </Link>
             );
