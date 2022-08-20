@@ -1,3 +1,5 @@
+import { createClientSchema } from "./../../../schema/clientSchema.schema";
+import { getSingleCaseSchema } from "./../../../schema/arbitratorSchema.schema";
 import {
   createArbitratorSchema,
   createCaseSchema,
@@ -75,20 +77,20 @@ export const arbitratorRouter = createRouter()
       return arbitrator;
     },
   })
-  .mutation("create-case",{
+  .mutation("create-case", {
     input: createCaseSchema,
     async resolve({ ctx, input }) {
-      const { caseName, description,caseId } = input;
-       try{
+      const { caseName, description, caseId } = input;
+      try {
         const cases = await ctx.prisma.case.create({
           data: {
             name: caseName,
             description,
             caseId,
-            Arbitrator:{
-              connect:{
-                id:ctx?.arbitrator?.id
-              }
+            Arbitrator: {
+              connect: {
+                id: ctx?.arbitrator?.id,
+              },
             },
           },
         });
@@ -108,7 +110,69 @@ export const arbitratorRouter = createRouter()
           message: "Internal server error",
         });
       }
-       }
-    }
-  )
+    },
+  })
+  .query("get-cases", {
+    async resolve({ ctx }) {
+      const cases = await ctx.prisma.case.findMany({
+        where: {
+          Arbitrator: {
+            id: ctx?.arbitrator?.id,
+          },
+        },
+      });
+      return cases;
+    },
+  })
+  .query("get-single-case", {
+    input: getSingleCaseSchema,
+    async resolve({ ctx, input }) {
+      const { caseId } = input;
+      const singleCase = await ctx.prisma.case.findFirst({
+        where: {
+          id: caseId,
+        },
+      });
+      const orders = await ctx.prisma.order.findMany({
+        where: {
+          caseId: caseId,
+        },
+      });
+      return { caseDetail: singleCase, orders };
+    },
+  })
+  .mutation("create-client", {
+    input: createClientSchema,
+    async resolve({ ctx, input }) {
+      const { name, password, username, caseId } = input;
+      try {
+        const client = await ctx.prisma.client.create({
+          data: {
+            name,
+            username,
+            password: sha256(password).toString(),
+            case: {
+              connect: {
+                caseId: caseId,
+              },
+            },
+          },
+        });
+        return client;
+      } catch (e) {
+        if (e instanceof PrismaClientKnownRequestError) {
+          if (e.code === "P2002") {
+            throw new trpc.TRPCError({
+              code: "CONFLICT",
+              message: "User already exists",
+            });
+          }
+        }
 
+        throw new trpc.TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Internal server error",
+        });
+      }
+    },
+  });

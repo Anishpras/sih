@@ -31,7 +31,8 @@ model Client {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   username  String   @unique
-  cases     Case[]
+  case      Case     @relation(fields: [caseId], references: [id])
+  caseId    String
 }
 
 model Case {
@@ -47,7 +48,6 @@ model Case {
   orders    Order[]
   award     String?
   annexures Annexure[]
-
 
   Arbitrator   Arbitrator? @relation(fields: [arbitratorId], references: [id])
   arbitratorId String?
