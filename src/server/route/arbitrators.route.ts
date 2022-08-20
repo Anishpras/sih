@@ -153,7 +153,7 @@ export const arbitratorRouter = createRouter()
             password: sha256(password).toString(),
             case: {
               connect: {
-                caseId: caseId,
+                id: caseId,
               },
             },
           },

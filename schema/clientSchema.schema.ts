@@ -4,7 +4,7 @@ export const createClientSchema = z.object({
   name: z.string(),
   username: z.string(),
   password: z.string(),
-  caseId: z.string(),
+  caseId: z.string().optional(),
 });
 
 export const loginClientSchema = z.object({
