@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { Input } from "../../components/login/Input";
 import { Button } from "../../components/login/Button";
 import { useArbitratorContext } from "../../context/arbitrator.context";
+import { Loader } from "../../components/loader/Loader";
 
 interface FormData {
   registrationId: string;
@@ -31,7 +32,7 @@ const LoginSubmit = ({
     console.log(error.message);
   }
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <p><Loader /></p>;
   }
   if (data) {
     window.location.reload();
