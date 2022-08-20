@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
+import { Loader } from "../../components/loader/Loader";
 import Sidebar from "../../components/sidebar";
 import { useArbitratorContext } from "../../context/arbitrator.context";
 
@@ -8,7 +9,7 @@ const Arbitrator = () => {
   const arbitratorData = useArbitratorContext();
   if (!arbitratorData) {
     router.push("/arbitrator/login");
-    return <p>Loading...</p>;
+    return <p><Loader /></p>;
   }
   return (
     <div>

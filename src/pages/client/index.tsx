@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
+import { Loader } from "../../components/loader/Loader";
 import { useClientContext } from "../../context/client.context";
 
 const Client = () => {
@@ -7,7 +8,7 @@ const Client = () => {
   const clientData = useClientContext();
   if (!clientData) {
     router.push("/client/login");
-    return <p>Loading...</p>;
+    return <p><Loader /></p>;
   }
   return (
     <div>

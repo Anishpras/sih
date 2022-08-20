@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { useForm } from "react-hook-form";
+import { Loader } from "../../components/loader/Loader";
 import { Button } from "../../components/login/Button";
 import { Input } from "../../components/login/Input";
 import { useArbitrationCentreContext } from "../../context/arbitrationCentre.context";
@@ -29,7 +30,7 @@ const LoginSubmit = ({
     console.log(error.message);
   }
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <p><Loader /></p>;
   }
   if (data) {
     window.location.reload();
