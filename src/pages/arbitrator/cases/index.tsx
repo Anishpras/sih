@@ -1,7 +1,11 @@
 import React from "react";
+import { trpc } from "../../../utils/trpc";
 
 const AllArbitratorCase = () => {
-  return <div>AllArbitratorCases Will go here</div>;
+  const { data, error } = trpc.useQuery(["arbitrators.get-cases"]);
+  console.log(data);
+
+  return <div></div>;
 };
 
 export default AllArbitratorCase;
