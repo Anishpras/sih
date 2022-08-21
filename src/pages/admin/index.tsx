@@ -4,17 +4,16 @@ import MainLayout from "../../components/layout";
 import { Loader } from "../../components/loader/Loader";
 import { useAdminContext } from "../../context/admin.context";
 
-const headerData = [
-  {
-    name: "Verify Arbitrators",
-    route: "/admin/arbitrators",
-  },
-];
 
+const headerTitle = "Admin ";
 const sidebarData = [
   {
     route: "/admin",
     name: "Dashboard",
+  },
+  {
+    name: "Verify Arbitrators",
+    route: "/admin/arbitrators",
   },
 ];
 
@@ -34,9 +33,10 @@ const Admin = () => {
   return (
     <MainLayout
       sidebarData={sidebarData}
-      headerData={headerData}
+      headerTitle={headerTitle}
       setToggleSidebar={setToggleSidebar}
-      toggleSidebar={toggleSidebar}>
+      toggleSidebar={toggleSidebar}
+    >
       <div>
         {adminData?.name}
         <h1>Land</h1>

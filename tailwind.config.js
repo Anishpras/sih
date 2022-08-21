@@ -6,6 +6,9 @@ module.exports = {
       colors: {
         primary: "#2148C0",
         secondary: "#3D61CE",
+        primaryWhite:"#F4F7FE",
+        hoverWhite:"#E2E8F0",
+        darkSecondary:"#313957",
       },
       fontFamily: {
         Montserrat: ["Montserrat", "sans-serif"],

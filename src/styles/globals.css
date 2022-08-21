@@ -12,3 +12,17 @@ body ::-webkit-scrollbar {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
   }
+
+.customShadow{
+    box-shadow: rgb(112 144 176 / 18%) 14px 17px 40px 4px;;
+    /* box-shadow: #7090b014; */
+}
+
+
+.style {
+  background: center center / cover rgba(244, 247, 254, 0.2);
+  transition-delay: 0s, 0s, 0s, 0s;
+  transition-duration: 0.25s, 0.25s, 0.25s, 0s;
+  transition-timing-function: linear, linear, linear, linear;
+
+}

@@ -1,23 +1,50 @@
 import { useRouter } from "next/router";
-import React from "react";
+import { useState } from "react";
+import MainLayout from "../../components/layout";
+
 import { Loader } from "../../components/loader/Loader";
-import Sidebar from "../../components/sidebar";
 import { useArbitratorContext } from "../../context/arbitrator.context";
+
+const headerTitle = "Arbitrator";
+
+const sidebarData = [
+  {
+    route: "/arbitrator",
+    name: "Dashboard",
+  },
+  {
+    name: "Admins",
+    route: "/arbitrator/case",
+  },
+];
 
 const Arbitrator = () => {
   const router = useRouter();
+  const [toggleSidebar, setToggleSidebar] = useState<boolean>(false);
+
   const arbitratorData = useArbitratorContext();
   if (!arbitratorData) {
     router.push("/arbitrator/login");
-    return <p><Loader /></p>;
+    return (
+      <p>
+        <Loader />
+      </p>
+    );
   }
   return (
-    <div>
+    <MainLayout
+      sidebarData={sidebarData}
+      setToggleSidebar={setToggleSidebar}
+      toggleSidebar={toggleSidebar}
+      headerTitle={headerTitle}
+    >
       <div>
-        {arbitratorData?.name}
-        <h1>Arbitrator</h1>
+        <div>
+          {arbitratorData?.name}
+          <h1>Arbitrator</h1>
+        </div>
       </div>
-    </div>
+    </MainLayout>
   );
 };
 
