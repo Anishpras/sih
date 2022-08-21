@@ -7,6 +7,7 @@ const AdminRegister = () => {
   const [name, setName] = useState("");
   const [arbitrationCentreId, setArbitrationCentreId] = useState("");
   const [username, setUsername] = useState("");
+  const [adminId, setAdminId] = useState("");
   const [password, setPassword] = useState("");
   const { mutate, error } = trpc.useMutation(["admin.admin-register"], {
     onError: (error) => {
@@ -19,7 +20,7 @@ const AdminRegister = () => {
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    mutate({ name, username, arbitrationCentreId, password });
+    mutate({ name, username, arbitrationCentreId,adminId, password });
   };
   return (
     <div>
@@ -43,6 +44,12 @@ const AdminRegister = () => {
           value={username}
           placeholder={"Username"}
           onChange={(e) => setUsername(e.target.value)}
+        />
+         <input
+          type="text"
+          value={adminId}
+          placeholder={"AdminId"}
+          onChange={(e) => setAdminId(e.target.value)}
         />
         <input
           type="password"

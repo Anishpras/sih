@@ -26,7 +26,7 @@ export const arbitratorRouter = createRouter()
             password: sha256(password).toString(),
             Admin: {
               connect: {
-                id: adminId,
+                adminId: adminId,
               },
             },
           },
