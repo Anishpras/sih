@@ -1,4 +1,7 @@
-import { loginAdminSchema, verifyArbitratorSchema } from "./../../../schema/adminSchema.schema";
+import {
+  loginAdminSchema,
+  verifyArbitratorSchema,
+} from "./../../../schema/adminSchema.schema";
 import { createAdminSchema } from "../../../schema/adminSchema.schema";
 import { createRouter } from "../createRouter";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
@@ -11,12 +14,13 @@ export const adminRouter = createRouter()
   .mutation("admin-register", {
     input: createAdminSchema,
     async resolve({ ctx, input }) {
-      const { name, username, arbitrationCentreId, password } = input;
+      const { name, username, arbitrationCentreId, password, adminId } = input;
       try {
         const admin = await ctx.prisma.admin.create({
           data: {
             name,
             username,
+            adminId,
             password: sha256(password).toString(),
             arbitrationCentre: {
               connect: {

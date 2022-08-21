@@ -8,36 +8,6 @@ import { signJwt } from "../../utils/jwt";
 import { serialize } from "cookie";
 
 export const clientRouter = createRouter()
-  .mutation("register-client", {
-    input: createClientSchema,
-    async resolve({ ctx, input }) {
-      const { name, password, username } = input;
-      try {
-        const client = await ctx.prisma.client.create({
-          data: {
-            name,
-            username,
-            password: sha256(password).toString(),
-          },
-        });
-        return client;
-      } catch (e) {
-        if (e instanceof PrismaClientKnownRequestError) {
-          if (e.code === "P2002") {
-            throw new trpc.TRPCError({
-              code: "CONFLICT",
-              message: "User already exists",
-            });
-          }
-        }
-
-        throw new trpc.TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Internal server error",
-        });
-      }
-    },
-  })
   .query("detail", {
     resolve({ ctx }) {
       return ctx.client;
