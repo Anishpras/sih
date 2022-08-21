@@ -1,8 +1,7 @@
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import  { useState } from "react";
 import MainLayout from "../../components/layout";
 import { Loader } from "../../components/loader/Loader";
-import Sidebar from "../../components/sidebar";
 import { useArbitrationCentreContext } from "../../context/arbitrationCentre.context";
 
 

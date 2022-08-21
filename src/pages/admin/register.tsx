@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { ButtonStyle } from "../../components/login/Button";
@@ -26,7 +27,7 @@ const AdminRegister = () => {
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    mutate({ name, username, arbitrationCentreId,adminId, password });
+    mutate({ name, username, arbitrationCentreId, adminId, password });
   };
   return (
     <div className={loginScreenContainer}>
@@ -69,7 +70,7 @@ const AdminRegister = () => {
       <div className={loginScreenFormContainer}>
         <div className="relative pt-32">
           <h1 className="font-Montserrat text-2xl font-bold uppercase ">
-            Arbitration Centre
+            ADMIN REGISTRATION
           </h1>
         </div>
         {error && <p>{error.message}</p>}
@@ -94,9 +95,10 @@ const AdminRegister = () => {
           className={CustomInputStyle}
           onChange={(e) => setUsername(e.target.value)}
         />
-         <input
+        <input
           type="text"
           value={adminId}
+          className={CustomInputStyle}
           placeholder={"AdminId"}
           onChange={(e) => setAdminId(e.target.value)}
         />

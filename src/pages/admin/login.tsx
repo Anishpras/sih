@@ -113,7 +113,7 @@ const AdminLogin = () => {
       </div>
       <div className={loginScreenFormContainer}>
         <div>
-          <h1 className="font-bol text-xl">ADMIN LOGIN</h1>
+          <h1 className="text-2xl font-bold uppercase">ADMIN LOGIN</h1>
         </div>
 
         <form

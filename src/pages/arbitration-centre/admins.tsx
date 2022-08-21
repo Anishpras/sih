@@ -64,7 +64,7 @@ const AllAdminList = () => {
                   admin.verified.toString() === "true"
                     ? " border-green-400"
                     : " border-red-400"
-                }  max-w-full rounded-xl border bg-primary px-10 py-2 font-Montserrat text-white `}
+                }  customShadow max-w-full rounded-xl border bg-white px-10 py-2 font-Montserrat text-black `}
               >
                 <p className="text-xl">Admin Name: {admin.name}</p>
                 <p>Admin Username: {admin.username}</p>
@@ -72,8 +72,8 @@ const AllAdminList = () => {
                   className={`${
                     admin.verified.toString() === "true"
                       ? "bg-slate-500 text-green-400"
-                      : ""
-                  } ${CommonButton}  my-2  px-10 `}
+                      : "hover:bg-hoverWhite"
+                  } ${CommonButton} my-2  bg-primaryWhite  px-10  `}
                   disabled={admin.verified.toString() === "true"}
                   onClick={() => handleSubmit(admin.id)}
                 >
