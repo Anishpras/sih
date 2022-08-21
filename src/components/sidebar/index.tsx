@@ -56,7 +56,7 @@ export default function SidebarComponent({
           {sidebarData.map((n, index) => {
             return (
               <Link key={index} href={n.route}>
-                <button className="flex w-full items-center  rounded-lg bg-black hover:bg-darkSecondary p-2 font-Raleway text-xl font-semibold  text-white">
+                <button className="flex w-full items-center  rounded-lg bg-black p-2 my-5 font-Raleway text-xl font-semibold text-white  hover:bg-darkSecondary">
                   {n.name}
                 </button>
               </Link>
