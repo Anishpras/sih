@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import NavBar from "../navbar";
+import NavBar, { Header } from "../navbar";
 import Sidebar from "../sidebar";
 interface MainLayoutProps {
   children: ReactNode;
@@ -22,7 +22,8 @@ export default function MainLayout({
         setToggleSidebar={setToggleSidebar}
         toggleSidebar={toggleSidebar}
       />
-      <section className="md:mx-2 relative md:top-5 flex w-full flex-col overflow-y-scroll md:rounded-xl  bg-primaryWhite md:h-[calc(100vh-5vh)] md:w-[calc(100vw-200px)]  ">
+      <section className="relative flex w-full flex-col md:overflow-y-scroll bg-primaryWhite md:top-5 md:mx-2  md:h-[calc(100vh-5vh)] md:w-[calc(100vw-200px)] md:rounded-xl  ">
+        <Header />
         <main className=" pt-3 md:px-2 ">{children}</main>
       </section>
     </div>
