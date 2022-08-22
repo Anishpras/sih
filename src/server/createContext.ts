@@ -29,6 +29,7 @@ interface CtxAdmin {
   id: string;
   name: string;
   username: string;
+  adminId:string;
   iat: string;
   exp: number;
 }
