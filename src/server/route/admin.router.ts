@@ -72,6 +72,7 @@ export const adminRouter = createRouter()
         name: admin.name,
         id: admin.id,
         username: admin.username,
+        adminId: admin.adminId,
       });
       ctx.res.setHeader(
         "Set-Cookie",
@@ -81,13 +82,13 @@ export const adminRouter = createRouter()
     },
   })
   .query("all-arbitrators", {
-    async resolve({ ctx }) {
-      const arbitrators = await ctx.prisma.arbitrator.findMany({
+    resolve({ ctx }) {
+      console.log(ctx?.admin?.adminId);
+      return ctx.prisma.arbitrator.findMany({
         where: {
           adminId: ctx?.admin?.adminId,
         },
       });
-      return arbitrators;
     },
   })
   .mutation("verify-arbitrator", {

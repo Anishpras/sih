@@ -20,8 +20,8 @@ model Arbitrator {
   updatedAt      DateTime @updatedAt
   verified       Boolean  @default(false)
   cases          Case[]
-  Admin          Admin?   @relation(fields: [adminId], references: [adminId])
-  adminId        String?
+  Admin          Admin   @relation(fields: [adminId], references: [adminId])
+  adminId        String
 }
 
 model Client {
