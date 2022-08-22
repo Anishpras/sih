@@ -24,6 +24,9 @@ const SingleCase = () => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("123456");
+  const [award, setAward] = useState(0);
+  const [awardUploadString, setAwardUploadString] = useState("");
+  const [awardFileUrl, setAwardFileUrl] = useState("");
   const { mutate, error: createMutationError } = trpc.useMutation(
     ["arbitrators.create-client"],
     {
@@ -39,6 +42,21 @@ const SingleCase = () => {
 
   const router = useRouter();
   const { case: caseId } = router.query;
+
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+  function generateString(length:number) {
+    let result = "";
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+  }
+  useEffect(() => {
+    setAwardUploadString(generateString(10));
+  }, []);
 
   const { data, error } = trpc.useQuery([
     "arbitrators.get-single-case",
@@ -58,14 +76,53 @@ const SingleCase = () => {
     });
   };
 
+  const handleAwardUpload = (e: any) => {
+    if (e.target.files[0]) {
+      setAward(e.target.files[0]);
+    }
+  };
+
+  const awardUpload = async (e: any) => {
+    e.preventDefault();
+
+    const uploadProfileImageTask = storage
+      .ref(`profile-images/${awardUploadString}`)
+      .put(award);
+
+   await uploadProfileImageTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProfileImageUploadProgress(progress);
+      },
+      (error) => {
+        // Error function ...
+        console.log(error);
+        alert(error.message);
+      },
+      () => {
+        // complete function ...
+        storage
+          .ref("profile-images")
+          .child(awardUploadString)
+          .getDownloadURL()
+          .then((url) => {
+            setAwardFileUrl(url);
+          });
+      }
+    ).then(()=>{
+      
+    });
+  };
   console.log(data);
   return (
     <MainLayout
       sidebarData={sidebarData}
       setToggleSidebar={setToggleSidebar}
       toggleSidebar={toggleSidebar}
-      headerTitle={headerTitle}
-    >
+      headerTitle={headerTitle}>
       <div>
         <h1>Single Case</h1>
         <h1>Add Your Client</h1>
@@ -94,7 +151,8 @@ const SingleCase = () => {
           Add Client
         </button>
 
-        <h1>Add </h1>
+        <input type="file" name="" id="" onChange={handleAwardUpload} />
+        <button onClick={awardUpload}>Upload Award</button>
       </div>
     </MainLayout>
   );
