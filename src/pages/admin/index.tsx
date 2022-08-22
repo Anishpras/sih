@@ -1,9 +1,10 @@
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import { useState } from "react";
 import MainLayout from "../../components/layout";
 import { Loader } from "../../components/loader/Loader";
+import Modal from "../../components/modal";
 import { useAdminContext } from "../../context/admin.context";
-
+import { trpc } from "../../utils/trpc";
 
 const headerTitle = "Admin ";
 const sidebarData = [
@@ -21,27 +22,31 @@ const Admin = () => {
   const router = useRouter();
   const adminData = useAdminContext();
   const [toggleSidebar, setToggleSidebar] = useState<boolean>(false);
+  const {
+    data,
+    error: allAdminError,
+    isLoading,
+  } = trpc.useQuery(["admin.verified-admin"]);
 
   if (!adminData) {
     router.push("/admin/login");
-    return (
-      <p>
-        <Loader />
-      </p>
-    );
+    return <Loader />;
   }
   return (
-    <MainLayout
-      sidebarData={sidebarData}
-      headerTitle={headerTitle}
-      setToggleSidebar={setToggleSidebar}
-      toggleSidebar={toggleSidebar}
-    >
-      <div>
-        {adminData?.name}
-        <h1>Land</h1>
-      </div>
-    </MainLayout>
+    <>
+      {data ? "" : <Modal />}
+      <MainLayout
+        sidebarData={sidebarData}
+        headerTitle={headerTitle}
+        setToggleSidebar={setToggleSidebar}
+        toggleSidebar={toggleSidebar}
+      >
+        <div className="">
+          {adminData?.username}
+          <h1>Land</h1>
+        </div>
+      </MainLayout>
+    </>
   );
 };
 

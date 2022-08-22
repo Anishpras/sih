@@ -9,6 +9,7 @@ import * as trpc from "@trpc/server";
 import sha256 from "crypto-js/sha256";
 import { signJwt } from "../../utils/jwt";
 import { serialize } from "cookie";
+import { resolve } from "path";
 
 export const adminRouter = createRouter()
   .mutation("admin-register", {
@@ -50,6 +51,17 @@ export const adminRouter = createRouter()
   .query("detail", {
     resolve({ ctx }) {
       return ctx.admin;
+    },
+  })
+  //TODO: return admin as object
+  .query("verified-admin", {
+    async resolve({ ctx }) {
+      const admin = await ctx.prisma.admin.findMany({
+        where: {
+          username: ctx.admin?.username,
+        },
+      });
+      return admin[0].verified;
     },
   })
   .query("login-admin", {
