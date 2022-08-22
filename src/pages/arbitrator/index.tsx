@@ -3,7 +3,9 @@ import { useState } from "react";
 import MainLayout from "../../components/layout";
 
 import { Loader } from "../../components/loader/Loader";
+import Modal from "../../components/modal";
 import { useArbitratorContext } from "../../context/arbitrator.context";
+import { trpc } from "../../utils/trpc";
 
 const headerTitle = "Arbitrator";
 
@@ -14,8 +16,12 @@ const sidebarData = [
   },
   {
     name: "Admins",
-    route: "/arbitrator/case",
+    route: "/arbitrator/cases",
   },
+  {
+    name:"Add Cases",
+    route:"/add-case"
+  }
 ];
 
 const Arbitrator = () => {
@@ -23,28 +29,29 @@ const Arbitrator = () => {
   const [toggleSidebar, setToggleSidebar] = useState<boolean>(false);
 
   const arbitratorData = useArbitratorContext();
+  const { data } = trpc.useQuery(["arbitrators.verify-arbitrator"]);
   if (!arbitratorData) {
     router.push("/arbitrator/login");
-    return (
-      <p>
-        <Loader />
-      </p>
-    );
+    return <Loader />;
   }
   return (
-    <MainLayout
-      sidebarData={sidebarData}
-      setToggleSidebar={setToggleSidebar}
-      toggleSidebar={toggleSidebar}
-      headerTitle={headerTitle}
-    >
-      <div>
+    <>
+      {data ? "" : <Modal />}
+
+      <MainLayout
+        sidebarData={sidebarData}
+        setToggleSidebar={setToggleSidebar}
+        toggleSidebar={toggleSidebar}
+        headerTitle={headerTitle}
+      >
         <div>
-          {arbitratorData?.name}
-          <h1>Arbitrator</h1>
+          <div>
+            {arbitratorData?.name}
+            <h1>Arbitrator</h1>
+          </div>
         </div>
-      </div>
-    </MainLayout>
+      </MainLayout>
+    </>
   );
 };
 

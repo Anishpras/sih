@@ -9,6 +9,7 @@ import * as trpc from "@trpc/server";
 import sha256 from "crypto-js/sha256";
 import { signJwt } from "../../utils/jwt";
 import { serialize } from "cookie";
+import { resolve } from "path";
 
 export const adminRouter = createRouter()
   .mutation("admin-register", {
@@ -52,6 +53,17 @@ export const adminRouter = createRouter()
       return ctx.admin;
     },
   })
+  //TODO: return admin as object
+  .query("verified-admin", {
+    async resolve({ ctx }) {
+      const admin = await ctx.prisma.admin.findMany({
+        where: {
+          username: ctx.admin?.username,
+        },
+      });
+      return admin[0].verified;
+    },
+  })
   .query("login-admin", {
     input: loginAdminSchema,
     async resolve({ ctx, input }) {
@@ -72,6 +84,7 @@ export const adminRouter = createRouter()
         name: admin.name,
         id: admin.id,
         username: admin.username,
+        adminId: admin.adminId,
       });
       ctx.res.setHeader(
         "Set-Cookie",
@@ -81,13 +94,13 @@ export const adminRouter = createRouter()
     },
   })
   .query("all-arbitrators", {
-    async resolve({ ctx }) {
-      const arbitrators = await ctx.prisma.arbitrator.findMany({
+    resolve({ ctx }) {
+      console.log(ctx?.admin?.adminId);
+      return ctx.prisma.arbitrator.findMany({
         where: {
           adminId: ctx?.admin?.adminId,
         },
       });
-      return arbitrators;
     },
   })
   .mutation("verify-arbitrator", {

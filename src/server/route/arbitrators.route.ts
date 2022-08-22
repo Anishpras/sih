@@ -1,5 +1,8 @@
 import { createClientSchema } from "./../../../schema/clientSchema.schema";
-import { getSingleCaseSchema } from "./../../../schema/arbitratorSchema.schema";
+import {
+  addAwardSchema,
+  getSingleCaseSchema,
+} from "./../../../schema/arbitratorSchema.schema";
 import {
   createArbitratorSchema,
   createCaseSchema,
@@ -52,6 +55,16 @@ export const arbitratorRouter = createRouter()
   .query("detail", {
     resolve({ ctx }) {
       return ctx.arbitrator;
+    },
+  })
+  .query("verify-arbitrator", {
+    async resolve({ ctx }) {
+      const arbitrator = await ctx.prisma.arbitrator.findMany({
+        where: {
+          registrationId: ctx.arbitrator?.registrationId,
+        },
+      });
+      return arbitrator[0].verified;
     },
   })
   .query("arbitrator-login", {
@@ -179,5 +192,19 @@ export const arbitratorRouter = createRouter()
           message: "Internal server error",
         });
       }
+    },
+  })
+  .mutation("add-award", {
+    input: addAwardSchema,
+    async resolve({ ctx, input }) {
+      const { caseId, awardUrl } = input;
+      await ctx.prisma.case.update({
+        where: {
+          id: caseId,
+        },
+        data: {
+          award: awardUrl,
+        },
+      });
     },
   });
