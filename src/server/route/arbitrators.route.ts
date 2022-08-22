@@ -54,6 +54,16 @@ export const arbitratorRouter = createRouter()
       return ctx.arbitrator;
     },
   })
+  .query("verify-arbitrator", {
+    async resolve({ ctx }) {
+      const arbitrator = await ctx.prisma.arbitrator.findMany({
+        where: {
+          registrationId: ctx.arbitrator?.registrationId,
+        },
+      });
+      return arbitrator[0].verified;
+    },
+  })
   .query("arbitrator-login", {
     input: loginArbitratorSchema,
     async resolve({ ctx, input }) {
