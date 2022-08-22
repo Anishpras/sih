@@ -84,7 +84,7 @@ export const adminRouter = createRouter()
     async resolve({ ctx }) {
       const arbitrators = await ctx.prisma.arbitrator.findMany({
         where: {
-          adminId: ctx?.admin?.id,
+          adminId: ctx?.admin?.adminId,
         },
       });
       return arbitrators;
