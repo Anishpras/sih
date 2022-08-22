@@ -23,6 +23,12 @@ export const getSingleCaseSchema = z.object({
   caseId: z.string().optional(),
 });
 
+export const addAwardSchema = z.object({
+  caseId: z.string().optional(),
+  awardUrl: z.string().optional(),
+});
+
+export type GetSingleCaseSchema = z.TypeOf<typeof getSingleCaseSchema>;
 export type CreateCaseSchema = z.infer<typeof createCaseSchema>;
 
 export type CreateArbitratorSchema = z.TypeOf<typeof createArbitratorSchema>;
