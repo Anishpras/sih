@@ -3,7 +3,8 @@ import { useRouter } from "next/router";
 import { trpc } from "../../../utils/trpc";
 import MainLayout from "../../../components/layout";
 import { CustomInputStyle } from "../../../components/login/Input";
-
+import { storage } from "../../../../firebase";
+import { getDownloadURL, ref, uploadString } from "@firebase/storage";
 const headerTitle = "Arbitrator";
 
 const sidebarData = [
@@ -24,7 +25,9 @@ const SingleCase = () => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("123456");
-  const [award, setAward] = useState(0);
+  const [award, setAward] = useState<string | ArrayBuffer | null | undefined>(
+    null
+  );
   const [awardUploadString, setAwardUploadString] = useState("");
   const [awardFileUrl, setAwardFileUrl] = useState("");
   const { mutate, error: createMutationError } = trpc.useMutation(
@@ -40,12 +43,25 @@ const SingleCase = () => {
     }
   );
 
+  const { mutate: uploadAward, error: uploadAwardError } = trpc.useMutation(
+    ["arbitrators.add-award"],
+    {
+      onError: (error) => {
+        console.log(error);
+      },
+      onSuccess: () => {
+        // router.push("/client/login");
+        console.log("success Award");
+      },
+    }
+  );
+
   const router = useRouter();
   const { case: caseId } = router.query;
 
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-  function generateString(length:number) {
+  function generateString(length: number) {
     let result = "";
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
@@ -63,7 +79,6 @@ const SingleCase = () => {
     { caseId: caseId?.toString() },
   ]);
 
-  //Handle form submit
   const handleSubmit = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -76,46 +91,32 @@ const SingleCase = () => {
     });
   };
 
-  const handleAwardUpload = (e: any) => {
-    if (e.target.files[0]) {
-      setAward(e.target.files[0]);
-    }
-  };
-
-  const awardUpload = async (e: any) => {
-    e.preventDefault();
-
-    const uploadProfileImageTask = storage
-      .ref(`profile-images/${awardUploadString}`)
-      .put(award);
-
-   await uploadProfileImageTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        setProfileImageUploadProgress(progress);
-      },
-      (error) => {
-        // Error function ...
-        console.log(error);
-        alert(error.message);
-      },
-      () => {
-        // complete function ...
-        storage
-          .ref("profile-images")
-          .child(awardUploadString)
-          .getDownloadURL()
-          .then((url) => {
+  const awardUpload = async () => {
+    const fileRef = ref(storage, `files/${awardUploadString}`);
+    if (award) {
+      await uploadString(fileRef, award.toString(), "data_url").then(
+        async () => {
+          await getDownloadURL(fileRef).then((url) => {
+            uploadAward({ caseId: caseId?.toString(), awardUrl: url });
             setAwardFileUrl(url);
           });
-      }
-    ).then(()=>{
-      
-    });
+        }
+      );
+    }
+    setAward(null);
   };
+
+  const handleAwardUpload = (e: any) => {
+    const reader = new FileReader();
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+    }
+
+    reader.onload = (readerEvent) => {
+      setAward(readerEvent?.target?.result);
+    };
+  };
+
   console.log(data);
   return (
     <MainLayout
@@ -151,7 +152,12 @@ const SingleCase = () => {
           Add Client
         </button>
 
-        <input type="file" name="" id="" onChange={handleAwardUpload} />
+        <input
+          type="file"
+          name=""
+          id=""
+          onChange={(e) => handleAwardUpload(e)}
+        />
         <button onClick={awardUpload}>Upload Award</button>
       </div>
     </MainLayout>
