@@ -19,7 +19,6 @@ const sidebarData = [
 ];
 
 const SingleCase = () => {
-  const [addCaseID, setCaseId] = useState("");
   const [toggleSidebar, setToggleSidebar] = useState<boolean>(false);
 
   const [name, setName] = useState("");
@@ -29,7 +28,7 @@ const SingleCase = () => {
     null
   );
   const [awardUploadString, setAwardUploadString] = useState("");
-  const [awardFileUrl, setAwardFileUrl] = useState("");
+
   const { mutate, error: createMutationError } = trpc.useMutation(
     ["arbitrators.create-client"],
     {
@@ -98,7 +97,6 @@ const SingleCase = () => {
         async () => {
           await getDownloadURL(fileRef).then((url) => {
             uploadAward({ caseId: caseId?.toString(), awardUrl: url });
-            setAwardFileUrl(url);
           });
         }
       );
@@ -117,7 +115,6 @@ const SingleCase = () => {
     };
   };
 
-  console.log(data);
   return (
     <MainLayout
       sidebarData={sidebarData}
