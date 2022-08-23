@@ -1,5 +1,6 @@
 import { createClientSchema } from "./../../../schema/clientSchema.schema";
 import {
+  addAnnexureSchema,
   addAwardSchema,
   getSingleCaseSchema,
 } from "./../../../schema/arbitratorSchema.schema";
@@ -204,6 +205,24 @@ export const arbitratorRouter = createRouter()
         },
         data: {
           award: awardUrl,
+        },
+      });
+    },
+  })
+  .mutation("add-annexure", {
+    input: addAnnexureSchema,
+    async resolve({ ctx, input }) {
+      const { caseId, annexureUrl, name, description } = input;
+      await ctx.prisma.annexure.create({
+        data: {
+          link: annexureUrl,
+          name,
+          description,
+          Case: {
+            connect: {
+              id: caseId,
+            },
+          },
         },
       });
     },
