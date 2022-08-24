@@ -4,11 +4,12 @@ import { prisma } from "../utils/prisma";
 
 interface CtxArbitrator {
   id: string;
-
   name: string;
   iat: string;
   exp: number;
   registrationId: string;
+  adminId: string;
+  arbitrationCentreId: string;
 }
 interface CtxClient {
   id: string;

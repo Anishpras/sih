@@ -21,7 +21,7 @@ const SingleCase = () => {
   >(null);
   const [awardUploadString, setAwardUploadString] = useState("");
   const [annexureUploadString, setAnnexureUploadString] = useState("");
-  const [annexureUrl, setAnnexureUrl] = useState("");
+  const [order, setOrder] = useState("");
   const [annexureName, setAnnexureName] = useState("");
   const [annexureDescription, setAnnexureDescription] = useState("");
 
@@ -47,6 +47,20 @@ const SingleCase = () => {
       onSuccess: () => {
         // router.push("/client/login");
         console.log("success Award");
+      },
+    }
+  );
+
+  const { mutate: addOrder, error: createOrderError } = trpc.useMutation(
+    ["arbitrators.add-order"],
+
+    {
+      onError: (error) => {
+        console.log(error);
+      },
+      onSuccess: () => {
+        // router.push("/client/login");
+        console.log("success Order");
       },
     }
   );
@@ -94,6 +108,16 @@ const SingleCase = () => {
       name,
       username,
       password,
+      caseId: caseId?.toString(),
+    });
+  };
+
+  const handleAddOrder = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    addOrder({
+      orderData: order,
       caseId: caseId?.toString(),
     });
   };
@@ -159,8 +183,7 @@ const SingleCase = () => {
       sidebarData={ArbitratorSidebarData}
       setToggleSidebar={setToggleSidebar}
       toggleSidebar={toggleSidebar}
-      headerTitle={headerTitle}
-    >
+      headerTitle={headerTitle}>
       <div>
         <h1>Single Case</h1>
         <h1>Add Your Client</h1>
@@ -218,6 +241,14 @@ const SingleCase = () => {
           onChange={(e) => handleAnnexureUpload(e)}
         />
         <button onClick={annexureUpload}>Upload Annexure</button>
+
+        <input
+          type="text"
+          value={order}
+          onChange={(e) => setOrder(e.target.value)}
+          placeholder="Order"
+        />
+        <button onClick={(e) => handleAddOrder(e)}>Add Order</button>
       </div>
     </MainLayout>
   );
