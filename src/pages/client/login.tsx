@@ -16,15 +16,17 @@ import { useClientContext } from "../../context/client.context";
 interface FormData {
   username: string;
   password: string;
+  name: string;
 }
 
-const LoginSubmit = ({ username, password }: FormData) => {
+const LoginSubmit = ({ username, password, name }: FormData) => {
   const router = useRouter();
   const { data, error, isLoading } = trpc.useQuery([
     "clients.login-client",
     {
       username: username,
       password: password,
+      name: name,
     },
   ]);
   //   console.log(name, password, "name");
@@ -63,6 +65,7 @@ const ClientLogin = () => {
       <LoginSubmit
         username={loginData.username}
         password={loginData.password}
+        name={loginData.name}
       />
     );
   }
@@ -80,8 +83,7 @@ const ClientLogin = () => {
               height="675"
               viewBox="0 0 1024 675"
               fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+              xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M0 0V453.692C0 453.692 275.787 415.299 512 562.081C748.213 708.864 1024 670.471 1024 670.471V0.468262L0 0Z"
                 fill="black"
@@ -114,13 +116,18 @@ const ClientLogin = () => {
         </div>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className=" container mx-auto flex w-full flex-col content-center items-center justify-center justify-self-center object-center "
-        >
+          className=" container mx-auto flex w-full flex-col content-center items-center justify-center justify-self-center object-center ">
           <Input
             type="text"
             register={register}
             placeholder="Enter your username"
             registerName={"username"}
+          />
+          <Input
+            type="name"
+            register={register}
+            placeholder="Enter your Name"
+            registerName={"name"}
           />
           <Input
             type="password"

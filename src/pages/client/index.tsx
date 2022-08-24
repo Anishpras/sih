@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import MainLayout from "../../components/layout";
 
 import { Loader } from "../../components/loader/Loader";
-import Modal from "../../components/modal";
+
 import { useClientContext } from "../../context/client.context";
 import { trpc } from "../../utils/trpc";
 
@@ -29,9 +29,17 @@ const Client = () => {
   const [toggleSidebar, setToggleSidebar] = useState(false);
 
   const clientData = useClientContext();
-  // const { data } = trpc.useQuery(["clients.login-client",{
-
-  // }]);
+  const { data, error, isLoading } = trpc.useQuery(["clients.get-case-data"]);
+  if (error) {
+    console.log(error.message);
+  }
+  if (isLoading) {
+    return (
+      <p>
+        <Loader />
+      </p>
+    );
+  }
   if (!clientData) {
     router.push("/client/login");
     return <Loader />;
@@ -43,11 +51,11 @@ const Client = () => {
         sidebarData={ArbitratorSidebarData}
         setToggleSidebar={setToggleSidebar}
         toggleSidebar={toggleSidebar}
-        headerTitle={headerTitle}
-      >
+        headerTitle={headerTitle}>
         <div>
           <div>
             <h1>Client</h1>
+            <div>{JSON.stringify(data)}</div>
           </div>
         </div>
       </MainLayout>

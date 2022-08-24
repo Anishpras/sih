@@ -1,4 +1,7 @@
-import { createClientSchema } from "../../../schema/clientSchema.schema";
+import {
+  createClientSchema,
+  loginClientSchema,
+} from "../../../schema/clientSchema.schema";
 import { createRouter } from "../createRouter";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import * as trpc from "@trpc/server";
@@ -14,12 +17,13 @@ export const clientRouter = createRouter()
     },
   })
   .query("login-client", {
-    input: loginAdminSchema,
+    input: loginClientSchema,
     async resolve({ ctx, input }) {
-      const { username, password } = input;
+      const { username, password, name } = input;
       const client = await ctx.prisma.client.findFirst({
         where: {
           username,
+          name,
           password: sha256(password).toString(),
         },
       });
@@ -33,11 +37,22 @@ export const clientRouter = createRouter()
         name: client.name,
         id: client.id,
         username: client.username,
+        caseId: client.caseId,
       });
       ctx.res.setHeader(
         "Set-Cookie",
         serialize("clientToken", jwt, { path: "/" })
       );
       return client;
+    },
+  })
+  .query("get-case-data", {
+    async resolve({ ctx }) {
+      const caseDetail = await ctx.prisma.case.findFirst({
+        where: {
+          id: ctx?.client?.caseId,
+        },
+      });
+      return caseDetail;
     },
   });
