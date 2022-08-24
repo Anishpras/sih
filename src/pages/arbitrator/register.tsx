@@ -79,11 +79,6 @@ const ArbitratorRegister = () => {
           ARBITRATOR REGISTRATION
           </h1>
         </div>
-        {/* <div className="relative pt-20">
-          <h1 className="font-Montserrat text-2xl font-bold ">
-          
-          </h1>
-        </div> */}
         <form className=" container mx-auto flex w-full flex-col content-center items-center justify-center justify-self-center object-center ">
           {error && <p>{error.message}</p>}
           <input
@@ -111,11 +106,11 @@ const ArbitratorRegister = () => {
             type="text"
             value={registrationId}
             onChange={(e) => setRegistrationId(e.target.value)}
-            placeholder={"UserName"}
+            placeholder={"Registration Id"}
             className={CustomInputStyle}
           />
           <input
-            type="text"
+            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder={"PASSWORD"}
