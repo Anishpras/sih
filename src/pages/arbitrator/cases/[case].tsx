@@ -5,18 +5,8 @@ import MainLayout from "../../../components/layout";
 import { CustomInputStyle } from "../../../components/login/Input";
 import { storage } from "../../../../firebase";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
+import { ArbitratorSidebarData } from "..";
 const headerTitle = "Arbitrator";
-
-const sidebarData = [
-  {
-    route: "/arbitrator",
-    name: "Dashboard",
-  },
-  {
-    name: "Admins",
-    route: "/arbitrator/case",
-  },
-];
 
 const SingleCase = () => {
   const [toggleSidebar, setToggleSidebar] = useState<boolean>(false);
@@ -38,7 +28,7 @@ const SingleCase = () => {
   const { mutate, error: createMutationError } = trpc.useMutation(
     ["arbitrators.create-client"],
     {
-      onError: (error) => {
+      onError: (error: any) => {
         console.log(error);
       },
       onSuccess: () => {
@@ -51,7 +41,7 @@ const SingleCase = () => {
   const { mutate: uploadAward, error: uploadAwardError } = trpc.useMutation(
     ["arbitrators.add-award"],
     {
-      onError: (error) => {
+      onError: (error: any) => {
         console.log(error);
       },
       onSuccess: () => {
@@ -64,7 +54,7 @@ const SingleCase = () => {
   //Annexure Upload
   const { mutate: uploadAnnexure, error: uploadAnnexureError } =
     trpc.useMutation(["arbitrators.add-annexure"], {
-      onError: (error) => {
+      onError: (error: any) => {
         console.log(error);
       },
       onSuccess: () => {
@@ -166,7 +156,7 @@ const SingleCase = () => {
 
   return (
     <MainLayout
-      sidebarData={sidebarData}
+      sidebarData={ArbitratorSidebarData}
       setToggleSidebar={setToggleSidebar}
       toggleSidebar={toggleSidebar}
       headerTitle={headerTitle}

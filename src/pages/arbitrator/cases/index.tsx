@@ -1,41 +1,40 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import { useState } from "react";
+import { ArbitratorSidebarData } from "..";
 import MainLayout from "../../../components/layout";
+import { ButtonStyle } from "../../../components/login/Button";
 import { trpc } from "../../../utils/trpc";
 const headerTitle = "Arbitrator";
 
-const sidebarData = [
-  {
-    route: "/arbitrator",
-    name: "Dashboard",
-  },
-  {
-    name: "All Cases",
-    route: "/arbitrator/cases",
-  },
-];
+interface singleCaseProps {
+  award: String
+  caseId: String;
+  createdAt: Date;
+  description: String;
+  name: String;
+}
+
 const AllArbitratorCase = () => {
   const { data, error } = trpc.useQuery(["arbitrators.get-cases"]);
   console.log(data);
   const [toggleSidebar, setToggleSidebar] = useState<boolean>(false);
-
   return (
     <MainLayout
-      sidebarData={sidebarData}
+      sidebarData={ArbitratorSidebarData}
       headerTitle={headerTitle}
       setToggleSidebar={setToggleSidebar}
       toggleSidebar={toggleSidebar}
     >
-      <h1>All Cases</h1>
+      <h1 className="font-Montserrat text-3xl font-bold">Your All Cases</h1>
 
-      {data?.map((singleCase) => {
+      {data?.map((singleCase: any) => {
         return (
-          <div key={singleCase.id}>
-            <p>{singleCase.name}</p>
-            <Link href={`/arbitrator/cases/${singleCase.id}`}>
-              <a>View Case</a>
-            </Link>
-          </div>
+          <Link key={singleCase.id} href={`/arbitrator/cases/${singleCase.id}`}>
+            <button className={`${ButtonStyle} px-3 text-left `}>
+              <h1> Case Name : {singleCase.name}</h1>
+              <h2>Case Description:{singleCase.description}</h2>
+            </button>
+          </Link>
         );
       })}
     </MainLayout>
