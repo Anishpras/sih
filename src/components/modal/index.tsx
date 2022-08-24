@@ -1,10 +1,21 @@
 // import useRouter from "next/router";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function Modal({}) {
-  const [isModalOpen] = useState(true);
+export default function Modal({
+  name,
+  data,
+}: {
+  name: string;
+  data: boolean | undefined;
+}) {
+  const [isModalOpen, setIsModalOpen] = useState(true);
   const router = useRouter();
+  useEffect(() => {
+    if (data === true) {
+      return setIsModalOpen(false);
+    } else setIsModalOpen(true);
+  }, [data]);
   return (
     <div className=" flex flex-col">
       {isModalOpen && (
@@ -32,8 +43,8 @@ export default function Modal({}) {
                     </h3>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500 dark:bg-black/80 dark:text-white">
-                        You Are Not Verified Admin , Wait for the Arbitration
-                        Centre for your Verification.
+                        You Are Not Verified {name} , Wait for your
+                        Verification.
                       </p>
                     </div>
                   </div>

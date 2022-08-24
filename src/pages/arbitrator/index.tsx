@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MainLayout from "../../components/layout";
 
 import { Loader } from "../../components/loader/Loader";
@@ -9,19 +9,19 @@ import { trpc } from "../../utils/trpc";
 
 const headerTitle = "Arbitrator";
 
-const sidebarData = [
+export const ArbitratorSidebarData = [
   {
     route: "/arbitrator",
     name: "Dashboard",
   },
   {
-    name: "Admins",
+    name: "All Cases",
     route: "/arbitrator/cases",
   },
   {
-    name:"Add Cases",
-    route:"/add-case"
-  }
+    name: "Add Cases",
+    route: "/arbitrator/add-case",
+  },
 ];
 
 const Arbitrator = () => {
@@ -34,12 +34,13 @@ const Arbitrator = () => {
     router.push("/arbitrator/login");
     return <Loader />;
   }
+
   return (
     <>
-      {data ? "" : <Modal />}
+      {data ? "" : <Modal name="Arbitrator" data={data} />}
 
       <MainLayout
-        sidebarData={sidebarData}
+        sidebarData={ArbitratorSidebarData}
         setToggleSidebar={setToggleSidebar}
         toggleSidebar={toggleSidebar}
         headerTitle={headerTitle}

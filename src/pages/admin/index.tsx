@@ -34,7 +34,7 @@ const Admin = () => {
   }
   return (
     <>
-      {data ? "" : <Modal />}
+      {data ? "" : <Modal name="Admin" data={data} />}
       <MainLayout
         sidebarData={sidebarData}
         headerTitle={headerTitle}

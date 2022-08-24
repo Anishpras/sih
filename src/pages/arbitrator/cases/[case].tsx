@@ -12,11 +12,10 @@ const sidebarData = [
     name: "Dashboard",
   },
   {
-    name: "Admins",
-    route: "/arbitrator/case",
+    name: "All Cases",
+    route: "/arbitrator/cases",
   },
 ];
-
 const SingleCase = () => {
   const [addCaseID, setCaseId] = useState("");
   const [toggleSidebar, setToggleSidebar] = useState<boolean>(false);
@@ -45,7 +44,7 @@ const SingleCase = () => {
 
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-  function generateString(length:number) {
+  function generateString(length: number) {
     let result = "";
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
@@ -89,32 +88,32 @@ const SingleCase = () => {
       .ref(`profile-images/${awardUploadString}`)
       .put(award);
 
-   await uploadProfileImageTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        setProfileImageUploadProgress(progress);
-      },
-      (error) => {
-        // Error function ...
-        console.log(error);
-        alert(error.message);
-      },
-      () => {
-        // complete function ...
-        storage
-          .ref("profile-images")
-          .child(awardUploadString)
-          .getDownloadURL()
-          .then((url) => {
-            setAwardFileUrl(url);
-          });
-      }
-    ).then(()=>{
-      
-    });
+    await uploadProfileImageTask
+      .on(
+        "state_changed",
+        (snapshot) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProfileImageUploadProgress(progress);
+        },
+        (error) => {
+          // Error function ...
+          console.log(error);
+          alert(error.message);
+        },
+        () => {
+          // complete function ...
+          storage
+            .ref("profile-images")
+            .child(awardUploadString)
+            .getDownloadURL()
+            .then((url) => {
+              setAwardFileUrl(url);
+            });
+        }
+      )
+      .then(() => {});
   };
   console.log(data);
   return (
@@ -122,7 +121,8 @@ const SingleCase = () => {
       sidebarData={sidebarData}
       setToggleSidebar={setToggleSidebar}
       toggleSidebar={toggleSidebar}
-      headerTitle={headerTitle}>
+      headerTitle={headerTitle}
+    >
       <div>
         <h1>Single Case</h1>
         <h1>Add Your Client</h1>

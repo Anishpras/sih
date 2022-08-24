@@ -44,7 +44,7 @@ const AllArbitratorsList = () => {
   };
   return (
     <>
-      {data ? "" : <Modal />}
+      {data ? "" : <Modal name="Admin" data={data} />}
       <MainLayout
         sidebarData={sidebarData}
         headerTitle={headerTitle}
@@ -52,7 +52,7 @@ const AllArbitratorsList = () => {
         toggleSidebar={toggleSidebar}
       >
         <div className="flex flex-wrap gap-10">
-          {data?.map((arbitrator) => {
+          {data?.map((arbitrator: any) => {
             return (
               <div
                 key={arbitrator.id}

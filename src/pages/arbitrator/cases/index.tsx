@@ -10,8 +10,8 @@ const sidebarData = [
     name: "Dashboard",
   },
   {
-    name: "Admins",
-    route: "/arbitrator/case",
+    name: "All Cases",
+    route: "/arbitrator/cases",
   },
 ];
 const AllArbitratorCase = () => {
