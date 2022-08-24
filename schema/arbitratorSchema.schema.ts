@@ -28,6 +28,15 @@ export const addAwardSchema = z.object({
   awardUrl: z.string().optional(),
 });
 
+export const addAnnexureSchema = z.object({
+  caseId: z.string().optional(),
+  annexureUrl: z.string(),
+  name: z.string(),
+  description: z.string(),
+});
+
+export type AddAnnexureSchema = z.TypeOf<typeof addAnnexureSchema>;
+
 export type GetSingleCaseSchema = z.TypeOf<typeof getSingleCaseSchema>;
 export type CreateCaseSchema = z.infer<typeof createCaseSchema>;
 
