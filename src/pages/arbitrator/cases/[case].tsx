@@ -20,14 +20,20 @@ const sidebarData = [
 
 const SingleCase = () => {
   const [toggleSidebar, setToggleSidebar] = useState<boolean>(false);
-
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("123456");
   const [award, setAward] = useState<string | ArrayBuffer | null | undefined>(
     null
   );
+  const [annexure, setAnnexure] = useState<
+    string | ArrayBuffer | null | undefined
+  >(null);
   const [awardUploadString, setAwardUploadString] = useState("");
+  const [annexureUploadString, setAnnexureUploadString] = useState("");
+  const [annexureUrl, setAnnexureUrl] = useState("");
+  const [annexureName, setAnnexureName] = useState("");
+  const [annexureDescription, setAnnexureDescription] = useState("");
 
   const { mutate, error: createMutationError } = trpc.useMutation(
     ["arbitrators.create-client"],
@@ -55,6 +61,17 @@ const SingleCase = () => {
     }
   );
 
+  //Annexure Upload
+  const { mutate: uploadAnnexure, error: uploadAnnexureError } =
+    trpc.useMutation(["arbitrators.add-annexure"], {
+      onError: (error) => {
+        console.log(error);
+      },
+      onSuccess: () => {
+        console.log("Success Annexure");
+      },
+    });
+
   const router = useRouter();
   const { case: caseId } = router.query;
 
@@ -71,6 +88,7 @@ const SingleCase = () => {
   }
   useEffect(() => {
     setAwardUploadString(generateString(10));
+    setAnnexureUploadString(generateString(10));
   }, []);
 
   const { data, error } = trpc.useQuery([
@@ -104,6 +122,25 @@ const SingleCase = () => {
     setAward(null);
   };
 
+  const annexureUpload = async () => {
+    const annexureRef = ref(storage, `files/${annexureUploadString}`);
+    if (annexure) {
+      await uploadString(annexureRef, annexure.toString(), "data_url").then(
+        async () => {
+          await getDownloadURL(annexureRef).then((url) => {
+            console.log(url);
+            uploadAnnexure({
+              caseId: caseId?.toString(),
+              annexureUrl: url,
+              name: annexureName,
+              description: annexureDescription,
+            });
+          });
+        }
+      );
+    }
+    setAnnexure(null);
+  };
   const handleAwardUpload = (e: any) => {
     const reader = new FileReader();
     if (e.target.files[0]) {
@@ -115,12 +152,25 @@ const SingleCase = () => {
     };
   };
 
+  //Annexure Upload
+  const handleAnnexureUpload = (e: any) => {
+    const reader = new FileReader();
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+    }
+
+    reader.onload = (readerEvent) => {
+      setAnnexure(readerEvent?.target?.result);
+    };
+  };
+
   return (
     <MainLayout
       sidebarData={sidebarData}
       setToggleSidebar={setToggleSidebar}
       toggleSidebar={toggleSidebar}
-      headerTitle={headerTitle}>
+      headerTitle={headerTitle}
+    >
       <div>
         <h1>Single Case</h1>
         <h1>Add Your Client</h1>
@@ -156,6 +206,28 @@ const SingleCase = () => {
           onChange={(e) => handleAwardUpload(e)}
         />
         <button onClick={awardUpload}>Upload Award</button>
+
+        <input
+          type="text"
+          value={annexureName}
+          placeholder="Annexure Name"
+          className={CustomInputStyle}
+          onChange={(e) => setAnnexureName(e.target.value)}
+        />
+        <input
+          type="text"
+          value={annexureDescription}
+          placeholder="Annexure Description"
+          className={CustomInputStyle}
+          onChange={(e) => setAnnexureDescription(e.target.value)}
+        />
+        <input
+          type="file"
+          name=""
+          id=""
+          onChange={(e) => handleAnnexureUpload(e)}
+        />
+        <button onClick={annexureUpload}>Upload Annexure</button>
       </div>
     </MainLayout>
   );
