@@ -35,6 +35,13 @@ export const addAnnexureSchema = z.object({
   description: z.string(),
 });
 
+export const addOrderSchema = z.object({
+  caseId: z.string().optional(),
+  orderData: z.string(),
+});
+
+export type AddOrderSchema = z.TypeOf<typeof addOrderSchema>;
+
 export type AddAnnexureSchema = z.TypeOf<typeof addAnnexureSchema>;
 
 export type GetSingleCaseSchema = z.TypeOf<typeof getSingleCaseSchema>;

@@ -3,6 +3,7 @@ import {
   addAnnexureSchema,
   addAwardSchema,
   getSingleCaseSchema,
+  addOrderSchema,
 } from "./../../../schema/arbitratorSchema.schema";
 import {
   createArbitratorSchema,
@@ -84,10 +85,17 @@ export const arbitratorRouter = createRouter()
           message: "User not found",
         });
       }
+      const arbitrationCentre = await ctx.prisma.admin.findFirst({
+        where: {
+          adminId: ctx?.arbitrator?.adminId,
+        },
+      });
       const jwt = signJwt({
         name: arbitrator.name,
         registrationId: arbitrator.registrationId,
         id: arbitrator.id,
+        adminId: arbitrator.adminId,
+        arbitrationCentreId: arbitrationCentre?.arbitrationCentreId,
       });
       ctx.res.setHeader(
         "Set-Cookie",
@@ -109,6 +117,11 @@ export const arbitratorRouter = createRouter()
             Arbitrator: {
               connect: {
                 id: ctx?.arbitrator?.id,
+              },
+            },
+            ArbitrationCentre: {
+              connect: {
+                arbitrationCentreId: ctx?.arbitrator?.arbitrationCentreId,
               },
             },
           },
@@ -218,6 +231,22 @@ export const arbitratorRouter = createRouter()
           link: annexureUrl,
           name,
           description,
+          Case: {
+            connect: {
+              id: caseId,
+            },
+          },
+        },
+      });
+    },
+  })
+  .mutation("add-order", {
+    input: addOrderSchema,
+    async resolve({ ctx, input }) {
+      const { caseId, orderData } = input;
+      await ctx.prisma.order.create({
+        data: {
+          description: orderData,
           Case: {
             connect: {
               id: caseId,

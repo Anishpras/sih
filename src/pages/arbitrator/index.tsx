@@ -35,6 +35,8 @@ const Arbitrator = () => {
     return <Loader />;
   }
 
+  console.log(arbitratorData);
+
   return (
     <>
       {data ? "" : <Modal name="Arbitrator" data={data} />}
@@ -43,8 +45,7 @@ const Arbitrator = () => {
         sidebarData={ArbitratorSidebarData}
         setToggleSidebar={setToggleSidebar}
         toggleSidebar={toggleSidebar}
-        headerTitle={headerTitle}
-      >
+        headerTitle={headerTitle}>
         <div>
           <div>
             {arbitratorData?.name}

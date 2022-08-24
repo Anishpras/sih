@@ -20,7 +20,7 @@ model Arbitrator {
   updatedAt      DateTime @updatedAt
   verified       Boolean  @default(false)
   cases          Case[]
-  Admin          Admin   @relation(fields: [adminId], references: [adminId])
+  Admin          Admin    @relation(fields: [adminId], references: [adminId])
   adminId        String
 }
 
@@ -49,8 +49,10 @@ model Case {
   award     String?
   annexures Annexure[]
 
-  Arbitrator   Arbitrator? @relation(fields: [arbitratorId], references: [id])
-  arbitratorId String?
+  Arbitrator          Arbitrator?        @relation(fields: [arbitratorId], references: [id])
+  arbitratorId        String?
+  ArbitrationCentre   ArbitrationCentre @relation(fields: [arbitrationCentreId], references: [id])
+  arbitrationCentreId String
 }
 
 // model Hearing {
@@ -67,7 +69,6 @@ model Case {
 
 model Order {
   id          String   @id @default(cuid())
-  name        String
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -87,6 +88,7 @@ model ArbitrationCentre {
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
   Admins              Admin[]
+  cases               Case[]
 }
 
 model Admin {
