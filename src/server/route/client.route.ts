@@ -1,4 +1,7 @@
-import { createClientSchema } from "../../../schema/clientSchema.schema";
+import {
+  createClientSchema,
+  loginClientSchema,
+} from "../../../schema/clientSchema.schema";
 import { createRouter } from "../createRouter";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import * as trpc from "@trpc/server";
@@ -14,12 +17,13 @@ export const clientRouter = createRouter()
     },
   })
   .query("login-client", {
-    input: loginAdminSchema,
+    input: loginClientSchema,
     async resolve({ ctx, input }) {
-      const { username, password } = input;
+      const { username, password, name } = input;
       const client = await ctx.prisma.client.findFirst({
         where: {
           username,
+          name,
           password: sha256(password).toString(),
         },
       });
