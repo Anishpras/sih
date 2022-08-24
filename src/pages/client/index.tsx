@@ -54,7 +54,7 @@ const Client = () => {
         headerTitle={headerTitle}>
         <div>
           <div>
-            <h1>Client</h1>
+            <h1>Party</h1>
             <div>{JSON.stringify(data)}</div>
           </div>
         </div>

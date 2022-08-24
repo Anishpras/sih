@@ -186,7 +186,7 @@ const SingleCase = () => {
       headerTitle={headerTitle}>
       <div>
         <h1>Single Case</h1>
-        <h1>Add Your Client</h1>
+        <h1>Add Your Parties</h1>
         <input
           type="text"
           value={name}
@@ -209,7 +209,7 @@ const SingleCase = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <button type="submit" onClick={(e) => handleSubmit(e)}>
-          Add Client
+          Add Parties
         </button>
 
         <input
