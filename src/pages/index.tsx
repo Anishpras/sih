@@ -51,7 +51,7 @@ export default function Home() {
           </Link>
           <Link href="/client/login">
             <button className={`${ButtonStyle} text-xl `} type="button">
-              CLIENT login
+              Party login
             </button>
           </Link>
           <Link href="/arbitration-centre/login">
