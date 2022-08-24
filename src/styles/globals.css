@@ -26,3 +26,6 @@ body ::-webkit-scrollbar {
   transition-timing-function: linear, linear, linear, linear;
 
 }
+.ql-container{
+  min-height: 80vh;
+}
