@@ -49,34 +49,20 @@ model Case {
   award     String?
   annexures Annexure[]
 
-  Arbitrator          Arbitrator?        @relation(fields: [arbitratorId], references: [id])
+  Arbitrator          Arbitrator?       @relation(fields: [arbitratorId], references: [id])
   arbitratorId        String?
   ArbitrationCentre   ArbitrationCentre @relation(fields: [arbitrationCentreId], references: [id])
   arbitrationCentreId String
+  MediationParty      MediationParty[]
 }
-
-// model Hearing {
-//   id          String   @id @default(cuid())
-//   name        String
-//   description String
-//   createdAt   DateTime @default(now())
-//   updatedAt   DateTime @updatedAt
-//   //TODO: Need to add more details about the hearing
-//   evidence    String
-//   arguements  String
-//   Case        Case[]
-// }
 
 model Order {
   id          String   @id @default(cuid())
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-
-  // TODO: Need to add more details about the rewards and orders passed
-
-  Case   Case   @relation(fields: [caseId], references: [id])
-  caseId String
+  Case        Case     @relation(fields: [caseId], references: [id])
+  caseId      String
 }
 
 model ArbitrationCentre {
@@ -103,6 +89,7 @@ model Admin {
   adminId             String            @unique
   arbitrationCentre   ArbitrationCentre @relation(fields: [arbitrationCentreId], references: [arbitrationCentreId])
   arbitrationCentreId String
+  Mediator            Mediator[]
 }
 
 model Annexure {
@@ -114,4 +101,98 @@ model Annexure {
   link        String
   Case        Case?    @relation(fields: [caseId], references: [id])
   caseId      String?
+}
+
+model MediationCentre {
+  id                String           @id @default(cuid())
+  name              String           @unique
+  mediationCentreId String           @unique
+  password          String
+  description       String
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  mediationCases    MediationCase[]
+  mediationAdmin    MediationAdmin[]
+}
+
+model Mediator {
+  id               String          @id @default(cuid())
+  name             String
+  description      String
+  registrationId   String          @unique
+  password         String
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  verified         Boolean         @default(false)
+  mediationCases   MediationCase[]
+  Admin            Admin           @relation(fields: [adminId], references: [id])
+  adminId          String
+  MediationAdmin   MediationAdmin? @relation(fields: [mediationAdminId], references: [id])
+  mediationAdminId String?
+}
+
+model MediationParty {
+  id            String   @id @default(cuid())
+  name          String
+  password      String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  username      String   @unique
+  mediationCase Case     @relation(fields: [caseId], references: [id])
+
+  caseId              String
+  MediationCase       MediationCase? @relation(fields: [mediationCaseCaseId], references: [caseId])
+  mediationCaseCaseId String?
+}
+
+model MediationAdmin {
+  id                String          @id @default(cuid())
+  name              String
+  username          String          @unique
+  verified          Boolean         @default(false)
+  password          String
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  mediators         Mediator[]
+  adminId           String          @unique
+  mediationCentre   MediationCentre @relation(fields: [mediationCentreId], references: [id])
+  mediationCentreId String
+}
+
+model MediationCase {
+  name        String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  caseId      String   @unique
+
+  parties MediationParty[]
+
+  mediationAnnexures MediationAnnexure[]
+  mediationTimeLine  MediationTimeLine[]
+  mediator           Mediator            @relation(fields: [mediatorId], references: [id])
+
+  mediationCentre   MediationCentre @relation(fields: [mediationCentreId], references: [id])
+  mediatorId        String
+  mediationCentreId String
+}
+
+model MediationTimeLine {
+  id                  String         @id @default(cuid())
+  description         String
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+  MediationCase       MediationCase? @relation(fields: [mediationCaseCaseId], references: [caseId])
+  mediationCaseCaseId String?
+}
+
+model MediationAnnexure {
+  id                  String         @id @default(cuid())
+  name                String
+  description         String
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+  link                String
+  MediationCase       MediationCase? @relation(fields: [mediationCaseCaseId], references: [caseId])
+  mediationCaseCaseId String?
 }
