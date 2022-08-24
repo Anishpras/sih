@@ -14,6 +14,7 @@ interface CtxClient {
   id: string;
   username: string;
   name: string;
+  caseId: string;
   iat: string;
   exp: number;
 }
@@ -28,7 +29,7 @@ interface CtxAdmin {
   id: string;
   name: string;
   username: string;
-  adminId:string;
+  adminId: string;
   iat: string;
   exp: number;
 }
