@@ -33,6 +33,7 @@ const LoginSubmit = ({ username, password, name }: FormData) => {
   //   console.log(name, password, "name");
   if (error) {
     console.log(error.message);
+    router.push("/");
   }
   if (isLoading) {
     return (
@@ -84,8 +85,7 @@ const ClientLogin = () => {
               height="675"
               viewBox="0 0 1024 675"
               fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+              xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M0 0V453.692C0 453.692 275.787 415.299 512 562.081C748.213 708.864 1024 670.471 1024 670.471V0.468262L0 0Z"
                 fill="black"
