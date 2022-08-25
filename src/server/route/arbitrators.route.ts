@@ -171,14 +171,21 @@ export const arbitratorRouter = createRouter()
   })
   .query("get-cases", {
     async resolve({ ctx }) {
-      const cases = await ctx.prisma.case.findMany({
-        where: {
-          Arbitrator: {
-            id: ctx?.arbitrator?.id,
+      try {
+        const cases = await ctx.prisma.case.findMany({
+          where: {
+            Arbitrator: {
+              id: ctx?.arbitrator?.id,
+            },
           },
-        },
-      });
-      return cases;
+        });
+        return cases;
+      } catch (e) {
+        throw new trpc.TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Internal server error",
+        });
+      }
     },
   })
   .query("get-single-case", {

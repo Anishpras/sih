@@ -1,3 +1,4 @@
+import Fuse from "fuse.js";
 import Link from "next/link";
 import { useState } from "react";
 import { ArbitratorSidebarData } from "..";
@@ -19,10 +20,21 @@ interface singleCaseProps {
 const AllArbitratorCase = () => {
   const { data, error } = trpc.useQuery(["arbitrators.get-cases"]);
   console.log(data);
+  const [searchValue, setSearchValue] = useState("");
   const [toggleSidebar, setToggleSidebar] = useState<boolean>(false);
   const { data: VerifyArbitrator } = trpc.useQuery([
     "arbitrators.verify-arbitrator",
   ]);
+
+  // Fuse JS
+
+  const options = {
+    keys: ["name", "description"],
+  };
+  let fuse: any;
+  if (data) {
+    fuse = new Fuse(data, options);
+  }
 
   return (
     <>
@@ -37,8 +49,7 @@ const AllArbitratorCase = () => {
         sidebarData={ArbitratorSidebarData}
         headerTitle={headerTitle}
         setToggleSidebar={setToggleSidebar}
-        toggleSidebar={toggleSidebar}
-      >
+        toggleSidebar={toggleSidebar}>
         <h1 className="font-Montserrat text-3xl font-bold">Your All Cases</h1>
 
         {data?.map((singleCase: any, index: number) => {
@@ -51,6 +62,15 @@ const AllArbitratorCase = () => {
             </Link>
           );
         })}
+
+        <input
+          type="text"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+        />
+        <button onClick={() => console.log(fuse?.search(searchValue))}>
+          Show Results
+        </button>
       </MainLayout>
     </>
   );
