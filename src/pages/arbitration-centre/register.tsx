@@ -86,7 +86,15 @@ const ArbitrationCentreRegister = () => {
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    mutate({ name, description, password, arbitrationCentreId });
+    if (otpVerified) {
+      mutate({
+        name,
+        description,
+        password,
+        arbitrationCentreId,
+        mobileNumber,
+      });
+    }
   };
   return (
     <div className={loginScreenContainer}>

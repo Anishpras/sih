@@ -72,6 +72,9 @@ model ArbitrationCentre {
   description         String
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
+  mobile              String @unique
+otpVerified          Boolean  @default(false)
+session              Boolean @default(false)
   Admins              Admin[]
   cases               Case[]
 }

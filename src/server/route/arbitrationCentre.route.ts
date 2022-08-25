@@ -13,13 +13,16 @@ export const arbitrationCentreRouter = createRouter()
   .mutation("register-arbitration-centre", {
     input: createArbitrationCentreSchema,
     async resolve({ ctx, input }) {
-      const { name, description, password, arbitrationCentreId } = input;
+      const { name, description, password, arbitrationCentreId, mobileNumber } =
+        input;
       try {
         const arbitrationCentre = await ctx.prisma.arbitrationCentre.create({
           data: {
             name,
             description,
             arbitrationCentreId,
+            mobile: mobileNumber,
+            otpVerified: true,
             password: sha256(password).toString(),
           },
         });
@@ -56,10 +59,28 @@ export const arbitrationCentreRouter = createRouter()
           password: sha256(password).toString(),
         },
       });
+
+      if (arbitrationCentre) {
+        await ctx.prisma.arbitrationCentre.update({
+          where: {
+            arbitrationCentreId,
+          },
+          data: {
+            session: true,
+          },
+        });
+      }
+
       if (!arbitrationCentre) {
         throw new trpc.TRPCError({
           code: "NOT_FOUND",
           message: "User not found",
+        });
+      }
+      if (arbitrationCentre.session === true) {
+        throw new trpc.TRPCError({
+          code: "FORBIDDEN",
+          message: "Session Already Active",
         });
       }
       const jwt = signJwt({

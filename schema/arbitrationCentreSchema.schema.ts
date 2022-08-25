@@ -5,6 +5,7 @@ export const createArbitrationCentreSchema = z.object({
   description: z.string(),
   password: z.string(),
   arbitrationCentreId: z.string(),
+  mobileNumber: z.string(),
 });
 
 export const loginArbitrationCentreSchema = z.object({
