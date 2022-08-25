@@ -110,13 +110,15 @@ const SingleCase = () => {
   const { data: VerifyArbitrator } = trpc.useQuery([
     "arbitrators.verify-arbitrator",
   ]);
-  // const { data: getCase } = trpc.useQuery([
-  //   "arbitrators.get-single-case",
-  //   { id: router?.query.case },
-  // ]);
-  // console.log(getCase, "getCase");
+  const { data: getCase } = trpc.useQuery([
+    "arbitrators.get-single-case",
+    //@ts-ignore
+    { caseId: router.query.case },
+  ]);
+  console.log(router);
+  console.log(router.query.case, "getCase");
 
-  const { mutate: addOrder, error: createOrderError } = trpc.useMutation(
+  const { mutate: addOrder } = trpc.useMutation(
     ["arbitrators.add-order"],
 
     {
@@ -124,36 +126,33 @@ const SingleCase = () => {
         console.log(error);
       },
       onSuccess: () => {
-        // router.push("/client/login");
         console.log("success Order");
       },
     }
   );
 
-  const { mutate: uploadAward, error: uploadAwardError } = trpc.useMutation(
-    ["arbitrators.add-award"],
-    {
-      onError: (error: any) => {
-        console.log(error);
-      },
-      onSuccess: (result) => {
-        // router.push("/client/login");
-        console.log("success Award");
-        router.push("/arbitrator/cases");
-      },
-    }
-  );
+  const { mutate: uploadAward } = trpc.useMutation(["arbitrators.add-award"], {
+    onError: (error: any) => {
+      console.log(error);
+    },
+    onSuccess: (result) => {
+      console.log("success Award");
+      router.push("/arbitrator/cases");
+    },
+  });
 
   //Annexure Upload
-  const { mutate: uploadAnnexure, error: uploadAnnexureError } =
-    trpc.useMutation(["arbitrators.add-annexure"], {
+  const { mutate: uploadAnnexure } = trpc.useMutation(
+    ["arbitrators.add-annexure"],
+    {
       onError: (error: any) => {
         console.log(error);
       },
       onSuccess: () => {
         console.log("Success Annexure");
       },
-    });
+    }
+  );
 
   const { case: caseId } = router.query;
 
@@ -260,7 +259,7 @@ const SingleCase = () => {
       setAnnexure(readerEvent?.target?.result);
     };
   };
-
+  // if (!getCase?.caseDetail?.award) {
   return (
     <>
       {VerifyArbitrator ? (
@@ -276,116 +275,161 @@ const SingleCase = () => {
         toggleSidebar={toggleSidebar}
         headerTitle={headerTitle}
       >
-        {errorModal.show && (
-          <ErrorModal data={errorModal.show} message={errorModal.message} />
-        )}
-        {loader && <Loader />}
-        <>
-          <Stepper active={active} onStepClick={setActive} breakpoint="sm">
-            <Stepper.Step label="Add Party">
-              <form>
-                <input
-                  required
-                  type="text"
-                  value={name}
-                  placeholder="Party Name"
-                  className={`required ${CustomInputStyle}`}
-                  onChange={(e) => setName(e.target.value)}
-                />
-                <input
-                  required
-                  type="text"
-                  value={username}
-                  placeholder="Party Username"
-                  className={`required ${CustomInputStyle}`}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-                <input
-                  required
-                  type="password"
-                  value={password}
-                  placeholder="Party Password"
-                  className={`required ${CustomInputStyle}`}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <button
-                  className={CommonButton}
-                  type="submit"
-                  onClick={(e) => handleSubmit(e)}
-                >
-                  Add Party
-                </button>
-              </form>
-            </Stepper.Step>
-            <Stepper.Step label="Case Details">
-              <Editor value={order} setValue={setOrder} />
-
-              <button
-                className={` mt-3 ${CommonButton}`}
-                onClick={(e) => handleAddOrder(e)}
+        {getCase?.caseDetail?.award ? (
+          <>
+            <div>
+            <h1 className="text-lg font-Montserrat">
+                Name: <span>{getCase?.caseDetail?.name}</span>
+              </h1>
+              <h1 className="py-5 text-lg font-Montserrat">
+                Description: <span>{getCase?.caseDetail?.description}</span>
+              </h1>
+              <a
+                //  @ts-ignore
+                href={getCase?.caseDetail?.award}
+                className={CommonButton}
+                target="_blank"
+                rel="noreferrer"
               >
-                Add Order
-              </button>
-            </Stepper.Step>
-            <Stepper.Step
-              label="Supporting Documents"
-              description="Add All the supporting documents"
-            >
-              <form className="flex flex-col items-center justify-center   ">
-                <input
-                  type="text"
-                  value={annexureName}
-                  placeholder="Annexure Name"
-                  className={CustomInputStyle}
-                  onChange={(e) => setAnnexureName(e.target.value)}
-                />
-                <input
-                  type="text"
-                  value={annexureDescription}
-                  placeholder="Annexure Description"
-                  className={CustomInputStyle}
-                  onChange={(e) => setAnnexureDescription(e.target.value)}
-                />
-
-                <input
-                  type="file"
-                  name=""
-                  id=""
-                  onChange={(e) => handleAnnexureUpload(e)}
-                />
-
-                <button className={CommonButton} onClick={annexureUpload}>
-                  Upload Annexure
-                </button>
-              </form>
-            </Stepper.Step>
-            <Stepper.Completed>
-              <div className="flex items-center justify-center">
-                <div className="flex max-w-xl flex-col justify-center">
-                  <input
-                    type="file"
-                    name=""
-                    id=""
-                    className={CustomInputStyle}
-                    onChange={(e) => handleAwardUpload(e)}
-                  />
-                  <button className={CommonButton} onClick={awardUpload}>
-                    Upload Award
-                  </button>
-                </div>
+                <span>View Award</span>
+              </a>
+              <div className="py-5 text-lg font-Montserrat">
+                <h1>Orders of the case </h1>
+                {getCase?.orders.map((n, index) => {
+                  return (
+                    <div key={index}>
+                      <div
+                        dangerouslySetInnerHTML={{ __html: n.description }}
+                      />
+                    </div>
+                  );
+                })}
               </div>
-            </Stepper.Completed>
-          </Stepper>
+            </div>
+          </>
+        ) : (
+          <>
+            {errorModal.show && (
+              <ErrorModal data={errorModal.show} message={errorModal.message} />
+            )}
+            {loader && <Loader />}
+            <>
+              <Stepper active={active} onStepClick={setActive} breakpoint="sm">
+                <Stepper.Step label="Add Party">
+                  <form>
+                    <input
+                      required
+                      type="text"
+                      value={name}
+                      placeholder="Party Name"
+                      className={`required ${CustomInputStyle}`}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                    <input
+                      required
+                      type="text"
+                      value={username}
+                      placeholder="Party Username"
+                      className={`required ${CustomInputStyle}`}
+                      onChange={(e) => setUsername(e.target.value)}
+                    />
+                    <input
+                      required
+                      type="password"
+                      value={password}
+                      placeholder="Party Password"
+                      className={`required ${CustomInputStyle}`}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <button
+                      className={CommonButton}
+                      type="submit"
+                      onClick={(e) => handleSubmit(e)}
+                    >
+                      Add Party
+                    </button>
+                  </form>
+                </Stepper.Step>
+                <Stepper.Step label="Case Details">
+                  <Editor value={order} setValue={setOrder} />
 
-          <Group position="center" mt="xl">
-            <button type="button" className={CommonButton} onClick={prevStep}>
-              Back
-            </button>
-            <button type="button" className={CommonButton} onClick={nextStep}>
-              Next step
-            </button>
-          </Group>
-        </>
+                  <button
+                    className={` mt-3 ${CommonButton}`}
+                    onClick={(e) => handleAddOrder(e)}
+                  >
+                    Add Order
+                  </button>
+                </Stepper.Step>
+                <Stepper.Step
+                  label="Supporting Documents"
+                  description="Add All the supporting documents"
+                >
+                  <form className="flex flex-col items-center justify-center   ">
+                    <input
+                      type="text"
+                      value={annexureName}
+                      placeholder="Annexure Name"
+                      className={CustomInputStyle}
+                      onChange={(e) => setAnnexureName(e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      value={annexureDescription}
+                      placeholder="Annexure Description"
+                      className={CustomInputStyle}
+                      onChange={(e) => setAnnexureDescription(e.target.value)}
+                    />
+
+                    <input
+                      type="file"
+                      name=""
+                      id=""
+                      onChange={(e) => handleAnnexureUpload(e)}
+                    />
+
+                    <button className={CommonButton} onClick={annexureUpload}>
+                      Upload Annexure
+                    </button>
+                  </form>
+                </Stepper.Step>
+                <Stepper.Completed>
+                  <div className="flex items-center justify-center">
+                    <div className="flex max-w-xl flex-col justify-center">
+                      <input
+                        type="file"
+                        name=""
+                        id=""
+                        className={CustomInputStyle}
+                        onChange={(e) => handleAwardUpload(e)}
+                      />
+                      <button className={CommonButton} onClick={awardUpload}>
+                        Upload Award
+                      </button>
+                    </div>
+                  </div>
+                </Stepper.Completed>
+              </Stepper>
+
+              <Group position="center" mt="xl">
+                <button
+                  type="button"
+                  className={CommonButton}
+                  onClick={prevStep}
+                >
+                  Back
+                </button>
+                <button
+                  type="button"
+                  className={CommonButton}
+                  onClick={nextStep}
+                >
+                  Next step
+                </button>
+              </Group>
+            </>
+          </>
+        )}
+
         {/* <form>
         <h1>Single Case</h1>
         <h1>Add Your Client</h1>

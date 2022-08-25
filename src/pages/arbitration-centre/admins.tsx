@@ -1,14 +1,7 @@
-import { useRouter } from "next/router";
-import React, { useState } from "react";
+import { useState } from "react";
 import MainLayout from "../../components/layout";
 import { CommonButton } from "../../components/login/Button";
 import { trpc } from "../../utils/trpc";
-const headerData = [
-  {
-    name: "Dashboard",
-    route: "/arbitration-centre",
-  },
-];
 
 const headerTitle = "Admins";
 const sidebarData = [
@@ -19,10 +12,6 @@ const sidebarData = [
   {
     name: "Admins",
     route: "/arbitration-centre/admins",
-  },
-  {
-    name: "Add Cause",
-    route: "/arbitration-centre/",
   },
 ];
 const AllAdminList = () => {

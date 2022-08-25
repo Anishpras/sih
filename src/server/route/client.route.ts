@@ -68,6 +68,11 @@ export const clientRouter = createRouter()
           id: ctx?.client?.caseId,
         },
       });
-      return caseDetail;
+      const orders = await ctx.prisma.order.findMany({
+        where: {
+          caseId: ctx?.client?.caseId,
+        },
+      });
+      return { caseDetail: caseDetail, orders: orders };
     },
   });

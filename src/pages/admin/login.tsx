@@ -126,7 +126,7 @@ const AdminLogin = () => {
             registerName={"username"}
           />
           <Input
-            type="text"
+            type="password"
             register={register}
             placeholder="Enter your password"
             registerName={"password"}

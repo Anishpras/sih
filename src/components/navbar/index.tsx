@@ -52,9 +52,9 @@ export const Header = ({ headerTitle, setToggleSidebar }: NavBarProps) => {
         <nav className="font-Raleway  text-base ">
           <ol className="flex gap-2">
             <li className="flex gap-1 ">
-              <Link href="/arbitration-centre">
+              <>
                 <span className="cursor-pointer hover:underline">Home</span>
-              </Link>
+              </>
               <span>/</span>
             </li>
             <li>
