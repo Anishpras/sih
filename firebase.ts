@@ -11,6 +11,18 @@ const firebaseConfig = {
   appId: "1:1000081938674:web:29ec3df376ff639467986b",
 };
 
+// Firebase Prod
+
+// const firebaseConfig = {
+//   apiKey: "AIzaSyCAKL2q8uxpr4Ep9jVomMmj8M5ea615DhA",
+//   authDomain: "sih-prod.firebaseapp.com",
+//   projectId: "sih-prod",
+//   storageBucket: "sih-prod.appspot.com",
+//   messagingSenderId: "822060026466",
+//   appId: "1:822060026466:web:4c91acf26c3d8d34b7df3b"
+// };
+
+
 // Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const storage = getStorage();
