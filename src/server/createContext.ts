@@ -1,4 +1,4 @@
-  import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import { verifyJwt } from "../utils/jwt";
 import { prisma } from "../utils/prisma";
 
@@ -19,9 +19,27 @@ interface CtxClient {
   iat: string;
   exp: number;
 }
+
+interface CtxMediationParty {
+  id: string;
+  username: string;
+  name: string;
+  mediationCaseId: string;
+  iat: string;
+  exp: number;
+}
+
 interface CtxArbitrationCentre {
   id: string;
   arbitrationCentreId: string;
+  name: string;
+  iat: string;
+  exp: number;
+}
+
+interface CtxMediationCentre {
+  id: string;
+  mediationCentreId: string;
   name: string;
   iat: string;
   exp: number;
@@ -34,15 +52,23 @@ interface CtxAdmin {
   iat: string;
   exp: number;
 }
-
-interface CtxMediatorCentre{
+interface CtxMediationAdmin {
   id: string;
-  mediationCentreId: string;
   name: string;
+  username: string;
+  mediationAdminId: string;
   iat: string;
   exp: number;
 }
-
+interface CtxMediator {
+  id: string;
+  name: string;
+  iat: string;
+  exp: number;
+  registrationId: string;
+  mediationAdminId: string;
+  mediationCentreId: string;
+}
 
 function getArbitratorFromRequest(req: NextApiRequest) {
   const token = req.cookies.arbitratorToken;
@@ -92,6 +118,59 @@ function getAdminFromRequest(req: NextApiRequest) {
     }
   }
 }
+
+function getMediationCentreFromRequest(req: NextApiRequest) {
+  const token = req.cookies.mediationCentreToken;
+
+  if (token) {
+    try {
+      const verified = verifyJwt<CtxMediationCentre>(token);
+      return verified;
+    } catch (e) {
+      return null;
+    }
+  }
+}
+
+function getMediatorFromRequest(req: NextApiRequest) {
+  const token = req.cookies.mediatorToken;
+
+  if (token) {
+    try {
+      const verified = verifyJwt<CtxMediator>(token);
+      return verified;
+    } catch (e) {
+      return null;
+    }
+  }
+}
+
+function getMediationAdminFromRequest(req: NextApiRequest) {
+  const token = req.cookies.mediationAdminToken;
+
+  if (token) {
+    try {
+      const verified = verifyJwt<CtxMediationAdmin>(token);
+      return verified;
+    } catch (e) {
+      return null;
+    }
+  }
+}
+
+function getMediationPartyFromRequest(req: NextApiRequest) {
+  const token = req.cookies.mediationPartyToken;
+
+  if (token) {
+    try {
+      const verified = verifyJwt<CtxMediationParty>(token);
+      return verified;
+    } catch (e) {
+      return null;
+    }
+  }
+}
+
 export function createContext({
   req,
   res,
@@ -103,7 +182,24 @@ export function createContext({
   const client = getClientFromRequest(req);
   const arbitrationCentre = getArbitrationCentreFromRequest(req);
   const admin = getAdminFromRequest(req);
-  return { req, res, prisma, arbitrator, client, arbitrationCentre, admin };
+  const mediationCentre = getMediationCentreFromRequest(req);
+  const mediator = getMediatorFromRequest(req);
+  const mediationAdmin = getMediationAdminFromRequest(req);
+  const mediationParty = getMediationPartyFromRequest(req);
+
+  return {
+    req,
+    res,
+    prisma,
+    arbitrator,
+    client,
+    arbitrationCentre,
+    admin,
+    mediationCentre,
+    mediator,
+    mediationParty,
+    mediationAdmin,
+  };
 }
 
 export type Context = ReturnType<typeof createContext>;
