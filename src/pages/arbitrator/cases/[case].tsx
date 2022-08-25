@@ -14,42 +14,8 @@ import Editor from "../../../components/editor";
 const headerTitle = "Arbitrator";
 
 const Loader = () => (
-  // <div className="z-50 ">
-  //   <div className="success-animation">
-  // <svg
-  //   className="checkmark"
-  //   xmlns="http://www.w3.org/2000/svg"
-  //   viewBox="0 0 52 52"
-  // >
-  //   <circle
-  //     className="checkmark__circle"
-  //     cx="26"
-  //     cy="26"
-  //     r="25"
-  //     fill="none"
-  //   />
-  //   <path
-  //     className="checkmark__check"
-  //     fill="none"
-  //     d="M14.1 27.2l7.1 7.2 16.7-16.8"
-  //   />
-  // </svg>
-  //   </div>
-  // </div>
   <div className="flex max-w-xs items-center justify-between rounded-md border bg-white p-4 shadow-sm">
     <div className="flex items-center">
-      {/* <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className=" text-green-500"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fillRule="evenodd"
-          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-          clipRule="evenodd"
-        />
-      </svg> */}
       <svg
         className="checkmark h-8 w-8"
         xmlns="http://www.w3.org/2000/svg"
@@ -95,17 +61,10 @@ const Loader = () => (
   </div>
 );
 
-// const ErrorModal = (error: any) => {
-//   return (
-//     <div className="absolute top-0 z-50 flex h-screen flex-col items-center justify-center">
-//       <div className="rounded-lg bg-red-500 p-4">
-//         <div className="text-2xl font-bold text-white">{error}</div>
-//       </div>
-//     </div>
-//   );
-// };
 const SingleCase = () => {
-  const [active, setActive] = useState(1);
+  const router = useRouter();
+
+  const [active, setActive] = useState(0);
   const nextStep = () =>
     setActive((current) => (current < 3 ? current + 1 : current));
   const prevStep = () =>
@@ -145,13 +104,17 @@ const SingleCase = () => {
       },
       onSuccess: () => {
         setLoader(true);
-        // <Loader />;
       },
     }
   );
   const { data: VerifyArbitrator } = trpc.useQuery([
     "arbitrators.verify-arbitrator",
   ]);
+  // const { data: getCase } = trpc.useQuery([
+  //   "arbitrators.get-single-case",
+  //   { id: router?.query.case },
+  // ]);
+  // console.log(getCase, "getCase");
 
   const { mutate: addOrder, error: createOrderError } = trpc.useMutation(
     ["arbitrators.add-order"],
@@ -173,9 +136,10 @@ const SingleCase = () => {
       onError: (error: any) => {
         console.log(error);
       },
-      onSuccess: () => {
+      onSuccess: (result) => {
         // router.push("/client/login");
         console.log("success Award");
+        router.push("/arbitrator/cases");
       },
     }
   );
@@ -191,7 +155,6 @@ const SingleCase = () => {
       },
     });
 
-  const router = useRouter();
   const { case: caseId } = router.query;
 
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -240,7 +203,8 @@ const SingleCase = () => {
       caseId: caseId?.toString(),
     });
   };
-  const awardUpload = async () => {
+  const awardUpload = async (e: any) => {
+    e.preventDefault();
     const fileRef = ref(storage, `files/${awardUploadString}`);
     if (award) {
       await uploadString(fileRef, award.toString(), "data_url").then(
@@ -254,7 +218,8 @@ const SingleCase = () => {
     setAward(null);
   };
 
-  const annexureUpload = async () => {
+  const annexureUpload = async (e: any) => {
+    e.preventDefault();
     const annexureRef = ref(storage, `files/${annexureUploadString}`);
     if (annexure) {
       await uploadString(annexureRef, annexure.toString(), "data_url").then(
@@ -366,7 +331,7 @@ const SingleCase = () => {
               label="Supporting Documents"
               description="Add All the supporting documents"
             >
-              <form className="">
+              <form className="flex flex-col items-center justify-center   ">
                 <input
                   type="text"
                   value={annexureName}
@@ -381,77 +346,33 @@ const SingleCase = () => {
                   className={CustomInputStyle}
                   onChange={(e) => setAnnexureDescription(e.target.value)}
                 />
-                <div className="max-w-xl">
-                  <label className="flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
-                    <span className="flex items-center space-x-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 text-gray-600"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                        />
-                      </svg>
-                      <span className="font-medium text-gray-600">
-                        Drop files to Attach, or
-                        <span className="text-blue-600 underline">browse</span>
-                      </span>
-                    </span>
-                    <input
-                      type="file"
-                      name=""
-                      id=""
-                      className="hidden"
-                      onChange={(e) => handleAnnexureUpload(e)}
-                    />
-                  </label>
-                </div>
+
+                <input
+                  type="file"
+                  name=""
+                  id=""
+                  onChange={(e) => handleAnnexureUpload(e)}
+                />
+
                 <button className={CommonButton} onClick={annexureUpload}>
                   Upload Annexure
                 </button>
               </form>
             </Stepper.Step>
             <Stepper.Completed>
-              <div className="">
-                <div className="max-w-xl">
-                  <label className="flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
-                    <span className="flex items-center space-x-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 text-gray-600"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                        />
-                      </svg>
-                      <span className="font-medium text-gray-600">
-                        Drop files to Attach, or
-                        <span className="text-blue-600 underline">browse</span>
-                      </span>
-                    </span>
-                    <input
-                      type="file"
-                      name=""
-                      id=""
-                      className="hidden"
-                      onChange={(e) => handleAwardUpload(e)}
-                    />
-                  </label>
+              <div className="flex items-center justify-center">
+                <div className="flex max-w-xl flex-col justify-center">
+                  <input
+                    type="file"
+                    name=""
+                    id=""
+                    className={CustomInputStyle}
+                    onChange={(e) => handleAwardUpload(e)}
+                  />
+                  <button className={CommonButton} onClick={awardUpload}>
+                    Upload Award
+                  </button>
                 </div>
-
-                <button onClick={awardUpload}>Upload Award</button>
               </div>
             </Stepper.Completed>
           </Stepper>

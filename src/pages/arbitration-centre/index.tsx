@@ -3,6 +3,7 @@ import { useState } from "react";
 import MainLayout from "../../components/layout";
 import { Loader } from "../../components/loader/Loader";
 import { useArbitrationCentreContext } from "../../context/arbitrationCentre.context";
+import { trpc } from "../../utils/trpc";
 
 const headerTitle = "Arbitration Center ";
 
@@ -22,7 +23,11 @@ const ArbitratorCentre = () => {
 
   const router = useRouter();
   const arbitrationCentreData = useArbitrationCentreContext();
-
+  //all-admins
+  const { data, error: allAdminError } = trpc.useQuery([
+    "arbitration-centres.detail",
+  ]);
+  console.log(data)
   if (!arbitrationCentreData) {
     router.push("/arbitration-centre/login");
     return (
