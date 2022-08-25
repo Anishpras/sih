@@ -19,20 +19,26 @@ model Arbitrator {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   verified       Boolean  @default(false)
+  mobile         String   @unique
+  otpVerified    Boolean  @default(false)
+  session        Boolean  @default(false)
   cases          Case[]
   Admin          Admin    @relation(fields: [adminId], references: [adminId])
   adminId        String
 }
 
 model Client {
-  id        String   @id @default(cuid())
-  name      String
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  username  String   @unique
-  case      Case     @relation(fields: [caseId], references: [id])
-  caseId    String
+  id          String   @id @default(cuid())
+  name        String
+  password    String
+  createdAt   DateTime @default(now())
+  mobile      String   @unique
+  otpVerified Boolean  @default(false)
+  session     Boolean  @default(false)
+  updatedAt   DateTime @updatedAt
+  username    String   @unique
+  case        Case     @relation(fields: [caseId], references: [id])
+  caseId      String
 }
 
 model Case {
@@ -72,9 +78,9 @@ model ArbitrationCentre {
   description         String
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
-  mobile              String @unique
-otpVerified          Boolean  @default(false)
-session              Boolean @default(false)
+  mobile              String   @unique
+  otpVerified         Boolean  @default(false)
+  session             Boolean  @default(false)
   Admins              Admin[]
   cases               Case[]
 }
@@ -88,6 +94,9 @@ model Admin {
   createdAt           DateTime          @default(now())
   updatedAt           DateTime          @updatedAt
   arbitrators         Arbitrator[]
+  mobile              String            @unique
+  otpVerified         Boolean           @default(false)
+  session             Boolean           @default(false)
   adminId             String            @unique
   arbitrationCentre   ArbitrationCentre @relation(fields: [arbitrationCentreId], references: [arbitrationCentreId])
   arbitrationCentreId String
@@ -112,32 +121,41 @@ model MediationCentre {
   description       String
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt
+  mobile            String           @unique
+  otpVerified       Boolean          @default(false)
+  session           Boolean          @default(false)
   mediationCases    MediationCase[]
   mediationAdmin    MediationAdmin[]
 }
 
 model Mediator {
-  id                String          @id @default(cuid())
-  name              String
-  description       String
-  registrationId    String          @unique
-  password          String
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
-  verified          Boolean         @default(false)
-  mediationCases    MediationCase[]
-  MediationAdmin    MediationAdmin? @relation(fields: [mediationAdminId], references: [mediationAdminId])
-  mediationAdminId  String?
+  id               String          @id @default(cuid())
+  name             String
+  description      String
+  registrationId   String          @unique
+  password         String
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  verified         Boolean         @default(false)
+  mobile           String          @unique
+  otpVerified      Boolean         @default(false)
+  session          Boolean         @default(false)
+  mediationCases   MediationCase[]
+  MediationAdmin   MediationAdmin? @relation(fields: [mediationAdminId], references: [mediationAdminId])
+  mediationAdminId String?
 }
 
 model MediationParty {
-  id                  String         @id @default(cuid())
-  name                String
-  password            String
-  createdAt           DateTime       @default(now())
-  updatedAt           DateTime       @updatedAt
-  username            String         @unique
-  MediationCase       MediationCase? @relation(fields: [mediationCaseId], references: [caseId])
+  id              String         @id @default(cuid())
+  name            String
+  password        String
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  username        String         @unique
+  mobile          String         @unique
+  otpVerified     Boolean        @default(false)
+  session         Boolean        @default(false)
+  MediationCase   MediationCase? @relation(fields: [mediationCaseId], references: [caseId])
   mediationCaseId String?
 }
 
@@ -151,12 +169,15 @@ model MediationAdmin {
   updatedAt         DateTime        @updatedAt
   mediators         Mediator[]
   mediationAdminId  String          @unique
+  mobile            String          @unique
+  otpVerified       Boolean         @default(false)
+  session           Boolean         @default(false)
   mediationCentre   MediationCentre @relation(fields: [mediationCentreId], references: [id])
   mediationCentreId String
 }
 
 model MediationCase {
-   id          String   @id @default(cuid())
+  id          String   @id @default(cuid())
   name        String
   description String
   createdAt   DateTime @default(now())
@@ -175,21 +196,21 @@ model MediationCase {
 }
 
 model MediationTimeLine {
-  id                  String         @id @default(cuid())
-  description         String
-  createdAt           DateTime       @default(now())
-  updatedAt           DateTime       @updatedAt
-  MediationCase       MediationCase? @relation(fields: [mediationCaseId], references: [caseId])
+  id              String         @id @default(cuid())
+  description     String
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  MediationCase   MediationCase? @relation(fields: [mediationCaseId], references: [caseId])
   mediationCaseId String?
 }
 
 model MediationAnnexure {
-  id                  String         @id @default(cuid())
-  name                String
-  description         String
-  createdAt           DateTime       @default(now())
-  updatedAt           DateTime       @updatedAt
-  link                String
-  MediationCase       MediationCase? @relation(fields: [mediationCaseId], references: [caseId])
+  id              String         @id @default(cuid())
+  name            String
+  description     String
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  link            String
+  MediationCase   MediationCase? @relation(fields: [mediationCaseId], references: [caseId])
   mediationCaseId String?
 }
