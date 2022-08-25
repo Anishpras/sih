@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { router } from "@trpc/server";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
@@ -8,7 +9,6 @@ import { Loader } from "../../components/loader/Loader";
 import { Button } from "../../components/login/Button";
 import { Input } from "../../components/login/Input";
 import { useAdminContext } from "../../context/admin.context";
-import { useArbitrationCentreContext } from "../../context/arbitrationCentre.context";
 import {
   formContainer,
   loginScreenContainer,
@@ -28,6 +28,7 @@ const LoginSubmit = ({
   username: string;
   password: string;
 }) => {
+  const router = useRouter();
   const { data, error, isLoading } = trpc.useQuery([
     "admin.login-admin",
     {
@@ -37,6 +38,7 @@ const LoginSubmit = ({
   ]);
   if (error) {
     console.log(error.message);
+    router.push("/");
   }
   if (isLoading) {
     return (
@@ -84,8 +86,7 @@ const AdminLogin = () => {
               height="675"
               viewBox="0 0 1024 675"
               fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+              xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M0 0V453.692C0 453.692 275.787 415.299 512 562.081C748.213 708.864 1024 670.471 1024 670.471V0.468262L0 0Z"
                 fill="black"
@@ -134,8 +135,7 @@ const AdminLogin = () => {
           <Link href="/admin/register">
             <button
               type="button"
-              className="relative -right-20 font-Montserrat text-xl underline"
-            >
+              className="relative -right-20 font-Montserrat text-xl underline">
               Register ?
             </button>
           </Link>

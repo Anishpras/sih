@@ -1,5 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
+import { router } from "@trpc/server";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import { useForm } from "react-hook-form";
@@ -26,6 +28,7 @@ const LoginSubmit = ({
   arbitrationCentreId: string;
   password: string;
 }) => {
+  const router = useRouter();
   const { data, error, isLoading } = trpc.useQuery([
     "arbitration-centres.login-arbitration-centre",
     {
@@ -35,6 +38,7 @@ const LoginSubmit = ({
   ]);
   if (error) {
     console.log(error.message);
+    router.push("/");
   }
   if (isLoading) {
     return (
@@ -82,8 +86,7 @@ const Login = () => {
               height="675"
               viewBox="0 0 1024 675"
               fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+              xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M0 0V453.692C0 453.692 275.787 415.299 512 562.081C748.213 708.864 1024 670.471 1024 670.471V0.468262L0 0Z"
                 fill="black"
@@ -134,8 +137,7 @@ const Login = () => {
           <Link href="/arbitration-centre/register">
             <button
               type="button"
-              className="relative -right-20 font-Montserrat text-xl underline"
-            >
+              className="relative -right-20 font-Montserrat text-xl underline">
               Register ?
             </button>
           </Link>
