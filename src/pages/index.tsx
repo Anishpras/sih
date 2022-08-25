@@ -67,6 +67,26 @@ export default function Home() {
               Admin Login
             </button>
           </Link>
+          <Link href="/mediation-centre/login">
+            <button className={`${ButtonStyle} text-xl `} type="button">
+              Mediation - Centre Login
+            </button>
+          </Link>
+          <Link href="/mediation-admin/login">
+            <button className={`${ButtonStyle} text-xl `} type="button">
+              Mediation - Admin Login
+            </button>
+          </Link>
+          <Link href="/mediator/login">
+            <button className={`${ButtonStyle} text-xl `} type="button">
+              Mediator Login
+            </button>
+          </Link>
+          <Link href="/mediation-client/login">
+            <button className={`${ButtonStyle} text-xl `} type="button">
+              Mediation Party Login
+            </button>
+          </Link>
         </div>
       </div>
     </div>
