@@ -305,6 +305,7 @@ const SingleCase = () => {
       )}
 
       <MainLayout
+        logout="arbitratorToken"
         sidebarData={ArbitratorSidebarData}
         setToggleSidebar={setToggleSidebar}
         toggleSidebar={toggleSidebar}

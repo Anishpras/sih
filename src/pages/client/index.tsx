@@ -48,10 +48,12 @@ const Client = () => {
   return (
     <>
       <MainLayout
+        logout="clientToken"
         sidebarData={ArbitratorSidebarData}
         setToggleSidebar={setToggleSidebar}
         toggleSidebar={toggleSidebar}
-        headerTitle={headerTitle}>
+        headerTitle={headerTitle}
+      >
         <div>
           <div>
             <h1>Party</h1>

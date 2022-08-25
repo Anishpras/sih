@@ -1,38 +1,23 @@
 import Link from "next/link";
 import React from "react";
-interface SidebarComponentProps {
-  sidebarData: { route: string; name: string }[];
-}
+
 
 interface Props {
   sidebarData: { route: string; name: string }[];
   toggleSidebar: boolean;
+  logout: string;
   setToggleSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // const sideBarButtonStyle = "text-white  ";
-export const Side = ({ sidebarData }: SidebarComponentProps) => {
-  return (
-    <>
-      <div className=" relative top-5 ml-2 hidden h-[95vh] min-w-[250px]  flex-col items-start rounded-xl bg-secondary pt-10 pl-5 md:flex">
-        {sidebarData.map((n, index) => {
-          return (
-            <Link key={index} href={n.route}>
-              <button className="flex items-center rounded-lg  bg-primary p-2 text-base  font-normal text-white">
-                <span className="flex-1 whitespace-nowrap px-3 text-lg ">
-                  {n.name}
-                </span>
-              </button>
-            </Link>
-          );
-        })}
-      </div>
-    </>
-  );
+const cookieRemove = (name: string) => {
+  document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+  window.location.reload();
 };
 
 export default function SidebarComponent({
   sidebarData,
+  logout,
   toggleSidebar,
   setToggleSidebar,
 }: Props) {
@@ -52,16 +37,29 @@ export default function SidebarComponent({
             : "-translate-x-full ease-in  "
         }`}
       >
-        <nav className="w-full pr-4">
+        <nav className="relative h-screen w-full pr-4">
           {sidebarData.map((n, index) => {
             return (
               <Link key={index} href={n.route}>
-                <button className="flex w-full text-left items-center  rounded-lg bg-black p-2 my-5 font-Raleway text-xl font-semibold text-white  hover:bg-darkSecondary">
+                <button
+                  type="button"
+                  className="my-5 flex w-full items-center  rounded-lg bg-black p-2 text-left font-Raleway text-xl font-semibold text-white  hover:bg-darkSecondary"
+                >
                   {n.name}
                 </button>
               </Link>
             );
           })}
+          <br className="bg-white" />
+          <section className="relative -bottom-96">
+            <button
+              type="button"
+              className="my-5 flex w-full items-center  rounded-lg bg-black p-2 text-left font-Raleway text-xl font-semibold text-white  hover:bg-darkSecondary"
+              onClick={() => cookieRemove(logout)}
+            >
+              Log-Out
+            </button>
+          </section>
         </nav>
       </div>
     </>

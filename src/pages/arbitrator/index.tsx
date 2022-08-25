@@ -42,10 +42,12 @@ const Arbitrator = () => {
       {data ? "" : <Modal name="Arbitrator" data={data} />}
 
       <MainLayout
+        logout="arbitratorToken"
         sidebarData={ArbitratorSidebarData}
         setToggleSidebar={setToggleSidebar}
         toggleSidebar={toggleSidebar}
-        headerTitle={headerTitle}>
+        headerTitle={headerTitle}
+      >
         <div>
           <div>
             {arbitratorData?.name}
