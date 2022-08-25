@@ -77,7 +77,6 @@ const ArbitratorRegister = () => {
       //@ts-ignore
       await getOtpResult.confirm(otp);
 
-      handleSubmit(e);
       setOtpVerified(true);
       console.log(true);
     } catch (err: number | string | any) {
@@ -190,7 +189,7 @@ const ArbitratorRegister = () => {
 
           <div>
             <button
-              className=" focus:shadow-outline my-3 flex w-full cursor-pointer justify-center rounded-xl border   bg-transparent bg-gray-900 p-4  font-semibold tracking-wide text-gray-100 shadow-lg transition duration-300 ease-in focus:outline-none"
+              className=" focus:shadow-outline my-3 flex w-full cursor-pointer justify-center rounded-full border   bg-transparent bg-gray-900 p-4  font-semibold tracking-wide text-gray-100 shadow-lg transition duration-300 ease-in focus:outline-none"
               style={{ display: !flag ? "block" : "none" }}
               type="submit"
               //@ts-ignore
@@ -203,6 +202,7 @@ const ArbitratorRegister = () => {
                 type="number"
                 value={otp}
                 max="9999999999"
+                className={CustomInputStyle}
                 onChange={(e) => setOtp(e.target.value)}
                 placeholder="OTP"
               />
