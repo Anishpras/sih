@@ -3,6 +3,7 @@ import {
   verifyArbitratorSchema,
 } from "./../../../schema/adminSchema.schema";
 import { createAdminSchema } from "../../../schema/adminSchema.schema";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { createRouter } from "../createRouter";
 import * as trpc from "@trpc/server";
 import sha256 from "crypto-js/sha256";
@@ -38,10 +39,19 @@ export const adminRouter = createRouter()
           },
         });
         return admin;
-      } catch (e: any) {
+      } catch (e) {
+        if (e instanceof PrismaClientKnownRequestError) {
+          if (e.code === "P2002") {
+            throw new trpc.TRPCError({
+              code: "CONFLICT",
+              message: "User already exists",
+            });
+          }
+        }
+
         throw new trpc.TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: e.message,
+          message: "Internal Server Error or Check connection error.",
         });
       }
     },
