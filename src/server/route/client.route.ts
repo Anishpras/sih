@@ -24,12 +24,30 @@ export const clientRouter = createRouter()
           password: sha256(password).toString(),
         },
       });
+      if (client) {
+        await ctx.prisma.client.update({
+          where: {
+            username,
+          },
+          data: {
+            session: true,
+          },
+        });
+      }
       if (!client) {
         throw new trpc.TRPCError({
           code: "NOT_FOUND",
           message: "User not found",
         });
       }
+
+      if (client.session === true) {
+        throw new trpc.TRPCError({
+          code: "FORBIDDEN",
+          message: "Session Already Active",
+        });
+      }
+
       const jwt = signJwt({
         name: client.name,
         id: client.id,

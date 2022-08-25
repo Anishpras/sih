@@ -21,13 +21,22 @@ export const arbitratorRouter = createRouter()
   .mutation("register-arbitrator", {
     input: createArbitratorSchema,
     async resolve({ ctx, input }) {
-      const { name, description, password, registrationId, adminId } = input;
+      const {
+        name,
+        description,
+        password,
+        registrationId,
+        adminId,
+        mobileNumber,
+      } = input;
       try {
         const arbitrator = await ctx.prisma.arbitrator.create({
           data: {
             name,
             description,
             registrationId,
+            mobile: mobileNumber,
+            otpVerified: true,
             password: sha256(password).toString(),
             Admin: {
               connect: {
@@ -79,10 +88,26 @@ export const arbitratorRouter = createRouter()
           password: sha256(password).toString(),
         },
       });
+      if (arbitrator) {
+        await ctx.prisma.arbitrator.update({
+          where: {
+            registrationId,
+          },
+          data: {
+            session: true,
+          },
+        });
+      }
       if (!arbitrator) {
         throw new trpc.TRPCError({
           code: "NOT_FOUND",
           message: "User not found",
+        });
+      }
+      if (arbitrator.session === false) {
+        throw new trpc.TRPCError({
+          code: "FORBIDDEN",
+          message: "Session Already Active",
         });
       }
       const arbitrationCentre = await ctx.prisma.admin.findFirst({

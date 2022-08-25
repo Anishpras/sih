@@ -5,6 +5,7 @@ export const createMediationAdminSchema = z.object({
   username: z.string(),
   mediationCentreId: z.string(),
   mediationAdminId: z.string(),
+  mobileNumber: z.string(),
   password: z.string(),
 });
 

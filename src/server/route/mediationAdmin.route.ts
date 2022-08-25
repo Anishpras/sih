@@ -4,20 +4,32 @@ import * as trpc from "@trpc/server";
 import sha256 from "crypto-js/sha256";
 import { signJwt } from "../../utils/jwt";
 import { serialize } from "cookie";
-import { createMediationAdminSchema, loginMediationAdminSchema, verifyMediatorSchema } from "../../../schema/mediationAdmin.schema";
+import {
+  createMediationAdminSchema,
+  loginMediationAdminSchema,
+  verifyMediatorSchema,
+} from "../../../schema/mediationAdmin.schema";
 
 export const mediationAdminRouter = createRouter()
   .mutation("mediation-admin-register", {
     input: createMediationAdminSchema,
     async resolve({ ctx, input }) {
-      const { name, username, mediationCentreId, password, mediationAdminId } =
-        input;
+      const {
+        name,
+        username,
+        mediationCentreId,
+        password,
+        mediationAdminId,
+        mobileNumber,
+      } = input;
       try {
         const mediationAdmin = await ctx.prisma.mediationAdmin.create({
           data: {
             name,
             username,
             mediationAdminId,
+            mobile: mobileNumber,
+            otpVerified: true,
             password: sha256(password).toString(),
             mediationCentre: {
               connect: {
@@ -26,7 +38,7 @@ export const mediationAdminRouter = createRouter()
             },
           },
         });
-        return mediationAdmin ;
+        return mediationAdmin;
       } catch (e) {
         if (e instanceof PrismaClientKnownRequestError) {
           if (e.code === "P2002") {
@@ -69,10 +81,26 @@ export const mediationAdminRouter = createRouter()
           password: sha256(password).toString(),
         },
       });
+      if (mediationAdmin) {
+        await ctx.prisma.mediationAdmin.update({
+          where: {
+            username,
+          },
+          data: {
+            session: true,
+          },
+        });
+      }
       if (!mediationAdmin) {
         throw new trpc.TRPCError({
           code: "NOT_FOUND",
           message: "User not found",
+        });
+      }
+      if (mediationAdmin.session === true) {
+        throw new trpc.TRPCError({
+          code: "FORBIDDEN",
+          message: "Session Already Active",
         });
       }
       const jwt = signJwt({

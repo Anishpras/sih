@@ -6,6 +6,7 @@ export const createMediatorSchema = z.object({
   password: z.string(),
   registrationId: z.string(),
   mediationAdminId: z.string(),
+  mobileNumber: z.string(),
 });
 
 export const loginMediatorSchema = z.object({
@@ -23,7 +24,6 @@ export const getSingleMediationCaseSchema = z.object({
   caseId: z.string().optional(),
 });
 
-
 export const addMediationAnnexureSchema = z.object({
   caseId: z.string().optional(),
   annexureUrl: z.string(),
@@ -36,12 +36,20 @@ export const addMediationTimeLineSchema = z.object({
   timeLineData: z.string(),
 });
 
-export type AddMediationTimeLineSchema = z.TypeOf<typeof addMediationTimeLineSchema>;
+export type AddMediationTimeLineSchema = z.TypeOf<
+  typeof addMediationTimeLineSchema
+>;
 
-export type AddMediationAnnexureSchema = z.TypeOf<typeof addMediationAnnexureSchema>;
+export type AddMediationAnnexureSchema = z.TypeOf<
+  typeof addMediationAnnexureSchema
+>;
 
-export type GetSingleMediationCaseSchema = z.TypeOf<typeof getSingleMediationCaseSchema>;
-export type CreateMediationCaseSchema = z.infer<typeof createMediationCaseSchema>;
+export type GetSingleMediationCaseSchema = z.TypeOf<
+  typeof getSingleMediationCaseSchema
+>;
+export type CreateMediationCaseSchema = z.infer<
+  typeof createMediationCaseSchema
+>;
 
 export type CreateMediatorSchema = z.TypeOf<typeof createMediatorSchema>;
 

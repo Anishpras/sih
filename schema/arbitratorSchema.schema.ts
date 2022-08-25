@@ -6,6 +6,7 @@ export const createArbitratorSchema = z.object({
   password: z.string(),
   registrationId: z.string(),
   adminId: z.string(),
+  mobileNumber: z.string(),
 });
 
 export const loginArbitratorSchema = z.object({

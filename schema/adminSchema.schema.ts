@@ -6,6 +6,7 @@ export const createAdminSchema = z.object({
   arbitrationCentreId: z.string(),
   adminId: z.string(),
   password: z.string(),
+  mobileNumber: z.string(),
 });
 
 export const loginAdminSchema = z.object({

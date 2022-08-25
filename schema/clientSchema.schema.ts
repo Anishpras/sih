@@ -10,7 +10,7 @@ export const createClientSchema = z.object({
 export const loginClientSchema = z.object({
   username: z.string(),
   password: z.string(),
-  name: z.string()
+  name: z.string(),
 });
 
 export type CreateClientSchema = z.TypeOf<typeof createClientSchema>;

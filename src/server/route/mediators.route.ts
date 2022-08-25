@@ -18,14 +18,22 @@ export const mediatorRouter = createRouter()
   .mutation("register-mediator", {
     input: createMediatorSchema,
     async resolve({ ctx, input }) {
-      const { name, description, password, registrationId, mediationAdminId } =
-        input;
+      const {
+        name,
+        description,
+        password,
+        registrationId,
+        mediationAdminId,
+        mobileNumber,
+      } = input;
       try {
         const mediator = await ctx.prisma.mediator.create({
           data: {
             name,
             description,
             registrationId,
+            mobile: mobileNumber,
+            otpVerified: true,
             password: sha256(password).toString(),
             MediationAdmin: {
               connect: {
@@ -77,10 +85,28 @@ export const mediatorRouter = createRouter()
           password: sha256(password).toString(),
         },
       });
+
+      if (mediator) {
+        await ctx.prisma.mediator.update({
+          where: {
+            registrationId,
+          },
+          data: {
+            session: true,
+          },
+        });
+      }
+
       if (!mediator) {
         throw new trpc.TRPCError({
           code: "NOT_FOUND",
           message: "User not found",
+        });
+      }
+      if (mediator.session === true) {
+        throw new trpc.TRPCError({
+          code: "FORBIDDEN",
+          message: "Session Already Active",
         });
       }
       const mediationCentre = await ctx.prisma.mediationAdmin.findFirst({

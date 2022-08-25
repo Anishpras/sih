@@ -15,13 +15,22 @@ export const adminRouter = createRouter()
   .mutation("admin-register", {
     input: createAdminSchema,
     async resolve({ ctx, input }) {
-      const { name, username, arbitrationCentreId, password, adminId } = input;
+      const {
+        name,
+        username,
+        arbitrationCentreId,
+        password,
+        adminId,
+        mobileNumber,
+      } = input;
       try {
         const admin = await ctx.prisma.admin.create({
           data: {
             name,
             username,
             adminId,
+            mobile: mobileNumber,
+            otpVerified: true,
             password: sha256(password).toString(),
             arbitrationCentre: {
               connect: {
@@ -53,7 +62,6 @@ export const adminRouter = createRouter()
       return ctx.admin;
     },
   })
-  //TODO: return admin as object
   .query("verified-admin", {
     async resolve({ ctx }) {
       const admin = await ctx.prisma.admin.findMany({
@@ -74,10 +82,28 @@ export const adminRouter = createRouter()
           password: sha256(password).toString(),
         },
       });
+
+      if (admin) {
+        await ctx.prisma.admin.update({
+          where: {
+            username,
+          },
+          data: {
+            session: true,
+          },
+        });
+      }
+
       if (!admin) {
         throw new trpc.TRPCError({
           code: "NOT_FOUND",
           message: "User not found",
+        });
+      }
+      if (admin.session === true) {
+        throw new trpc.TRPCError({
+          code: "FORBIDDEN",
+          message: "Session Already Active",
         });
       }
       const jwt = signJwt({

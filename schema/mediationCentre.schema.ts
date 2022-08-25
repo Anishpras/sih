@@ -5,6 +5,7 @@ export const createMediationCentreSchema = z.object({
   description: z.string(),
   password: z.string(),
   mediationCentreId: z.string(),
+  mobileNumber: z.string(),
 });
 
 export const loginMediationCentreSchema = z.object({
@@ -24,4 +25,6 @@ export type LoginMediationCentreSchema = z.TypeOf<
   typeof loginMediationCentreSchema
 >;
 
-export type VerifyMediationAdminSchema = z.TypeOf<typeof verifyMediationAdminSchema>;
+export type VerifyMediationAdminSchema = z.TypeOf<
+  typeof verifyMediationAdminSchema
+>;

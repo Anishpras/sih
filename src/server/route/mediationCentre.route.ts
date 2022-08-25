@@ -13,13 +13,16 @@ export const mediationCentreRouter = createRouter()
   .mutation("register-mediation-centre", {
     input: createMediationCentreSchema,
     async resolve({ ctx, input }) {
-      const { name, description, password, mediationCentreId } = input;
+      const { name, description, password, mediationCentreId, mobileNumber } =
+        input;
       try {
         const mediationCentre = await ctx.prisma.mediationCentre.create({
           data: {
             name,
             description,
             mediationCentreId,
+            mobile: mobileNumber,
+            otpVerified: true,
             password: sha256(password).toString(),
           },
         });
@@ -56,10 +59,26 @@ export const mediationCentreRouter = createRouter()
           password: sha256(password).toString(),
         },
       });
+      if (mediationCentre) {
+        await ctx.prisma.mediationCentre.update({
+          where: {
+            mediationCentreId,
+          },
+          data: {
+            session: true,
+          },
+        });
+      }
       if (!mediationCentre) {
         throw new trpc.TRPCError({
           code: "NOT_FOUND",
           message: "User not found",
+        });
+      }
+      if (mediationCentre.session === true) {
+        throw new trpc.TRPCError({
+          code: "FORBIDDEN",
+          message: "Session Already Active",
         });
       }
       const jwt = signJwt({

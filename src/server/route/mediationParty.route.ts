@@ -24,10 +24,26 @@ export const mediationPartyRouter = createRouter()
           password: sha256(password).toString(),
         },
       });
+      if (mediationParty) {
+        await ctx.prisma.mediationParty.update({
+          where: {
+            username,
+          },
+          data: {
+            session: true,
+          },
+        });
+      }
       if (!mediationParty) {
         throw new trpc.TRPCError({
           code: "NOT_FOUND",
           message: "User not found",
+        });
+      }
+      if (mediationParty.session === true) {
+        throw new trpc.TRPCError({
+          code: "FORBIDDEN",
+          message: "Session Already Active",
         });
       }
       const jwt = signJwt({
