@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+  import { NextApiRequest, NextApiResponse } from "next";
 import { verifyJwt } from "../utils/jwt";
 import { prisma } from "../utils/prisma";
 
@@ -34,6 +34,15 @@ interface CtxAdmin {
   iat: string;
   exp: number;
 }
+
+interface CtxMediatorCentre{
+  id: string;
+  mediationCentreId: string;
+  name: string;
+  iat: string;
+  exp: number;
+}
+
 
 function getArbitratorFromRequest(req: NextApiRequest) {
   const token = req.cookies.arbitratorToken;

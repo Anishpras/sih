@@ -9,6 +9,7 @@ import { useArbitratorContext } from "../../context/arbitrator.context";
 import { Loader } from "../../components/loader/Loader";
 import Link from "next/link";
 import {
+  formContainer,
   loginScreenContainer,
   loginScreenFormContainer,
 } from "../../styles/custonStyle";
@@ -107,8 +108,8 @@ const ArbitratorLogin = () => {
             <img
               alt="header-logo"
               src="/header-logo-title.svg"
-              height="250"
-              width="250"
+              height="500"
+              width="500"
               loading="lazy"
             />
           </div>
@@ -120,10 +121,7 @@ const ArbitratorLogin = () => {
             ARBITRATOR LOGIN
           </h1>
         </div>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className=" container mx-auto flex w-full flex-col content-center items-center justify-center justify-self-center object-center "
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className={formContainer}>
           <Input
             type="text"
             register={register}

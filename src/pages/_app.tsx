@@ -12,6 +12,8 @@ import { ArbitratorCentreContextProvider } from "../context/arbitrationCentre.co
 import { AdminContextProvider } from "../context/admin.context";
 import { ClientContextProvider } from "../context/client.context";
 import { Loader } from "../components/loader/Loader";
+import { MantineProvider } from "@mantine/core";
+
 function MyApp({ Component, pageProps }: AppProps) {
   const {
     data: arbitratorData,
@@ -36,7 +38,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   } = trpc.useQuery(["clients.detail"]);
 
   if (arbitratorIsLoading || arbitrationCentreIsLoading || adminIsLoading) {
-    return <><Loader /></>;
+    return (
+      <>
+        <Loader />
+      </>
+    );
   }
 
   return (
@@ -44,9 +50,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <AdminContextProvider value={adminData}>
         <ArbitratorContextProvider value={arbitratorData}>
           <ClientContextProvider value={clientData}>
-            <main>
+            <MantineProvider withGlobalStyles withNormalizeCSS>
               <Component {...pageProps} />
-            </main>
+            </MantineProvider>
           </ClientContextProvider>
         </ArbitratorContextProvider>
       </AdminContextProvider>

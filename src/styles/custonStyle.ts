@@ -5,3 +5,6 @@ export const loginScreenFormContainer =
   " relative  flex w-full flex-col items-center justify-center  px-5 ";
 
 export const loginFormHeader = "font-Montserrat text-2xl font-bold";
+
+export const formContainer =
+  " container mx-auto flex w-full max-w-xs flex-col items-center justify-center  ";
