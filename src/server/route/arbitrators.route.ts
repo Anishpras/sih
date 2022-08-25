@@ -104,7 +104,7 @@ export const arbitratorRouter = createRouter()
           message: "User not found",
         });
       }
-      if (arbitrator.session === false) {
+      if (arbitrator.session === true) {
         throw new trpc.TRPCError({
           code: "FORBIDDEN",
           message: "Session Already Active",
