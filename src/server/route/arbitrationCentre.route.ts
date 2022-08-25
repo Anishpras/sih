@@ -135,4 +135,13 @@ export const arbitrationCentreRouter = createRouter()
         });
       }
     },
+  })
+  .query("all-arbitration-centre-cases", {
+    resolve: ({ ctx }) => {
+      return ctx.prisma.case.findMany({
+        where: {
+          arbitrationCentreId: ctx?.arbitrationCentre?.id,
+        },
+      });
+    },
   });

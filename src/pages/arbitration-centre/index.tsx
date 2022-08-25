@@ -27,7 +27,11 @@ const ArbitratorCentre = () => {
   const { data, error: allAdminError } = trpc.useQuery([
     "arbitration-centres.detail",
   ]);
-  console.log(data)
+  const { data: arbitrationAllCasesData, error } = trpc.useQuery([
+    "arbitration-centres.all-arbitration-centre-cases",
+  ]);
+  console.log(data);
+  console.log(arbitrationAllCasesData);
   if (!arbitrationCentreData) {
     router.push("/arbitration-centre/login");
     return (
@@ -43,8 +47,7 @@ const ArbitratorCentre = () => {
       sidebarData={sidebarData}
       setToggleSidebar={setToggleSidebar}
       toggleSidebar={toggleSidebar}
-      headerTitle={headerTitle}
-    >
+      headerTitle={headerTitle}>
       <div>
         {/* <button onClick={cookieRemove}>Remove Cookie</button> */}
 

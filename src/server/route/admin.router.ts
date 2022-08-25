@@ -4,12 +4,10 @@ import {
 } from "./../../../schema/adminSchema.schema";
 import { createAdminSchema } from "../../../schema/adminSchema.schema";
 import { createRouter } from "../createRouter";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import * as trpc from "@trpc/server";
 import sha256 from "crypto-js/sha256";
 import { signJwt } from "../../utils/jwt";
 import { serialize } from "cookie";
-import { resolve } from "path";
 
 export const adminRouter = createRouter()
   .mutation("admin-register", {
@@ -40,19 +38,10 @@ export const adminRouter = createRouter()
           },
         });
         return admin;
-      } catch (e) {
-        if (e instanceof PrismaClientKnownRequestError) {
-          if (e.code === "P2002") {
-            throw new trpc.TRPCError({
-              code: "CONFLICT",
-              message: "User already exists",
-            });
-          }
-        }
-
+      } catch (e: any) {
         throw new trpc.TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Internal Server Error or Check connection error.",
+          message: e.message,
         });
       }
     },
@@ -143,19 +132,10 @@ export const adminRouter = createRouter()
           },
         });
         return arbitrator;
-      } catch (e) {
-        if (e instanceof PrismaClientKnownRequestError) {
-          if (e.code === "P2002") {
-            throw new trpc.TRPCError({
-              code: "CONFLICT",
-              message: "Arbitrator already verified",
-            });
-          }
-        }
-
+      } catch (e: any) {
         throw new trpc.TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Internal server error",
+          message: e.message,
         });
       }
     },
