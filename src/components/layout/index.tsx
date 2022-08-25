@@ -8,6 +8,7 @@ interface MainLayoutProps {
   toggleSidebar: boolean;
   setToggleSidebar: React.Dispatch<React.SetStateAction<boolean>>;
   headerTitle: string;
+  logout: string;
 }
 export default function MainLayout({
   children,
@@ -15,17 +16,21 @@ export default function MainLayout({
   toggleSidebar,
   headerTitle,
   setToggleSidebar,
+  logout,
 }: MainLayoutProps) {
   return (
     <div className="flex min-h-screen w-full bg-black">
       <Sidebar
+        logout={logout}
         sidebarData={sidebarData}
         setToggleSidebar={setToggleSidebar}
         toggleSidebar={toggleSidebar}
       />
       <section className="relative flex w-full flex-col bg-primaryWhite md:top-5 md:mx-2 md:h-[calc(100vh-5vh)]  md:w-[calc(100vw-200px)] md:overflow-y-scroll md:rounded-xl  ">
         <Header headerTitle={headerTitle} setToggleSidebar={setToggleSidebar} />
-        <main className=" pt-3 md:px-2 relative min-h-screen px-2 ">{children}</main>
+        <main className=" relative min-h-screen px-2 pt-3 md:px-2 ">
+          {children}
+        </main>
       </section>
     </div>
   );

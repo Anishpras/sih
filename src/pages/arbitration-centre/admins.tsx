@@ -49,6 +49,7 @@ const AllAdminList = () => {
 
   return (
     <MainLayout
+      logout="arbitrationCentreToken"
       sidebarData={sidebarData}
       setToggleSidebar={setToggleSidebar}
       toggleSidebar={toggleSidebar}

@@ -1,9 +1,8 @@
 import { useRouter } from "next/router";
-import  { useState } from "react";
+import { useState } from "react";
 import MainLayout from "../../components/layout";
 import { Loader } from "../../components/loader/Loader";
 import { useArbitrationCentreContext } from "../../context/arbitrationCentre.context";
-
 
 const headerTitle = "Arbitration Center ";
 
@@ -16,10 +15,6 @@ const sidebarData = [
     name: "Admins",
     route: "/arbitration-centre/admins",
   },
-  {
-    name: "Add Cause",
-    route: "/arbitration-centre/",
-  },
 ];
 
 const ArbitratorCentre = () => {
@@ -27,6 +22,7 @@ const ArbitratorCentre = () => {
 
   const router = useRouter();
   const arbitrationCentreData = useArbitrationCentreContext();
+
   if (!arbitrationCentreData) {
     router.push("/arbitration-centre/login");
     return (
@@ -38,14 +34,15 @@ const ArbitratorCentre = () => {
   return (
     // <div className="grid grid-cols-2 min-h-screen w-full bg-primary ">
     <MainLayout
+      logout="arbitrationCentreToken"
       sidebarData={sidebarData}
       setToggleSidebar={setToggleSidebar}
       toggleSidebar={toggleSidebar}
       headerTitle={headerTitle}
     >
       <div>
-        {arbitrationCentreData?.name}
-        <h1>Land</h1>
+        {/* <button onClick={cookieRemove}>Remove Cookie</button> */}
+
         <div className="relative top-10 flex flex-wrap items-center justify-center gap-5 ">
           <div className="customShadow h-96 w-96 overflow-clip break-words rounded-xl bg-white px-4 py-2 font-Recursive	 ">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore quia

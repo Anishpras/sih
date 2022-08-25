@@ -13,7 +13,7 @@ interface singleCaseProps {
   createdAt: Date;
   description: String;
   name: String;
-  id:String;
+  id: String;
 }
 
 const AllArbitratorCase = () => {
@@ -33,6 +33,7 @@ const AllArbitratorCase = () => {
       )}
 
       <MainLayout
+        logout="arbitratorToken"
         sidebarData={ArbitratorSidebarData}
         headerTitle={headerTitle}
         setToggleSidebar={setToggleSidebar}
@@ -40,12 +41,9 @@ const AllArbitratorCase = () => {
       >
         <h1 className="font-Montserrat text-3xl font-bold">Your All Cases</h1>
 
-        {data?.map((singleCase: singleCaseProps,index:number) => {
+        {data?.map((singleCase: any, index: number) => {
           return (
-            <Link
-              key={index}
-              href={`/arbitrator/cases/${singleCase.id}`}
-            >
+            <Link key={index} href={`/arbitrator/cases/${singleCase.id}`}>
               <button className={`${ButtonStyle} px-3 text-left `}>
                 <h1> Case Name : {singleCase.name}</h1>
                 <h2>Case Description:{singleCase.description}</h2>

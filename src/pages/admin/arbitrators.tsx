@@ -46,6 +46,8 @@ const AllArbitratorsList = () => {
     <>
       {data ? "" : <Modal name="Admin" data={data} />}
       <MainLayout
+              logout="adminToken"
+
         sidebarData={sidebarData}
         headerTitle={headerTitle}
         setToggleSidebar={setToggleSidebar}
