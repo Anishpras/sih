@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { ButtonStyle } from "../../components/login/Button";
 import { CustomInputStyle } from "../../components/login/Input";
 import {
+  formContainer,
   loginFormHeader,
   loginScreenContainer,
   loginScreenFormContainer,
@@ -20,7 +21,7 @@ const ArbitratorRegister = () => {
   const { mutate, error } = trpc.useMutation(
     ["arbitrators.register-arbitrator"],
     {
-      onError: (error) => {
+      onError: (error: any) => {
         console.log(error);
       },
       onSuccess: () => {
@@ -33,7 +34,6 @@ const ArbitratorRegister = () => {
     e.preventDefault();
     mutate({ name, description, password, registrationId, adminId });
   };
-
 
   return (
     <div className={loginScreenContainer}>
@@ -66,8 +66,8 @@ const ArbitratorRegister = () => {
             <img
               alt="header-logo"
               src="/header-logo-title.svg"
-              height="250"
-              width="250"
+              height="500"
+              width="500"
               loading="lazy"
             />
           </div>
@@ -76,10 +76,10 @@ const ArbitratorRegister = () => {
       <div className={loginScreenFormContainer}>
         <div className="relative pt-32">
           <h1 className="font-Montserrat text-2xl font-bold ">
-          ARBITRATOR REGISTRATION
+            ARBITRATOR REGISTRATION
           </h1>
         </div>
-        <form className=" container mx-auto flex w-full flex-col content-center items-center justify-center justify-self-center object-center ">
+        <form className={formContainer}>
           {error && <p>{error.message}</p>}
           <input
             type="text"
@@ -116,7 +116,6 @@ const ArbitratorRegister = () => {
             placeholder={"PASSWORD"}
             className={CustomInputStyle}
           />{" "}
-          
           <button className={ButtonStyle} onClick={(e) => handleSubmit(e)}>
             Register
           </button>

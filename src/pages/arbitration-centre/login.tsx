@@ -8,6 +8,7 @@ import { Button } from "../../components/login/Button";
 import { Input } from "../../components/login/Input";
 import { useArbitrationCentreContext } from "../../context/arbitrationCentre.context";
 import {
+  formContainer,
   loginScreenContainer,
   loginScreenFormContainer,
 } from "../../styles/custonStyle";
@@ -102,8 +103,8 @@ const Login = () => {
             <img
               alt="header-logo"
               src="/header-logo-title.svg"
-              height="250"
-              width="250"
+              height="500"
+              width="500"
               loading="lazy"
             />
           </div>
@@ -116,10 +117,7 @@ const Login = () => {
           </h1>
         </div>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="ite container mx-auto flex w-full flex-col content-center items-center justify-center justify-self-center object-center "
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className={formContainer}>
           <Input
             type="text"
             register={register}

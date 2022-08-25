@@ -10,6 +10,7 @@ import { Input } from "../../components/login/Input";
 import { useAdminContext } from "../../context/admin.context";
 import { useArbitrationCentreContext } from "../../context/arbitrationCentre.context";
 import {
+  formContainer,
   loginScreenContainer,
   loginScreenFormContainer,
 } from "../../styles/custonStyle";
@@ -104,8 +105,8 @@ const AdminLogin = () => {
             <img
               alt="header-logo"
               src="/header-logo-title.svg"
-              height="250"
-              width="250"
+              height="500"
+              width="500"
               loading="lazy"
             />
           </div>
@@ -116,10 +117,7 @@ const AdminLogin = () => {
           <h1 className="text-2xl font-bold uppercase">ADMIN LOGIN</h1>
         </div>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="ite container mx-auto flex w-full flex-col content-center items-center justify-center justify-self-center object-center "
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className={formContainer}>
           <Input
             type="text"
             register={register}

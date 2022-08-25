@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { ButtonStyle } from "../../components/login/Button";
 import { CustomInputStyle } from "../../components/login/Input";
 import {
+  formContainer,
   loginScreenContainer,
   loginScreenFormContainer,
 } from "../../styles/custonStyle";
@@ -17,7 +18,7 @@ const AdminRegister = () => {
   const [adminId, setAdminId] = useState("");
   const [password, setPassword] = useState("");
   const { mutate, error } = trpc.useMutation(["admin.admin-register"], {
-    onError: (error) => {
+    onError: (error: any) => {
       console.log(error);
     },
     onSuccess: () => {
@@ -60,8 +61,8 @@ const AdminRegister = () => {
             <img
               alt="header-logo"
               src="/header-logo-title.svg"
-              height="250"
-              width="250"
+              height="500"
+              width="500"
               loading="lazy"
             />
           </div>
@@ -73,45 +74,47 @@ const AdminRegister = () => {
             ADMIN REGISTRATION
           </h1>
         </div>
-        {error && <p>{error.message}</p>}
-        <input
-          type="text"
-          value={name}
-          placeholder={"Name"}
-          className={CustomInputStyle}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="text"
-          value={arbitrationCentreId}
-          placeholder={"Arbitration Centre Id"}
-          className={CustomInputStyle}
-          onChange={(e) => setArbitrationCentreId(e.target.value)}
-        />
-        <input
-          type="text"
-          value={username}
-          placeholder={"Username"}
-          className={CustomInputStyle}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="text"
-          value={adminId}
-          className={CustomInputStyle}
-          placeholder={"AdminId"}
-          onChange={(e) => setAdminId(e.target.value)}
-        />
-        <input
-          type="password"
-          value={password}
-          placeholder={"Password"}
-          className={CustomInputStyle}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button className={ButtonStyle} onClick={(e) => handleSubmit(e)}>
-          Submit
-        </button>
+        <form className={formContainer}>
+          {error && <p>{error.message}</p>}
+          <input
+            type="text"
+            value={name}
+            placeholder={"Name"}
+            className={CustomInputStyle}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <input
+            type="text"
+            value={arbitrationCentreId}
+            placeholder={"Arbitration Centre Id"}
+            className={CustomInputStyle}
+            onChange={(e) => setArbitrationCentreId(e.target.value)}
+          />
+          <input
+            type="text"
+            value={username}
+            placeholder={"Username"}
+            className={CustomInputStyle}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            type="text"
+            value={adminId}
+            className={CustomInputStyle}
+            placeholder={"AdminId"}
+            onChange={(e) => setAdminId(e.target.value)}
+          />
+          <input
+            type="password"
+            value={password}
+            placeholder={"Password"}
+            className={CustomInputStyle}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button className={ButtonStyle} onClick={(e) => handleSubmit(e)}>
+            Submit
+          </button>
+        </form>
       </div>
     </div>
   );

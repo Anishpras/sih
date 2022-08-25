@@ -35,33 +35,36 @@ export default function Home() {
             <img
               alt="header-logo"
               src="/header-logo-title.svg"
-              height="250"
-              width="250"
+              height="500"
+              width="500"
               loading="lazy"
             />
           </div>
         </div>
+        <footer className="relative bottom-0 text-center font-Raleway text-xl text-white">
+          Made By Team Cyphen At SIH-2022
+        </footer>
       </div>
       <div className=" relative  flex w-full flex-col items-center justify-center  px-5 ">
         <div className="grid w-full  items-center justify-center gap-10 font-Montserrat font-semibold md:grid-cols-2 md:grid-rows-2 md:px-0">
           <Link href="/arbitrator/login">
             <button className={`${ButtonStyle} text-xl `} type="button">
-              Arbitrator login
+              Arbitrator Login
             </button>
           </Link>
           <Link href="/client/login">
             <button className={`${ButtonStyle} text-xl `} type="button">
-              Party login
+              Party Login
             </button>
           </Link>
           <Link href="/arbitration-centre/login">
             <button className={`${ButtonStyle} px-8  text-xl `} type="button">
-              Arbitrator - CENTRE login
+              Arbitrator - Center Login
             </button>
           </Link>
           <Link href="/admin/login">
             <button className={`${ButtonStyle} text-xl `} type="button">
-              ADMIN login
+              Admin Login
             </button>
           </Link>
         </div>

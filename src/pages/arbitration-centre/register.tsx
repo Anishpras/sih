@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { ButtonStyle } from "../../components/login/Button";
 import { CustomInputStyle } from "../../components/login/Input";
 import {
+  formContainer,
   loginScreenContainer,
   loginScreenFormContainer,
 } from "../../styles/custonStyle";
@@ -18,7 +19,7 @@ const ArbitrationCentreRegister = () => {
   const { mutate, error } = trpc.useMutation(
     ["arbitration-centres.register-arbitration-centre"],
     {
-      onError: (error) => {
+      onError: (error: any) => {
         console.log(error);
       },
       onSuccess: () => {
@@ -62,8 +63,8 @@ const ArbitrationCentreRegister = () => {
             <img
               alt="header-logo"
               src="/header-logo-title.svg"
-              height="250"
-              width="250"
+              height="500"
+              width="500"
               loading="lazy"
             />
           </div>
@@ -76,7 +77,7 @@ const ArbitrationCentreRegister = () => {
           </h1>
         </div>
 
-        <form className=" container mx-auto flex w-full flex-col content-center items-center justify-center justify-self-center object-center ">
+        <form className={formContainer}>
           {error && <p>{error.message}</p>}
           <input
             type="text"
