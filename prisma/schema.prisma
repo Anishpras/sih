@@ -111,7 +111,6 @@ model MediationCentre {
   updatedAt         DateTime         @updatedAt
   mediationCases    MediationCase[]
   mediationAdmin    MediationAdmin[]
-  Mediator          Mediator[]
 }
 
 model Mediator {
@@ -126,8 +125,6 @@ model Mediator {
   mediationCases    MediationCase[]
   MediationAdmin    MediationAdmin? @relation(fields: [mediationAdminId], references: [mediationAdminId])
   mediationAdminId  String?
-  MediationCentre   MediationCentre @relation(fields: [mediationCentreId], references: [id])
-  mediationCentreId String
 }
 
 model MediationParty {
@@ -156,6 +153,7 @@ model MediationAdmin {
 }
 
 model MediationCase {
+   id          String   @id @default(cuid())
   name        String
   description String
   createdAt   DateTime @default(now())
@@ -178,8 +176,8 @@ model MediationTimeLine {
   description         String
   createdAt           DateTime       @default(now())
   updatedAt           DateTime       @updatedAt
-  MediationCase       MediationCase? @relation(fields: [mediationCaseCaseId], references: [caseId])
-  mediationCaseCaseId String?
+  MediationCase       MediationCase? @relation(fields: [mediationCaseId], references: [caseId])
+  mediationCaseId String?
 }
 
 model MediationAnnexure {
@@ -189,6 +187,6 @@ model MediationAnnexure {
   createdAt           DateTime       @default(now())
   updatedAt           DateTime       @updatedAt
   link                String
-  MediationCase       MediationCase? @relation(fields: [mediationCaseCaseId], references: [caseId])
-  mediationCaseCaseId String?
+  MediationCase       MediationCase? @relation(fields: [mediationCaseId], references: [caseId])
+  mediationCaseId String?
 }

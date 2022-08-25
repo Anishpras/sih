@@ -1,12 +1,9 @@
-import {
-  createClientSchema,
-  loginClientSchema,
-} from "../../../schema/clientSchema.schema";
+import { loginClientSchema } from "../../../schema/clientSchema.schema";
 import { createRouter } from "../createRouter";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
+
 import * as trpc from "@trpc/server";
 import sha256 from "crypto-js/sha256";
-import { loginAdminSchema } from "../../../schema/adminSchema.schema";
+
 import { signJwt } from "../../utils/jwt";
 import { serialize } from "cookie";
 

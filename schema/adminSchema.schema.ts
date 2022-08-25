@@ -1,8 +1,4 @@
 import z from "zod";
-import {
-  verifyAdminSchema,
-  VerifyAdminSchema,
-} from "./arbitrationCentreSchema.schema";
 
 export const createAdminSchema = z.object({
   name: z.string(),
