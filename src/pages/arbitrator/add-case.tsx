@@ -19,15 +19,11 @@ const NotificationComponent = () => {
   );
 };
 export default function AddCase() {
-  const [mut, setMute] = useState({});
+  
   const { register, handleSubmit } = useForm();
   const [toggleSidebar, setToggleSidebar] = useState<boolean>(false);
-  const [caseCrated, setCaseCrated] = useState<boolean>(false);
-  const { mutate, error } = trpc.useMutation(["arbitrators.create-case"], {
+  const { mutate } = trpc.useMutation(["arbitrators.create-case"], {
     onSuccess: (result) => {
-      // setCaseCrated(true);
-      // setMute(result);
-      // console.log(result.id);
       window.location.href = `/arbitrator/cases/${result.id}`;
     },
   });
@@ -36,11 +32,10 @@ export default function AddCase() {
   async function onSubmit(data: any) {
     mutate(data);
   }
-  console.log(mut);
   return (
     <>
       {data ? "" : <Modal name="Arbitrator" data={data} />}
-      {/* {caseCrated ? <NotificationComponent /> : ""} */}
+
       <MainLayout
         logout="arbitratorToken"
         sidebarData={ArbitratorSidebarData}

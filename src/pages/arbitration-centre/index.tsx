@@ -27,11 +27,7 @@ const ArbitratorCentre = () => {
   const { data, error: allAdminError } = trpc.useQuery([
     "arbitration-centres.detail",
   ]);
-  const { data: arbitrationAllCasesData, error } = trpc.useQuery([
-    "arbitration-centres.all-arbitration-centre-cases",
-  ]);
   console.log(data);
-  console.log(arbitrationAllCasesData);
   if (!arbitrationCentreData) {
     router.push("/arbitration-centre/login");
     return (
@@ -47,44 +43,16 @@ const ArbitratorCentre = () => {
       sidebarData={sidebarData}
       setToggleSidebar={setToggleSidebar}
       toggleSidebar={toggleSidebar}
-      headerTitle={headerTitle}>
+      headerTitle={headerTitle}
+    >
       <div>
         {/* <button onClick={cookieRemove}>Remove Cookie</button> */}
 
         <div className="relative top-10 flex flex-wrap items-center justify-center gap-5 ">
-          <div className="customShadow h-96 w-96 overflow-clip break-words rounded-xl bg-white px-4 py-2 font-Recursive	 ">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore quia
-            maxime unde dolor, aliquam dolorem delectus tenetur repellat
-            obcaecati velit neque, excepturi at in distinctio iste quos fugiat
-            eum necessitatibus. Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Dolore quia maxime unde dolor, aliquam dolorem
-            delectus tenetur repellat obcaecati velit neque, excepturi at in
-            distinctio iste quos fugiat eum necessitatibus. Lorem ipsum dolor
-            sit amet consectetur adipisicing elit. Dolore quia maxime unde
-            dolor, aliquam dolorem delectus tenetur repellat obcaecati velit
-            neque, excepturi at in distinctio iste quos fugiat eum
-            necessitatibus. Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Dolore quia maxime unde dolor, aliquam dolorem delectus
-            tenetur repellat obcaecati velit neque, excepturi at in distinctio
-            iste quos fugiat eum necessitatibus. Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Dolore quia maxime unde dolor, aliquam
-            dolorem delectus tenetur repellat obcaecati velit neque, excepturi
-            at in distinctio iste quos fugiat eum necessitatibus. Lorem ipsum
-            dolor sit amet consectetur adipisicing elit. Dolore quia maxime unde
-            dolor, aliquam dolorem delectus tenetur repellat obcaecati velit
-            neque, excepturi at in distinctio iste quos fugiat eum
-            necessitatibus. Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Dolore quia maxime unde dolor, aliquam dolorem delectus
-            tenetur repellat obcaecati velit neque, excepturi at in distinctio
-            iste quos fugiat eum necessitatibus.
-          </div>
-          <div className="customShadow h-96 w-96 rounded-xl bg-white "></div>
-          <div className="customShadow h-96 w-96 rounded-xl bg-white "></div>
-          <div className="customShadow h-96 w-96 rounded-xl bg-white "></div>
-          <div className="customShadow h-96 w-96 rounded-xl bg-white "></div>
-          <div className="customShadow h-96 w-96 rounded-xl bg-white "></div>
-          <div className="customShadow h-96 w-96 rounded-xl bg-white "></div>
-          <div className="customShadow h-96 w-96 rounded-xl bg-white "></div>
+          <h1>
+            Here all the Arbitration centre Admins and Cases under the
+            Arbitration Centre will appear.
+          </h1>
         </div>
       </div>
     </MainLayout>

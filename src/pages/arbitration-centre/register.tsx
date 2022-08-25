@@ -106,7 +106,8 @@ const ArbitrationCentreRegister = () => {
               height="675"
               viewBox="0 0 1024 675"
               fill="none"
-              xmlns="http://www.w3.org/2000/svg">
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="M0 0V453.692C0 453.692 275.787 415.299 512 562.081C748.213 708.864 1024 670.471 1024 670.471V0.468262L0 0Z"
                 fill="black"
@@ -184,7 +185,8 @@ const ArbitrationCentreRegister = () => {
               style={{ display: !flag ? "block" : "none" }}
               type="submit"
               //@ts-ignore
-              onClick={(e) => getOtp(e)}>
+              onClick={(e) => getOtp(e)}
+            >
               SEND OTP
             </button>
             <label style={{ display: flag ? "block" : "none" }}>
@@ -200,11 +202,13 @@ const ArbitrationCentreRegister = () => {
             </label>
             <div
               style={{ display: !flag ? "block" : "none" }}
-              id="recaptcha-container"></div>
+              id="recaptcha-container"
+            ></div>
             {otpVerified ? (
               <button
                 className=" focus:shadow-outline  my-3 flex w-full cursor-pointer justify-center rounded-full border bg-transparent   bg-gray-900 p-4 font-semibold  tracking-wide text-gray-100 shadow-lg transition duration-300 ease-in focus:outline-none disabled:cursor-none disabled:bg-slate-600"
-                style={{ display: flag ? "block" : "none" }}>
+                style={{ display: flag ? "block" : "none" }}
+              >
                 Verified OTP
               </button>
             ) : (
@@ -212,7 +216,8 @@ const ArbitrationCentreRegister = () => {
                 type="button"
                 className=" focus:shadow-outline my-3 flex w-full cursor-pointer justify-center rounded-full border   bg-transparent bg-gray-900 p-4  font-semibold tracking-wide text-gray-100 shadow-lg transition duration-300 ease-in focus:outline-none"
                 style={{ display: flag ? "block" : "none" }}
-                onClick={verifyOtp}>
+                onClick={verifyOtp}
+              >
                 Verify OTP
               </button>
             )}

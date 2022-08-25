@@ -130,7 +130,7 @@ const AdminRegister = () => {
         </div>
       </div>
       <div className={loginScreenFormContainer}>
-        <div className="relative pt-32">
+        <div className="relative pt-32 pb-5">
           <h1 className="font-Montserrat text-2xl font-bold uppercase ">
             ADMIN REGISTRATION
           </h1>
