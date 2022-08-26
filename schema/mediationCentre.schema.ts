@@ -1,4 +1,5 @@
 import z from "zod";
+import { logoutMediationAdminSchema } from "./mediationAdmin.schema";
 
 export const createMediationCentreSchema = z.object({
   name: z.string(),
@@ -11,6 +12,10 @@ export const createMediationCentreSchema = z.object({
 export const loginMediationCentreSchema = z.object({
   mediationCentreId: z.string(),
   password: z.string(),
+});
+
+export const logoutMediationCentreSchema = z.object({
+  mediationCentreId: z.string().optional(),
 });
 
 export const verifyMediationAdminSchema = z.object({
@@ -27,4 +32,8 @@ export type LoginMediationCentreSchema = z.TypeOf<
 
 export type VerifyMediationAdminSchema = z.TypeOf<
   typeof verifyMediationAdminSchema
+>;
+
+export type LogoutMediationAdminSchema = z.TypeOf<
+  typeof logoutMediationAdminSchema
 >;

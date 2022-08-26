@@ -1,4 +1,5 @@
 import z from "zod";
+import { logoutAdminSchema } from "./adminSchema.schema";
 
 export const createArbitratorSchema = z.object({
   name: z.string(),
@@ -41,6 +42,18 @@ export const addOrderSchema = z.object({
   orderData: z.string(),
 });
 
+export const getOrderValidationSchema = z.object({
+  orderId: z.string().optional(),
+});
+
+export const logoutArbitratorSchema = z.object({
+  arbitratorId: z.string().optional(),
+});
+
+export type GetOrderValidationSchema = z.TypeOf<
+  typeof getOrderValidationSchema
+>;
+
 export type AddOrderSchema = z.TypeOf<typeof addOrderSchema>;
 
 export type AddAnnexureSchema = z.TypeOf<typeof addAnnexureSchema>;
@@ -51,3 +64,5 @@ export type CreateCaseSchema = z.infer<typeof createCaseSchema>;
 export type CreateArbitratorSchema = z.TypeOf<typeof createArbitratorSchema>;
 
 export type LoginArbitratorSchema = z.TypeOf<typeof loginArbitratorSchema>;
+
+export type LogoutAdminSchema = z.TypeOf<typeof logoutAdminSchema>;

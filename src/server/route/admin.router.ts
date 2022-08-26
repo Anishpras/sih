@@ -1,6 +1,7 @@
 import {
   addHearingSchema,
   loginAdminSchema,
+  logoutAdminSchema,
   verifyArbitratorSchema,
 } from "./../../../schema/adminSchema.schema";
 import { createAdminSchema } from "../../../schema/adminSchema.schema";
@@ -10,6 +11,7 @@ import * as trpc from "@trpc/server";
 import sha256 from "crypto-js/sha256";
 import { signJwt } from "../../utils/jwt";
 import { serialize } from "cookie";
+import { LogoutAdminSchema } from "../../../schema/arbitratorSchema.schema";
 
 export const adminRouter = createRouter()
   .mutation("admin-register", {

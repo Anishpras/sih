@@ -6,6 +6,9 @@ import MainLayout from "../../components/layout";
 import Modal from "../../components/modal";
 import { useState } from "react";
 import { Button } from "../../components/login/Button";
+import { useMediatorContext } from "../../context/mediator.context";
+import { Loader } from "../../components/loader/Loader";
+import { useRouter } from "next/router";
 
 const headerTitle = "Mediator";
 
@@ -27,7 +30,12 @@ export default function AddCase() {
     console.log(data);
     mutate(data);
   }
-
+  const router = useRouter();
+  const mediatorData = useMediatorContext();
+  if (!mediatorData) {
+    router.push("/mediator/login");
+    return <Loader />;
+  }
   return (
     <>
       {data ? "" : <Modal name="Mediator" data={data} />}

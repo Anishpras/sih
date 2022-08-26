@@ -21,11 +21,15 @@ export const verifyArbitratorSchema = z.object({
 export const addHearingSchema = z.object({
   caseId: z.string(),
   dateTime: z.date(),
-  mode: z.boolean(),
-  arbitratorId: z.string(),
+  arbitratorId: z.string().optional(),
+});
+
+export const logoutAdminSchema = z.object({
+  adminId: z.string().optional(),
 });
 
 export type AddHearingSchema = z.TypeOf<typeof addHearingSchema>;
 export type CreateAdminSchema = z.TypeOf<typeof createAdminSchema>;
 export type LoginAdminSchema = z.TypeOf<typeof loginAdminSchema>;
 export type VerifyArbitratorSchema = z.TypeOf<typeof verifyArbitratorSchema>;
+export type LogoutAdminSchema = z.TypeOf<typeof logoutAdminSchema>;

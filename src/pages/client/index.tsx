@@ -34,7 +34,42 @@ const Client = () => {
     cancel,
   } = useSpeechSynthesisApi();
   const clientData = useClientContext();
+
+  const { mutate: approveOrder, error: approveOrderError } = trpc.useMutation(
+    ["clients.accept-order"],
+    {
+      onError: (error: any) => {
+        console.log(error);
+      },
+      onSuccess: () => {
+        console.log("Approved");
+      },
+    }
+  );
+
   const { data, error, isLoading } = trpc.useQuery(["clients.get-case-data"]);
+
+  const { mutate: denyOrder, error: denyOrderError } = trpc.useMutation(
+    ["clients.deny-order"],
+    {
+      onError: (error: any) => {
+        console.log(error);
+      },
+      onSuccess: () => {
+        console.log("deny");
+      },
+    }
+  );
+
+  const handleApproveOrder = (e: any, orderId: string) => {
+    e.preventDefault();
+    approveOrder({ orderId: orderId });
+  };
+  const handleDenyOrder = (e: any, orderId: string) => {
+    e.preventDefault();
+    denyOrder({ orderId: orderId });
+  };
+
   useEffect(() => {
     if (data) {
       setText(data?.orders[0]?.description);
@@ -63,8 +98,7 @@ const Client = () => {
         sidebarData={ArbitratorSidebarData}
         setToggleSidebar={setToggleSidebar}
         toggleSidebar={toggleSidebar}
-        headerTitle={headerTitle}
-      >
+        headerTitle={headerTitle}>
         <div className="flex justify-center">
           <div className="flex flex-col items-start justify-center ">
             <h1 className="font-Montserrat ">
@@ -92,19 +126,32 @@ const Client = () => {
                 {isResumed ? "Resumed" : ""}
                 <button
                   onClick={cancel}
-                  className={`${ButtonStyle} active: mx-3  `}
-                >
+                  className={`${ButtonStyle} active: mx-3  `}>
                   cancel
                 </button>
                 {isEnded ? "Canceled" : ""}
               </div>
             </div>
+            <a
+              //  @ts-ignore
+              href={data?.caseDetail?.award}
+              className={CommonButton}
+              target="_blank"
+              rel="noreferrer">
+              <span>View Award</span>
+            </a>
             <div>
               <h1>Orders of the case </h1>
               {data?.orders.map((n, index) => {
                 return (
                   <div key={index}>
                     <div dangerouslySetInnerHTML={{ __html: n.description }} />
+                    <button onClick={(e) => handleApproveOrder(e, n.id)}>
+                      Approve
+                    </button>
+                    <button onClick={(e) => handleDenyOrder(e, n.id)}>
+                      Deny
+                    </button>
                   </div>
                 );
               })}

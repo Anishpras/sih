@@ -18,6 +18,10 @@ export const verifyMediatorSchema = z.object({
   mediatorId: z.string(),
 });
 
+export const logoutMediationAdminSchema = z.object({
+  mediationAdminId: z.string().optional(),
+});
+
 export type CreateMediationAdminSchema = z.TypeOf<
   typeof createMediationAdminSchema
 >;

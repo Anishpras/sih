@@ -31,8 +31,8 @@ model Arbitrator {
 model Hearing {
   id           String      @id @default(cuid())
   dateTime     DateTime
-  case         Case        @relation(fields: [caseId], references: [id])
-  mode         Boolean
+
+  case         Case        @relation(fields: [caseId], references: [caseId])
   Arbitrator   Arbitrator? @relation(fields: [arbitratorId], references: [id])
   arbitratorId String?
   caseId       String
@@ -78,6 +78,8 @@ model Order {
   updatedAt   DateTime @updatedAt
   Case        Case     @relation(fields: [caseId], references: [id])
   caseId      String
+  clientOneValidated Boolean @default(false)
+  clientTwoValidated Boolean @default(false)
 }
 
 model ArbitrationCentre {
