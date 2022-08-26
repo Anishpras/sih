@@ -1,40 +1,32 @@
 import Link from "next/link";
 import { useState } from "react";
-import { ArbitratorSidebarData } from "..";
+import { MediatorSidebarData } from "..";
 import MainLayout from "../../../components/layout";
 import { ButtonStyle } from "../../../components/login/Button";
 import Modal from "../../../components/modal";
 import { trpc } from "../../../utils/trpc";
-const headerTitle = "Arbitrator";
+const headerTitle = "Mediator";
 
-interface singleCaseProps {
-  award: String;
-  caseId: String;
-  createdAt: Date;
-  description: String;
-  name: String;
-  id: String;
-}
 
 const AllMediationCase = () => {
   const { data, error } = trpc.useQuery(["mediators.get-mediation-cases"]);
   console.log(data);
   const [toggleSidebar, setToggleSidebar] = useState<boolean>(false);
-  const { data: VerifyArbitrator } = trpc.useQuery([
+  const { data: VerifyMediator } = trpc.useQuery([
     "mediators.verify-mediator",
   ]);
 
   return (
     <>
-      {VerifyArbitrator ? (
+      {VerifyMediator ? (
         ""
       ) : (
-        <Modal name="Arbitrator" data={VerifyArbitrator} />
+        <Modal name="Mediator" data={VerifyMediator} />
       )}
 
       <MainLayout
-        logout="arbitratorToken"
-        sidebarData={ArbitratorSidebarData}
+        logout="mediatorToken"
+        sidebarData={MediatorSidebarData}
         headerTitle={headerTitle}
         setToggleSidebar={setToggleSidebar}
         toggleSidebar={toggleSidebar}

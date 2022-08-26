@@ -4,12 +4,6 @@ import { CommonButton } from "../../components/login/Button";
 import Modal from "../../components/modal";
 import { trpc } from "../../utils/trpc";
 
-const headerData = [
-  {
-    name: "Verify Mediators",
-    route: "/mediator-admin/mediators",
-  },
-];
 const headerTitle = " Verify Mediators ";
 const sidebarData = [
   {
@@ -27,7 +21,7 @@ const AllMediatorsList = () => {
   const { data, error: allAdminError } = trpc.useQuery([
     "mediation-admin.all-mediators",
   ]);
-  console.log(data);
+  
   const { mutate, error: verifyAdminError } = trpc.useMutation(
     ["mediation-admin.verify-mediator"],
     {

@@ -7,9 +7,9 @@ import Modal from "../../components/modal";
 import { useMediatorContext } from "../../context/mediator.context";
 import { trpc } from "../../utils/trpc";
 
-const headerTitle = "Arbitrator";
+const headerTitle = "Mediator";
 
-export const ArbitratorSidebarData = [
+export const MediatorSidebarData = [
   {
     route: "/mediator",
     name: "Dashboard",
@@ -24,7 +24,7 @@ export const ArbitratorSidebarData = [
   },
 ];
 
-const Arbitrator = () => {
+const Mediator = () => {
   const router = useRouter();
   const [toggleSidebar, setToggleSidebar] = useState<boolean>(false);
 
@@ -42,8 +42,8 @@ const Arbitrator = () => {
       {data ? "" : <Modal name="Mediator" data={data} />}
 
       <MainLayout
-        logout="arbitratorToken"
-        sidebarData={ArbitratorSidebarData}
+        logout="mediatorToken"
+        sidebarData={MediatorSidebarData}
         setToggleSidebar={setToggleSidebar}
         toggleSidebar={toggleSidebar}
         headerTitle={headerTitle}
@@ -59,4 +59,4 @@ const Arbitrator = () => {
   );
 };
 
-export default Arbitrator;
+export default Mediator;

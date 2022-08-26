@@ -17,11 +17,11 @@ const sidebarData = [
 const AllAdminList = () => {
   const [toggleSidebar, setToggleSidebar] = useState<boolean>(false);
 
-  const { data, error: allAdminError } = trpc.useQuery([
+  const { data } = trpc.useQuery([
     "arbitration-centres.all-admins",
   ]);
-  console.log(data);
-  const { mutate, error: verifyAdminError } = trpc.useMutation(
+
+  const { mutate } = trpc.useMutation(
     ["arbitration-centres.verify-admin"],
     {
       onError: (error) => {
@@ -46,7 +46,7 @@ const AllAdminList = () => {
     >
       <>
         <div className="flex flex-wrap gap-10">
-          {data?.map((admin) => {
+          {data?.map((admin: any) => {
             return (
               <div
                 key={admin.id}
