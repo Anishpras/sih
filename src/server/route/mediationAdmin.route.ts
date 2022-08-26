@@ -157,19 +157,3 @@ export const mediationAdminRouter = createRouter()
       }
     },
   })
-  .mutation("add-order", {
-    input: addOrderSchema,
-    async resolve({ ctx, input }) {
-      const { caseId, orderData } = input;
-      await ctx.prisma..create({
-        data: {
-          description: orderData,
-          Case: {
-            connect: {
-              id: caseId,
-            },
-          },
-        },
-      });
-    },
-  });
