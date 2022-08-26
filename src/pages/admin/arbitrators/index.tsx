@@ -13,6 +13,10 @@ const sidebarData = [
     name: "Verify Arbitrators",
     route: "/admin/arbitrators",
   },
+  {
+    name: "Add Cause List",
+    route: "/admin/arbitrators/cause-list",
+  },
 ];
 const AllArbitratorsList = () => {
   const [toggleSidebar, setToggleSidebar] = useState<boolean>(false);

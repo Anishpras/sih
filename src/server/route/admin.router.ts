@@ -159,30 +159,28 @@ export const adminRouter = createRouter()
         });
       }
     },
-  }).
-  query("add-hearing",{
+  })
+  .mutation("add-hearing", {
     input: addHearingSchema,
     async resolve({ ctx, input }) {
-      const {dateTime,caseId,mode, arbitratorId}= input;
+      const { dateTime, caseId, arbitratorId } = input;
       try {
         await ctx.prisma.hearing.create({
           data: {
             dateTime,
-            mode,
-            case:{
-              connect:{
-                id:caseId
-              }
+            case: {
+              connect: {
+                id: caseId,
+              },
             },
-            Arbitrator:{
-              connect:{
-                  id:arbitratorId
-              }
-            }
-          }
-        })
-      }
-      catch (e) {
+            Arbitrator: {
+              connect: {
+                id: arbitratorId,
+              },
+            },
+          },
+        });
+      } catch (e) {
         if (e instanceof PrismaClientKnownRequestError) {
           if (e.code === "P2002") {
             throw new trpc.TRPCError({
@@ -197,6 +195,5 @@ export const adminRouter = createRouter()
           message: "Internal server error",
         });
       }
-    }
-
+    },
   });
