@@ -30,6 +30,15 @@ const ArbitratorCentre = () => {
   const { data: allCases, error: allCasesError } = trpc.useQuery([
     "arbitration-centres.all-cases",
   ]);
+
+  const { mutate, error } = trpc.useMutation(["arbitration-centres.log-out"], {
+    onError: (error: any) => {
+      console.log(error);
+    },
+    onSuccess: () => {
+      router.push("/arbitration-centre/login");
+    },
+  });
   console.log(allCases);
   console.log(data);
   if (!arbitrationCentreData) {
@@ -40,6 +49,13 @@ const ArbitratorCentre = () => {
       </p>
     );
   }
+  const logOut = () => {
+    document.cookie =
+      "arbitrationCentreToken" + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    window.location.reload();
+
+    mutate();
+  };
   return (
     // <div className="grid grid-cols-2 min-h-screen w-full bg-primary ">
     <MainLayout
@@ -66,6 +82,8 @@ const ArbitratorCentre = () => {
           </div>
         );
       })}
+
+      <button onClick={logOut}>Log Out</button>
     </MainLayout>
     // </div>
   );

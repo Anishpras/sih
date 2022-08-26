@@ -144,4 +144,16 @@ export const arbitrationCentreRouter = createRouter()
         },
       });
     },
+  })
+  .mutation("log-out", {
+    resolve: async ({ ctx }) => {
+      await ctx.prisma.arbitrationCentre.update({
+        where: {
+          arbitrationCentreId: ctx?.arbitrationCentre?.arbitrationCentreId,
+        },
+        data: {
+          session: false,
+        },
+      });
+    },
   });
