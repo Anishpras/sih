@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ArbitrationCentreCasesContext } from "../context/ArbitrationCentreBlockchain";
 
 const Blockchain = () => {
@@ -14,10 +14,11 @@ const Blockchain = () => {
     myCase,
   } = useContext(ArbitrationCentreCasesContext);
 
+  const [caseValue, setCaseValue] = useState("");
+
   useEffect(() => {
     checkIfWalletIsConnected();
     getCaseDetailsList();
-    console.log(arbitrationCentreCases);
   }, []);
 
   return (
@@ -30,6 +31,13 @@ const Blockchain = () => {
           {currentAccount.slice(0, 20)}..
         </button>
       )}
+      <input
+        type="text"
+        value={caseValue}
+        onChange={(e) => setCaseValue(e.target.value)}
+      />
+      <button onClick={() => caseDetails(caseValue)}>Submit</button>
+      <button onClick={() => console.log(myCase)}>Get Case Detail</button>
     </div>
   );
 };

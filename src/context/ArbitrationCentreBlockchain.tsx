@@ -8,7 +8,7 @@ import {
   arbitrationCentreABI,
 } from "../utils/constants";
 //@ts-ignore
-const client = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
+const client = ipfsHttpClient("http://ipfs.infura.io:5001/api/v0");
 
 const fetchContract = (
   signerOrProvider: ethers.Signer | ethers.providers.Provider | undefined
@@ -66,11 +66,11 @@ export const ArbitrationCentreBlockchainCasesProvider = ({
       const provider = new ethers.providers.Web3Provider(connection);
       const signer = provider.getSigner();
       const contract = await fetchContract(signer);
-
+      console.log(contract);
       const data = JSON.stringify({ message });
       const added = await client.add(data);
 
-      const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+      const url = `http://ipfs.infura.io/ipfs/${added.path}`;
       console.log(url);
 
       const addCase = await contract.addCase(message);
