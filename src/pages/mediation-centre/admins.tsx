@@ -3,12 +3,6 @@ import React, { useState } from "react";
 import MainLayout from "../../components/layout";
 import { CommonButton } from "../../components/login/Button";
 import { trpc } from "../../utils/trpc";
-const headerData = [
-  {
-    name: "Dashboard",
-    route: "/mediation-centre",
-  },
-];
 
 const headerTitle = "Admins";
 const sidebarData = [
@@ -20,19 +14,13 @@ const sidebarData = [
     name: "Admins",
     route: "/mediation-centre/admins",
   },
-  {
-    name: "Add Cause",
-    route: "/mediation-centre/",
-  },
 ];
 const AllAdminList = () => {
   const [toggleSidebar, setToggleSidebar] = useState<boolean>(false);
 
-  const { data, error: allAdminError } = trpc.useQuery([
-    "mediation-centres.all-mediation-admins",
-  ]);
-  console.log(data);
-  const { mutate, error: verifyAdminError } = trpc.useMutation(
+  const { data } = trpc.useQuery(["mediation-centres.all-mediation-admins"]);
+console.log(data)
+  const { mutate } = trpc.useMutation(
     ["mediation-centres.verify-mediation-admin"],
     {
       onError: (error) => {
@@ -57,7 +45,7 @@ const AllAdminList = () => {
     >
       <>
         <div className="flex flex-wrap gap-10">
-          {data?.map((admin) => {
+          {data?.map((admin: any) => {
             return (
               <div
                 key={admin.id}

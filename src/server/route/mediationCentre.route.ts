@@ -97,7 +97,7 @@ export const mediationCentreRouter = createRouter()
     resolve: ({ ctx }) => {
       return ctx.prisma.mediationAdmin.findMany({
         where: {
-          mediationCentreId: ctx?.mediationCentre?.mediationCentreId,
+          mediationCentreId: ctx?.mediationCentre?.id,
         },
       });
     },

@@ -33,6 +33,9 @@ const LoginSubmit = ({
       password: password,
     },
   ]);
+
+  const { data: md } = trpc.useQuery(["mediation-centres.all-mediation-admins"]);
+  console.log(md, "data");
   if (error) {
     console.log(error.message);
   }

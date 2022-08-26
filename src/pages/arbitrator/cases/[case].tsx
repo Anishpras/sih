@@ -278,10 +278,10 @@ const SingleCase = () => {
         {getCase?.caseDetail?.award ? (
           <>
             <div>
-            <h1 className="text-lg font-Montserrat">
+              <h1 className="font-Montserrat text-lg">
                 Name: <span>{getCase?.caseDetail?.name}</span>
               </h1>
-              <h1 className="py-5 text-lg font-Montserrat">
+              <h1 className="py-5 font-Montserrat text-lg">
                 Description: <span>{getCase?.caseDetail?.description}</span>
               </h1>
               <a
@@ -293,9 +293,9 @@ const SingleCase = () => {
               >
                 <span>View Award</span>
               </a>
-              <div className="py-5 text-lg font-Montserrat">
+              <div className="py-5 font-Montserrat text-lg">
                 <h1>Orders of the case </h1>
-                {getCase?.orders.map((n, index) => {
+                {getCase?.orders.map((n: any, index: number) => {
                   return (
                     <div key={index}>
                       <div

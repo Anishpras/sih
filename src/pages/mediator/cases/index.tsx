@@ -7,14 +7,6 @@ import Modal from "../../../components/modal";
 import { trpc } from "../../../utils/trpc";
 const headerTitle = "Arbitrator";
 
-interface singleCaseProps {
-  award: String;
-  caseId: String;
-  createdAt: Date;
-  description: String;
-  name: String;
-  id: String;
-}
 
 const AllMediationCase = () => {
   const { data, error } = trpc.useQuery(["mediators.get-mediation-cases"]);
