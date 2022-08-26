@@ -13,20 +13,18 @@ export default function AddCase() {
   const { register, handleSubmit } = useForm();
   const [toggleSidebar, setToggleSidebar] = useState<boolean>(false);
 
-  const { mutate } = trpc.useMutation(
-    ["mediators.create-mediation-case"],
-    {
-      onError: (error) => {
-        console.log(error);
-      },
-      onSuccess: (result) => {
-        window.location.href = `/mediator/cases/${result.id}`;
-      },
-    }
-  );
+  const { mutate } = trpc.useMutation(["mediators.create-mediation-case"], {
+    onError: (error) => {
+      console.log(error);
+    },
+    onSuccess: (result) => {
+      window.location.href = `/mediator/cases/${result.id}`;
+    },
+  });
   const { data } = trpc.useQuery(["mediators.verify-mediator"]);
 
   async function onSubmit(data: any) {
+    console.log(data);
     mutate(data);
   }
 
@@ -39,8 +37,7 @@ export default function AddCase() {
         sidebarData={MediatorSidebarData}
         setToggleSidebar={setToggleSidebar}
         toggleSidebar={toggleSidebar}
-        headerTitle={headerTitle}
-      >
+        headerTitle={headerTitle}>
         <div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Input

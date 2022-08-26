@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { Input } from "../../components/login/Input";
 import { Button } from "../../components/login/Button";
 import { Loader } from "../../components/loader/Loader";
-import Link from "next/link";
 import {
   formContainer,
   loginScreenContainer,
@@ -17,17 +16,16 @@ import { useClientContext } from "../../context/client.context";
 interface FormData {
   username: string;
   password: string;
-  name: string;
+
 }
 
-const LoginSubmit = ({ username, password, name }: FormData) => {
+const LoginSubmit = ({ username, password}: FormData) => {
   const router = useRouter();
   const { data, error, isLoading } = trpc.useQuery([
     "clients.login-client",
     {
       username: username,
       password: password,
-      name: name,
     },
   ]);
   //   console.log(name, password, "name");
@@ -67,7 +65,6 @@ const ClientLogin = () => {
       <LoginSubmit
         username={loginData.username}
         password={loginData.password}
-        name={loginData.name}
       />
     );
   }
@@ -122,12 +119,6 @@ const ClientLogin = () => {
             register={register}
             placeholder="Enter your username"
             registerName={"username"}
-          />
-          <Input
-            type="name"
-            register={register}
-            placeholder="Enter your Name"
-            registerName={"name"}
           />
           <Input
             type="password"

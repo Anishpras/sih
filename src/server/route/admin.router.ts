@@ -1,4 +1,5 @@
 import {
+  addHearingSchema,
   loginAdminSchema,
   verifyArbitratorSchema,
 } from "./../../../schema/adminSchema.schema";
@@ -9,7 +10,6 @@ import * as trpc from "@trpc/server";
 import sha256 from "crypto-js/sha256";
 import { signJwt } from "../../utils/jwt";
 import { serialize } from "cookie";
-import { resolve } from "path";
 
 export const adminRouter = createRouter()
   .mutation("admin-register", {
@@ -159,4 +159,44 @@ export const adminRouter = createRouter()
         });
       }
     },
+  }).
+  query("add-hearing",{
+    input: addHearingSchema,
+    async resolve({ ctx, input }) {
+      const {dateTime,caseId,mode, arbitratorId}= input;
+      try {
+        await ctx.prisma.hearing.create({
+          data: {
+            dateTime,
+            mode,
+            case:{
+              connect:{
+                id:caseId
+              }
+            },
+            Arbitrator:{
+              connect:{
+                  id:arbitratorId
+              }
+            }
+          }
+        })
+      }
+      catch (e) {
+        if (e instanceof PrismaClientKnownRequestError) {
+          if (e.code === "P2002") {
+            throw new trpc.TRPCError({
+              code: "CONFLICT",
+              message: "Hearing already verified",
+            });
+          }
+        }
+
+        throw new trpc.TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Internal server error",
+        });
+      }
+    }
+
   });

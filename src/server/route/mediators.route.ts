@@ -138,14 +138,14 @@ export const mediatorRouter = createRouter()
             name: caseName,
             description,
             caseId,
-            mediator: {
+            Mediator: {
               connect: {
                 id: ctx?.mediator?.id,
               },
             },
-            mediationCentre: {
+            MediationCentre: {
               connect: {
-                mediationCentreId: ctx?.mediator?.id,
+                id: ctx?.mediator?.mediationCentreId,
               },
             },
           },
@@ -172,7 +172,7 @@ export const mediatorRouter = createRouter()
     async resolve({ ctx }) {
       const mediationCases = await ctx.prisma.mediationCase.findMany({
         where: {
-          mediator: {
+          Mediator: {
             id: ctx?.mediator?.id,
           },
         },

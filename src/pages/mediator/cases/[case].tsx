@@ -62,7 +62,7 @@ const Loader = () => (
 );
 
 const SingleCase = () => {
-  const [active, setActive] = useState(1);
+  const [active, setActive] = useState(0);
   const nextStep = () =>
     setActive((current) => (current < 3 ? current + 1 : current));
   const prevStep = () =>
@@ -91,8 +91,8 @@ const SingleCase = () => {
     message: "",
   });
   const [loader, setLoader] = useState(false);
-  const { mutate, error: createMutationError } = trpc.useMutation(
-    ["mediators.create-mediation-case"],
+  const { mutate:mediationCase, error: createMutationError } = trpc.useMutation(
+    ["mediators.create-mediation-party"],
     {
       onError: (error: any) => {
         setErrorModal({
@@ -106,9 +106,7 @@ const SingleCase = () => {
       },
     }
   );
-  const { data: VerifyMediator } = trpc.useQuery([
-    "mediators.verify-mediator",
-  ]);
+  const { data: VerifyMediator } = trpc.useQuery(["mediators.verify-mediator"]);
 
   const { mutate: addOrder, error: createOrderError } = trpc.useMutation(
     ["mediators.create-mediation-case"],
@@ -122,19 +120,6 @@ const SingleCase = () => {
       },
     }
   );
-
-  // const { mutate: uploadAward, error: uploadAwardError } = trpc.useMutation(
-  //   ["med.add-award"],
-  //   {
-  //     onError: (error: any) => {
-  //       console.log(error);
-  //     },
-  //     onSuccess: () => {
-  //       // router.push("/client/login");
-  //       console.log("success Award");
-  //     },
-  //   }
-  // );
 
   //Annexure Upload
   const { mutate: uploadAnnexure, error: uploadAnnexureError } =
@@ -166,11 +151,6 @@ const SingleCase = () => {
     setAnnexureUploadString(generateString(10));
   }, []);
 
-//   const { data, error } = trpc.useQuery([
-//     "mediators.get-single-mediation-case",
-//     { caseId: caseId?.toString() },
-//   ]);
-
   const handleSubmit = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -178,7 +158,7 @@ const SingleCase = () => {
     if (name === "" || username === "" || password === "") {
       setErrorModal({ show: true, message: "Please fill all fields" });
     } else {
-      mutate({
+      mediationCase({
         name,
         username,
         password,
@@ -192,24 +172,11 @@ const SingleCase = () => {
   ) => {
     e.preventDefault();
     addOrder({
-      orderData: order,
+      description: order,
+      caseName:,
       caseId: caseId?.toString(),
     });
   };
-  // const awardUpload = async () => {
-  //   const fileRef = ref(storage, `files/${awardUploadString}`);
-  //   if (award) {
-  //     await uploadString(fileRef, award.toString(), "data_url").then(
-  //       async () => {
-  //         await getDownloadURL(fileRef).then((url) => {
-  //           uploadAward({ caseId: caseId?.toString(), awardUrl: url });
-  //         });
-  //       }
-  //     );
-  //   }
-  //   setAward(null);
-  // };
-
   const annexureUpload = async () => {
     const annexureRef = ref(storage, `files/${annexureUploadString}`);
     if (annexure) {
@@ -229,16 +196,6 @@ const SingleCase = () => {
     }
     setAnnexure(null);
   };
-  const handleAwardUpload = (e: any) => {
-    const reader = new FileReader();
-    if (e.target.files[0]) {
-      reader.readAsDataURL(e.target.files[0]);
-    }
-
-    reader.onload = (readerEvent) => {
-      setAward(readerEvent?.target?.result);
-    };
-  };
 
   //Annexure Upload
   const handleAnnexureUpload = (e: any) => {
@@ -254,11 +211,7 @@ const SingleCase = () => {
 
   return (
     <>
-      {VerifyMediator ? (
-        ""
-      ) : (
-        <Modal name="Mediator" data={VerifyMediator} />
-      )}
+      {VerifyMediator ? "" : <Modal name="Mediator" data={VerifyMediator} />}
 
       <MainLayout
         logout="mediatorToken"
@@ -318,10 +271,7 @@ const SingleCase = () => {
                 Add Order
               </button>
             </Stepper.Step>
-            <Stepper.Step
-              label="Supporting Documents"
-              description="Add All the supporting documents"
-            >
+            <Stepper.Completed>
               <form className="">
                 <input
                   type="text"
@@ -372,44 +322,8 @@ const SingleCase = () => {
                   Upload Annexure
                 </button>
               </form>
-            </Stepper.Step>
-            <Stepper.Completed>
-              {/* <div className="">
-                <div className="max-w-xl">
-                  <label className="flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
-                    <span className="flex items-center space-x-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 text-gray-600"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                        />
-                      </svg>
-                      <span className="font-medium text-gray-600">
-                        Drop files to Attach, or
-                        <span className="text-blue-600 underline">browse</span>
-                      </span>
-                    </span>
-                    <input
-                      type="file"
-                      name=""
-                      id=""
-                      className="hidden"
-                      onChange={(e) => handleAwardUpload(e)}
-                    />
-                  </label>
-                </div>
-
-                <button onClick={awardUpload}>Upload Award</button>
-              </div> */}
             </Stepper.Completed>
+            
           </Stepper>
 
           <Group position="center" mt="xl">
@@ -421,67 +335,6 @@ const SingleCase = () => {
             </button>
           </Group>
         </>
-        {/* <form>
-        <h1>Single Case</h1>
-        <h1>Add Your Client</h1>
-        <input
-          required
-          type="text"
-          value={name}
-          placeholder="Client Name"
-          className={`required ${CustomInputStyle}`}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          required
-          type="text"
-          value={username}
-          placeholder="Client Username"
-          className={`required ${CustomInputStyle}`}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          required
-          type="password"
-          value={password}
-          placeholder="Client Password"
-          className={`required ${CustomInputStyle}`}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit" onClick={(e) => handleSubmit(e)}>
-          Add Client
-        </button>
-
-        <input
-          type="file"
-          name=""
-          id=""
-          onChange={(e) => handleAwardUpload(e)}
-        />
-        <button onClick={awardUpload}>Upload Award</button>
-
-        <input
-          type="text"
-          value={annexureName}
-          placeholder="Annexure Name"
-          className={CustomInputStyle}
-          onChange={(e) => setAnnexureName(e.target.value)}
-        />
-        <input
-          type="text"
-          value={annexureDescription}
-          placeholder="Annexure Description"
-          className={CustomInputStyle}
-          onChange={(e) => setAnnexureDescription(e.target.value)}
-        />
-        <input
-          type="file"
-          name=""
-          id=""
-          onChange={(e) => handleAnnexureUpload(e)}
-        />
-        <button onClick={annexureUpload}>Upload Annexure</button>
-      </form> */}
       </MainLayout>
     </>
   );

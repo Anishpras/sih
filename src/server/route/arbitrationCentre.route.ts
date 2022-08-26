@@ -1,3 +1,4 @@
+import { arbitrationCentreLogOut } from "./../../../schema/arbitrationCentreSchema.schema";
 import {
   createArbitrationCentreSchema,
   loginArbitrationCentreSchema,
@@ -134,5 +135,28 @@ export const arbitrationCentreRouter = createRouter()
           message: "Internal server error",
         });
       }
+    },
+  })
+  .query("all-cases", {
+    resolve: ({ ctx }) => {
+      return ctx.prisma.case.findMany({
+        where: {
+          arbitrationCentreId: ctx?.arbitrationCentre?.id,
+        },
+      });
+    },
+  })
+  .mutation("log-out", {
+    input: arbitrationCentreLogOut,
+    resolve: async ({ ctx, input }) => {
+      const { arbitrationCentreId } = input;
+      await ctx.prisma.arbitrationCentre.update({
+        where: {
+          arbitrationCentreId,
+        },
+        data: {
+          session: false,
+        },
+      });
     },
   });

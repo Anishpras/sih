@@ -18,6 +18,14 @@ export const verifyArbitratorSchema = z.object({
   arbitratorId: z.string(),
 });
 
+export const addHearingSchema = z.object({
+  caseId: z.string(),
+  dateTime: z.date(),
+  mode: z.boolean(),
+  arbitratorId: z.string(),
+});
+
+export type AddHearingSchema = z.TypeOf<typeof addHearingSchema>;
 export type CreateAdminSchema = z.TypeOf<typeof createAdminSchema>;
 export type LoginAdminSchema = z.TypeOf<typeof loginAdminSchema>;
 export type VerifyArbitratorSchema = z.TypeOf<typeof verifyArbitratorSchema>;
