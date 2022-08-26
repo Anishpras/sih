@@ -11,32 +11,43 @@ datasource db {
 }
 
 model Arbitrator {
-  id             String   @id @default(cuid())
+  id             String    @id @default(cuid())
   name           String
   description    String
-  registrationId String   @unique
+  registrationId String    @unique
   password       String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  verified       Boolean  @default(false)
-  mobile         String   @unique
-  otpVerified    Boolean  @default(false)
-  session        Boolean  @default(false)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  verified       Boolean   @default(false)
+  mobile         String    @unique
+  otpVerified    Boolean   @default(false)
+  session        Boolean   @default(false)
+  Hearing        Hearing[]
   cases          Case[]
-  Admin          Admin    @relation(fields: [adminId], references: [adminId])
+  Admin          Admin     @relation(fields: [adminId], references: [adminId])
   adminId        String
 }
 
+model Hearing {
+  id           String      @id @default(cuid())
+  dateTime     DateTime
+  case         Case        @relation(fields: [caseId], references: [id])
+  mode         Boolean
+  Arbitrator   Arbitrator? @relation(fields: [arbitratorId], references: [id])
+  arbitratorId String?
+  caseId       String
+}
+
 model Client {
-  id          String   @id @default(cuid())
-  name        String
-  password    String
-  createdAt   DateTime @default(now())
-  session     Boolean  @default(false)
-  updatedAt   DateTime @updatedAt
-  username    String   @unique
-  case        Case     @relation(fields: [caseId], references: [id])
-  caseId      String
+  id        String   @id @default(cuid())
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  session   Boolean  @default(false)
+  updatedAt DateTime @updatedAt
+  username  String   @unique
+  case      Case     @relation(fields: [caseId], references: [id])
+  caseId    String
 }
 
 model Case {
@@ -57,6 +68,7 @@ model Case {
   arbitratorId        String?
   ArbitrationCentre   ArbitrationCentre @relation(fields: [arbitrationCentreId], references: [id])
   arbitrationCentreId String
+  Hearing             Hearing[]
 }
 
 model Order {

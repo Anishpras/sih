@@ -27,6 +27,10 @@ const ArbitratorCentre = () => {
   const { data, error: allAdminError } = trpc.useQuery([
     "arbitration-centres.detail",
   ]);
+  const { data: allCases, error: allCasesError } = trpc.useQuery([
+    "arbitration-centres.all-cases",
+  ]);
+  console.log(allCases);
   console.log(data);
   if (!arbitrationCentreData) {
     router.push("/arbitration-centre/login");
@@ -43,18 +47,25 @@ const ArbitratorCentre = () => {
       sidebarData={sidebarData}
       setToggleSidebar={setToggleSidebar}
       toggleSidebar={toggleSidebar}
-      headerTitle={headerTitle}
-    >
+      headerTitle={headerTitle}>
       <div>
         {/* <button onClick={cookieRemove}>Remove Cookie</button> */}
 
-        <div className="relative top-10 flex flex-wrap items-center justify-center gap-5 ">
+        <div className="relative top-10 mb-16 flex flex-wrap items-center justify-center gap-5">
           <h1>
             Here all the Arbitration centre Admins and Cases under the
             Arbitration Centre will appear.
           </h1>
         </div>
       </div>
+      {allCases?.map((caseData, idx) => {
+        return (
+          <div key={idx}>
+            <h1>{caseData.name}</h1>
+            <h1>{caseData.description}</h1>
+          </div>
+        );
+      })}
     </MainLayout>
     // </div>
   );

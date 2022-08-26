@@ -1,15 +1,8 @@
 import React, { useState } from "react";
-import MainLayout from "../../components/layout";
-import { CommonButton } from "../../components/login/Button";
-import Modal from "../../components/modal";
-import { trpc } from "../../utils/trpc";
-
-const headerData = [
-  {
-    name: "Verify Arbitrators",
-    route: "/admin/arbitrators",
-  },
-];
+import MainLayout from "../../../components/layout";
+import { CommonButton } from "../../../components/login/Button";
+import Modal from "../../../components/modal";
+import { trpc } from "../../../utils/trpc";
 const headerTitle = " Verify Arbitrators ";
 const sidebarData = [
   {
@@ -46,13 +39,11 @@ const AllArbitratorsList = () => {
     <>
       {data ? "" : <Modal name="Admin" data={data} />}
       <MainLayout
-              logout="adminToken"
-
+        logout="adminToken"
         sidebarData={sidebarData}
         headerTitle={headerTitle}
         setToggleSidebar={setToggleSidebar}
-        toggleSidebar={toggleSidebar}
-      >
+        toggleSidebar={toggleSidebar}>
         <div className="flex flex-wrap gap-10">
           {data?.map((arbitrator: any) => {
             return (
@@ -62,8 +53,7 @@ const AllArbitratorsList = () => {
                   arbitrator.verified.toString() === "true"
                     ? " border-green-400"
                     : " border-red-400"
-                }  customShadow max-w-full rounded-xl border bg-white px-10 py-2 font-Montserrat text-black `}
-              >
+                }  customShadow max-w-full rounded-xl border bg-white px-10 py-2 font-Montserrat text-black `}>
                 <p>Arbitrator Name: {arbitrator.name}</p>
                 <p>Arbitrator Registration Id : {arbitrator.registrationId}</p>
                 <button
@@ -73,8 +63,7 @@ const AllArbitratorsList = () => {
                       : "hover:bg-hoverWhite"
                   } ${CommonButton}  my-2  bg-primaryWhite px-10 `}
                   disabled={arbitrator.verified.toString() === "true"}
-                  onClick={() => handleSubmit(arbitrator.id)}
-                >
+                  onClick={() => handleSubmit(arbitrator.id)}>
                   {arbitrator.verified.toString() === "true"
                     ? "Verified"
                     : "Verify"}

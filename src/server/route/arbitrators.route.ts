@@ -287,4 +287,14 @@ export const arbitratorRouter = createRouter()
         },
       });
     },
+  })
+  .query("get-cause-list", {
+    async resolve({ ctx }) {
+      const causes = await ctx.prisma.hearing.findMany({
+        where: {
+          arbitratorId: ctx?.arbitrator?.id,
+        },
+      });
+      return causes;
+    },
   });
