@@ -184,9 +184,9 @@ model MediationCase {
 
   mediationAnnexures MediationAnnexure[]
   mediationTimeLine  MediationTimeLine[]
-  mediator           Mediator            @relation(fields: [mediatorId], references: [id])
+  Mediator           Mediator            @relation(fields: [mediatorId], references: [id])
 
-  mediationCentre   MediationCentre @relation(fields: [mediationCentreId], references: [id])
+  MediationCentre   MediationCentre @relation(fields: [mediationCentreId], references: [id])
   mediatorId        String
   mediationCentreId String
 }
