@@ -21,8 +21,7 @@ export const verifyArbitratorSchema = z.object({
 export const addHearingSchema = z.object({
   caseId: z.string(),
   dateTime: z.date(),
-  mode: z.boolean(),
-  arbitratorId: z.string(),
+  arbitratorId: z.string().optional(),
 });
 
 export const logoutAdminSchema = z.object({

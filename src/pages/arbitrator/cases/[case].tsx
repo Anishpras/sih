@@ -10,6 +10,7 @@ import Modal, { ErrorModal } from "../../../components/modal";
 import { Stepper, Group } from "@mantine/core";
 import { CommonButton } from "../../../components/login/Button";
 import Editor from "../../../components/editor";
+import { useArbitratorContext } from "../../../context/arbitrator.context";
 
 const headerTitle = "Arbitrator";
 
@@ -265,6 +266,12 @@ const SingleCase = () => {
     };
   };
   // if (!getCase?.caseDetail?.award) {
+
+  const arbitratorData = useArbitratorContext();
+  if (!arbitratorData) {
+    router.push("/arbitrator/login");
+    return <Loader />;
+  }
   return (
     <>
       {VerifyArbitrator ? (

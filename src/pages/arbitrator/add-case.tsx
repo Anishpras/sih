@@ -8,6 +8,9 @@ import { useState } from "react";
 import { Button } from "../../components/login/Button";
 import { formContainer } from "../../styles/custonStyle";
 import { Notification } from "@mantine/core";
+import { useRouter } from "next/router";
+import { useArbitratorContext } from "../../context/arbitrator.context";
+import { Loader } from "../../components/loader/Loader";
 const headerTitle = "Arbitrator";
 const NotificationComponent = () => {
   return (
@@ -19,7 +22,6 @@ const NotificationComponent = () => {
   );
 };
 export default function AddCase() {
-  
   const { register, handleSubmit } = useForm();
   const [toggleSidebar, setToggleSidebar] = useState<boolean>(false);
   const { mutate } = trpc.useMutation(["arbitrators.create-case"], {
@@ -32,6 +34,12 @@ export default function AddCase() {
   async function onSubmit(data: any) {
     mutate(data);
   }
+  const router = useRouter();
+  const arbitratorData = useArbitratorContext();
+  if (!arbitratorData) {
+    router.push("/arbitrator/login");
+    return <Loader />;
+  }
   return (
     <>
       {data ? "" : <Modal name="Arbitrator" data={data} />}
@@ -41,8 +49,7 @@ export default function AddCase() {
         sidebarData={ArbitratorSidebarData}
         setToggleSidebar={setToggleSidebar}
         toggleSidebar={toggleSidebar}
-        headerTitle={headerTitle}
-      >
+        headerTitle={headerTitle}>
         <div>
           <form onSubmit={handleSubmit(onSubmit)} className={formContainer}>
             <Input
