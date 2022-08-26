@@ -41,6 +41,14 @@ export const addOrderSchema = z.object({
   orderData: z.string(),
 });
 
+export const getOrderValidationSchema = z.object({
+  orderId: z.string().optional(),
+});
+
+export type GetOrderValidationSchema = z.TypeOf<
+  typeof getOrderValidationSchema
+>;
+
 export type AddOrderSchema = z.TypeOf<typeof addOrderSchema>;
 
 export type AddAnnexureSchema = z.TypeOf<typeof addAnnexureSchema>;

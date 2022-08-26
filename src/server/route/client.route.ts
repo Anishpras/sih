@@ -1,4 +1,7 @@
-import { loginClientSchema } from "../../../schema/clientSchema.schema";
+import {
+  acceptOrderSchema,
+  loginClientSchema,
+} from "../../../schema/clientSchema.schema";
 import { createRouter } from "../createRouter";
 
 import * as trpc from "@trpc/server";
@@ -16,7 +19,7 @@ export const clientRouter = createRouter()
   .query("login-client", {
     input: loginClientSchema,
     async resolve({ ctx, input }) {
-      const { username, password} = input;
+      const { username, password } = input;
       const client = await ctx.prisma.client.findFirst({
         where: {
           username,
@@ -73,5 +76,65 @@ export const clientRouter = createRouter()
         },
       });
       return { caseDetail: caseDetail, orders: orders };
+    },
+  })
+  .mutation("accept-order", {
+    input: acceptOrderSchema,
+    async resolve({ ctx, input }) {
+      const { orderId } = input;
+      const order = await ctx.prisma.order.findFirst({
+        where: {
+          id: orderId,
+        },
+      });
+      if (order?.clientOneValidated) {
+        await ctx.prisma.order.update({
+          where: {
+            id: orderId,
+          },
+          data: {
+            clientTwoValidated: true,
+          },
+        });
+      } else {
+        await ctx.prisma.order.update({
+          where: {
+            id: orderId,
+          },
+          data: {
+            clientOneValidated: true,
+          },
+        });
+      }
+    },
+  })
+  .mutation("deny-order", {
+    input: acceptOrderSchema,
+    async resolve({ ctx, input }) {
+      const { orderId } = input;
+      const order = await ctx.prisma.order.findFirst({
+        where: {
+          id: orderId,
+        },
+      });
+      if (order?.clientOneValidated) {
+        await ctx.prisma.order.update({
+          where: {
+            id: orderId,
+          },
+          data: {
+            clientTwoValidated: false,
+          },
+        });
+      } else {
+        await ctx.prisma.order.update({
+          where: {
+            id: orderId,
+          },
+          data: {
+            clientOneValidated: false,
+          },
+        });
+      }
     },
   });

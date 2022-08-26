@@ -4,6 +4,7 @@ import {
   addAwardSchema,
   getSingleCaseSchema,
   addOrderSchema,
+  getOrderValidationSchema,
 } from "./../../../schema/arbitratorSchema.schema";
 import {
   createArbitratorSchema,
@@ -296,5 +297,20 @@ export const arbitratorRouter = createRouter()
         },
       });
       return causes;
+    },
+  })
+  .query("get-validation", {
+    input: getOrderValidationSchema,
+    async resolve({ ctx, input }) {
+      const { orderId } = input;
+      const order = await ctx.prisma.order.findFirst({
+        where: {
+          id: orderId,
+        },
+      });
+      if (order?.clientOneValidated && order?.clientTwoValidated) {
+        return true;
+      }
+      return false;
     },
   });

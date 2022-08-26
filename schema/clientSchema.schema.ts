@@ -12,5 +12,14 @@ export const loginClientSchema = z.object({
   password: z.string(),
 });
 
+export const acceptOrderSchema = z.object({
+  orderId: z.string(),
+});
+export const denyOrderSchema = z.object({
+  orderId: z.string(),
+});
+
+export type AcceptOrderSchema = z.TypeOf<typeof acceptOrderSchema>;
+export type DenyOrderSchema = z.TypeOf<typeof denyOrderSchema>;
 export type CreateClientSchema = z.TypeOf<typeof createClientSchema>;
 export type LoginClientSchema = z.TypeOf<typeof loginClientSchema>;

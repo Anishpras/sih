@@ -19,8 +19,7 @@ const Loader = () => (
       <svg
         className="checkmark h-8 w-8"
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 52 52"
-      >
+        viewBox="0 0 52 52">
         <circle
           className="checkmark__circle"
           cx="26"
@@ -41,15 +40,13 @@ const Loader = () => (
     <button
       type="button"
       onClick={() => false}
-      className="inline-flex cursor-pointer items-center"
-    >
+      className="inline-flex cursor-pointer items-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="h-4 w-4 text-gray-600"
         fill="none"
         viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
+        stroke="currentColor">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -107,6 +104,7 @@ const SingleCase = () => {
       },
     }
   );
+
   const { data: VerifyArbitrator } = trpc.useQuery([
     "arbitrators.verify-arbitrator",
   ]);
@@ -115,9 +113,16 @@ const SingleCase = () => {
     //@ts-ignore
     { caseId: router.query.case },
   ]);
+
+  const { data: orderValidated } = trpc.useQuery([
+    "arbitrators.get-validation",
+
+    //@ts-ignore
+    { caseId: router.query.case },
+  ]);
   console.log(router);
   console.log(router.query.case, "getCase");
-
+  console.log(orderValidated, "orderValidated");
   const { mutate: addOrder } = trpc.useMutation(
     ["arbitrators.add-order"],
 
@@ -273,8 +278,7 @@ const SingleCase = () => {
         sidebarData={ArbitratorSidebarData}
         setToggleSidebar={setToggleSidebar}
         toggleSidebar={toggleSidebar}
-        headerTitle={headerTitle}
-      >
+        headerTitle={headerTitle}>
         {getCase?.caseDetail?.award ? (
           <>
             <div>
@@ -289,8 +293,7 @@ const SingleCase = () => {
                 href={getCase?.caseDetail?.award}
                 className={CommonButton}
                 target="_blank"
-                rel="noreferrer"
-              >
+                rel="noreferrer">
                 <span>View Award</span>
               </a>
               <div className="py-5 font-Montserrat text-lg">
@@ -344,8 +347,7 @@ const SingleCase = () => {
                     <button
                       className={CommonButton}
                       type="submit"
-                      onClick={(e) => handleSubmit(e)}
-                    >
+                      onClick={(e) => handleSubmit(e)}>
                       Add Party
                     </button>
                   </form>
@@ -355,15 +357,13 @@ const SingleCase = () => {
 
                   <button
                     className={` mt-3 ${CommonButton}`}
-                    onClick={(e) => handleAddOrder(e)}
-                  >
+                    onClick={(e) => handleAddOrder(e)}>
                     Add Order
                   </button>
                 </Stepper.Step>
                 <Stepper.Step
                   label="Supporting Documents"
-                  description="Add All the supporting documents"
-                >
+                  description="Add All the supporting documents">
                   <form className="flex flex-col items-center justify-center   ">
                     <input
                       type="text"
@@ -414,15 +414,13 @@ const SingleCase = () => {
                 <button
                   type="button"
                   className={CommonButton}
-                  onClick={prevStep}
-                >
+                  onClick={prevStep}>
                   Back
                 </button>
                 <button
                   type="button"
                   className={CommonButton}
-                  onClick={nextStep}
-                >
+                  onClick={nextStep}>
                   Next step
                 </button>
               </Group>
