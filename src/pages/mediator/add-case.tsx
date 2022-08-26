@@ -1,7 +1,7 @@
 import { trpc } from "../../utils/trpc";
 import { useForm } from "react-hook-form";
 import { Input } from "../../components/login/Input";
-import { ArbitratorSidebarData } from ".";
+import { MediatorSidebarData } from ".";
 import MainLayout from "../../components/layout";
 import Modal from "../../components/modal";
 import { useState } from "react";
@@ -13,21 +13,30 @@ export default function AddCase() {
   const { register, handleSubmit } = useForm();
   const [toggleSidebar, setToggleSidebar] = useState<boolean>(false);
 
-  const { mutate, error } = trpc.useMutation(["mediators.create-mediation-case"]);
+  const { mutate } = trpc.useMutation(
+    ["mediators.create-mediation-case"],
+    {
+      onError: (error) => {
+        console.log(error);
+      },
+      onSuccess: (result) => {
+        window.location.href = `/mediator/cases/${result.id}`;
+      },
+    }
+  );
   const { data } = trpc.useQuery(["mediators.verify-mediator"]);
 
   async function onSubmit(data: any) {
-    console.log(data);
     mutate(data);
   }
 
   return (
     <>
-      {data ? "" : <Modal name="Arbitrator" data={data} />}
+      {data ? "" : <Modal name="Mediator" data={data} />}
 
       <MainLayout
-        logout="arbitratorToken"
-        sidebarData={ArbitratorSidebarData}
+        logout="mediatorToken"
+        sidebarData={MediatorSidebarData}
         setToggleSidebar={setToggleSidebar}
         toggleSidebar={toggleSidebar}
         headerTitle={headerTitle}

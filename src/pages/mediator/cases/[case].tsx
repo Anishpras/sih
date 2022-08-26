@@ -5,7 +5,7 @@ import MainLayout from "../../../components/layout";
 import { CustomInputStyle } from "../../../components/login/Input";
 import { storage } from "../../../../firebase";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
-import { ArbitratorSidebarData } from "..";
+import { MediatorSidebarData } from "..";
 import Modal, { ErrorModal } from "../../../components/modal";
 import { Stepper, Group } from "@mantine/core";
 import { CommonButton } from "../../../components/login/Button";
@@ -106,7 +106,7 @@ const SingleCase = () => {
       },
     }
   );
-  const { data: VerifyArbitrator } = trpc.useQuery([
+  const { data: VerifyMediator } = trpc.useQuery([
     "mediators.verify-mediator",
   ]);
 
@@ -123,18 +123,18 @@ const SingleCase = () => {
     }
   );
 
-  const { mutate: uploadAward, error: uploadAwardError } = trpc.useMutation(
-    ["arbitrators.add-award"],
-    {
-      onError: (error: any) => {
-        console.log(error);
-      },
-      onSuccess: () => {
-        // router.push("/client/login");
-        console.log("success Award");
-      },
-    }
-  );
+  // const { mutate: uploadAward, error: uploadAwardError } = trpc.useMutation(
+  //   ["med.add-award"],
+  //   {
+  //     onError: (error: any) => {
+  //       console.log(error);
+  //     },
+  //     onSuccess: () => {
+  //       // router.push("/client/login");
+  //       console.log("success Award");
+  //     },
+  //   }
+  // );
 
   //Annexure Upload
   const { mutate: uploadAnnexure, error: uploadAnnexureError } =
@@ -196,19 +196,19 @@ const SingleCase = () => {
       caseId: caseId?.toString(),
     });
   };
-  const awardUpload = async () => {
-    const fileRef = ref(storage, `files/${awardUploadString}`);
-    if (award) {
-      await uploadString(fileRef, award.toString(), "data_url").then(
-        async () => {
-          await getDownloadURL(fileRef).then((url) => {
-            uploadAward({ caseId: caseId?.toString(), awardUrl: url });
-          });
-        }
-      );
-    }
-    setAward(null);
-  };
+  // const awardUpload = async () => {
+  //   const fileRef = ref(storage, `files/${awardUploadString}`);
+  //   if (award) {
+  //     await uploadString(fileRef, award.toString(), "data_url").then(
+  //       async () => {
+  //         await getDownloadURL(fileRef).then((url) => {
+  //           uploadAward({ caseId: caseId?.toString(), awardUrl: url });
+  //         });
+  //       }
+  //     );
+  //   }
+  //   setAward(null);
+  // };
 
   const annexureUpload = async () => {
     const annexureRef = ref(storage, `files/${annexureUploadString}`);
@@ -254,15 +254,15 @@ const SingleCase = () => {
 
   return (
     <>
-      {VerifyArbitrator ? (
+      {VerifyMediator ? (
         ""
       ) : (
-        <Modal name="Arbitrator" data={VerifyArbitrator} />
+        <Modal name="Mediator" data={VerifyMediator} />
       )}
 
       <MainLayout
-        logout="arbitratorToken"
-        sidebarData={ArbitratorSidebarData}
+        logout="mediatorToken"
+        sidebarData={MediatorSidebarData}
         setToggleSidebar={setToggleSidebar}
         toggleSidebar={toggleSidebar}
         headerTitle={headerTitle}
@@ -374,7 +374,7 @@ const SingleCase = () => {
               </form>
             </Stepper.Step>
             <Stepper.Completed>
-              <div className="">
+              {/* <div className="">
                 <div className="max-w-xl">
                   <label className="flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
                     <span className="flex items-center space-x-2">
@@ -408,7 +408,7 @@ const SingleCase = () => {
                 </div>
 
                 <button onClick={awardUpload}>Upload Award</button>
-              </div>
+              </div> */}
             </Stepper.Completed>
           </Stepper>
 

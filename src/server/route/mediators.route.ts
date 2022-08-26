@@ -145,7 +145,7 @@ export const mediatorRouter = createRouter()
             },
             mediationCentre: {
               connect: {
-                mediationCentreId: ctx?.mediator?.mediationCentreId,
+                mediationCentreId: ctx?.mediator?.id,
               },
             },
           },
