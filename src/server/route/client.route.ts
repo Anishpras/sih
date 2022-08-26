@@ -16,11 +16,10 @@ export const clientRouter = createRouter()
   .query("login-client", {
     input: loginClientSchema,
     async resolve({ ctx, input }) {
-      const { username, password, name } = input;
+      const { username, password} = input;
       const client = await ctx.prisma.client.findFirst({
         where: {
           username,
-          name,
           password: sha256(password).toString(),
         },
       });
