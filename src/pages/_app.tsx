@@ -17,6 +17,7 @@ import { MediationCentreContextProvider } from "../context/mediationCentre.conte
 import { MediationAdminContextProvider } from "../context/mediationAdmin.context";
 import { MediatorContextProvider } from "../context/mediator.context";
 import { MediationPartyContextProvider } from "../context/mediationParty.context";
+import { ArbitrationCentreBlockchainCasesProvider } from "../context/ArbitrationCentreBlockchain";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const {
@@ -77,25 +78,27 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <ArbitratorCentreContextProvider value={arbitrationCentreData}>
-      <MediationCentreContextProvider value={mediationCentreData}>
-        <AdminContextProvider value={adminData}>
-          <MediationAdminContextProvider value={mediationAdminData}>
-            <ArbitratorContextProvider value={arbitratorData}>
-              <MediatorContextProvider value={mediatorData}>
-                <ClientContextProvider value={clientData}>
-                  <MediationPartyContextProvider value={mediationPartyData}>
-                    <MantineProvider withGlobalStyles withNormalizeCSS>
-                      <Component {...pageProps} />
-                    </MantineProvider>
-                  </MediationPartyContextProvider>
-                </ClientContextProvider>
-              </MediatorContextProvider>
-            </ArbitratorContextProvider>
-          </MediationAdminContextProvider>
-        </AdminContextProvider>
-      </MediationCentreContextProvider>
-    </ArbitratorCentreContextProvider>
+    <ArbitrationCentreBlockchainCasesProvider>
+      <ArbitratorCentreContextProvider value={arbitrationCentreData}>
+        <MediationCentreContextProvider value={mediationCentreData}>
+          <AdminContextProvider value={adminData}>
+            <MediationAdminContextProvider value={mediationAdminData}>
+              <ArbitratorContextProvider value={arbitratorData}>
+                <MediatorContextProvider value={mediatorData}>
+                  <ClientContextProvider value={clientData}>
+                    <MediationPartyContextProvider value={mediationPartyData}>
+                      <MantineProvider withGlobalStyles withNormalizeCSS>
+                        <Component {...pageProps} />
+                      </MantineProvider>
+                    </MediationPartyContextProvider>
+                  </ClientContextProvider>
+                </MediatorContextProvider>
+              </ArbitratorContextProvider>
+            </MediationAdminContextProvider>
+          </AdminContextProvider>
+        </MediationCentreContextProvider>
+      </ArbitratorCentreContextProvider>
+    </ArbitrationCentreBlockchainCasesProvider>
   );
 }
 
