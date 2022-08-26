@@ -1,10 +1,13 @@
 import Fuse from "fuse.js";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { ArbitratorSidebarData } from "..";
 import MainLayout from "../../../components/layout";
+import { Loader } from "../../../components/loader/Loader";
 import { ButtonStyle } from "../../../components/login/Button";
 import Modal from "../../../components/modal";
+import { useArbitratorContext } from "../../../context/arbitrator.context";
 import { trpc } from "../../../utils/trpc";
 const headerTitle = "Arbitrator";
 
@@ -25,7 +28,12 @@ const AllArbitratorCase = () => {
   if (data) {
     fuse = new Fuse(data, options);
   }
-
+  const router = useRouter();
+  const arbitratorData = useArbitratorContext();
+  if (!arbitratorData) {
+    router.push("/arbitrator/login");
+    return <Loader />;
+  }
   return (
     <>
       {VerifyArbitrator ? (
@@ -39,8 +47,7 @@ const AllArbitratorCase = () => {
         sidebarData={ArbitratorSidebarData}
         headerTitle={headerTitle}
         setToggleSidebar={setToggleSidebar}
-        toggleSidebar={toggleSidebar}
-      >
+        toggleSidebar={toggleSidebar}>
         <h1 className="font-Montserrat text-3xl font-bold">Your All Cases</h1>
         <div className="flex flex-wrap">
           {data?.map((singleCase: any, index: number) => {
@@ -48,9 +55,8 @@ const AllArbitratorCase = () => {
             return (
               <Link key={index} href={`/arbitrator/cases/${singleCase.id}`}>
                 <div
-                  className={`${ButtonStyle} mx-1 cursor-pointer px-3 text-left `}
-                >
-                  <h1 className=                                                                                                                                                                                                                                                                                                                                                                                          "text-xl"> Case Name : {singleCase.name}</h1>
+                  className={`${ButtonStyle} mx-1 cursor-pointer px-3 text-left `}>
+                  <h1 className="text-xl"> Case Name : {singleCase.name}</h1>
                   <h2 className="text-gray-500 ">
                     Case Description:{singleCase.description}
                   </h2>

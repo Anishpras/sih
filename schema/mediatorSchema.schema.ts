@@ -17,7 +17,7 @@ export const loginMediatorSchema = z.object({
 export const createMediationCaseSchema = z.object({
   caseName: z.string(),
   description: z.string(),
-  caseId: z.string(),
+  caseId: z.string().optional(),
 });
 
 export const getSingleMediationCaseSchema = z.object({

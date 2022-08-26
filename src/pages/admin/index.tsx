@@ -16,6 +16,10 @@ const sidebarData = [
     name: "Verify Arbitrators",
     route: "/admin/arbitrators",
   },
+  {
+    name: "Add Cause List",
+    route: "/admin/arbitrators/cause-list",
+  },
 ];
 
 const Admin = () => {
@@ -40,8 +44,7 @@ const Admin = () => {
         sidebarData={sidebarData}
         headerTitle={headerTitle}
         setToggleSidebar={setToggleSidebar}
-        toggleSidebar={toggleSidebar}
-      >
+        toggleSidebar={toggleSidebar}>
         <div className="">
           {adminData?.username}
           <h1>Land</h1>
