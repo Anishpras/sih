@@ -16,15 +16,11 @@ export const loginArbitrationCentreSchema = z.object({
 export const verifyAdminSchema = z.object({
   adminId: z.string(),
 });
+export const arbitrationCentreLogOut = z.object({
+  arbitrationCentreId: z.string().optional(),
+});
 
-// export const getAllAdmins = z.object({
-//   arbitrationCentreId: z.string(),
-// });
-
-// export type GetAllAdmins = z.TypeOf<
-//   typeof getAllAdmins
-// >;
-
+export type ArbitrationCentreLogOut = z.TypeOf<typeof arbitrationCentreLogOut>;
 export type CreateArbitrationCentreSchema = z.TypeOf<
   typeof createArbitrationCentreSchema
 >;

@@ -1,3 +1,4 @@
+import { arbitrationCentreLogOut } from "./../../../schema/arbitrationCentreSchema.schema";
 import {
   createArbitrationCentreSchema,
   loginArbitrationCentreSchema,
@@ -146,10 +147,12 @@ export const arbitrationCentreRouter = createRouter()
     },
   })
   .mutation("log-out", {
-    resolve: async ({ ctx }) => {
+    input: arbitrationCentreLogOut,
+    resolve: async ({ ctx, input }) => {
+      const { arbitrationCentreId } = input;
       await ctx.prisma.arbitrationCentre.update({
         where: {
-          arbitrationCentreId: ctx?.arbitrationCentre?.arbitrationCentreId,
+          arbitrationCentreId,
         },
         data: {
           session: false,

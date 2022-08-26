@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { Input } from "../../components/login/Input";
 import { Button } from "../../components/login/Button";
 import { Loader } from "../../components/loader/Loader";
-import Link from "next/link";
 import {
   formContainer,
   loginScreenContainer,

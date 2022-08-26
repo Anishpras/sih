@@ -50,11 +50,10 @@ const ArbitratorCentre = () => {
     );
   }
   const logOut = () => {
+    mutate({ arbitrationCentreId: data?.arbitrationCentreId });
     document.cookie =
       "arbitrationCentreToken" + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     window.location.reload();
-
-    mutate();
   };
   return (
     // <div className="grid grid-cols-2 min-h-screen w-full bg-primary ">
