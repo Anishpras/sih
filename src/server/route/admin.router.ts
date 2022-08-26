@@ -1,6 +1,7 @@
 import {
   addHearingSchema,
   loginAdminSchema,
+  logoutAdminSchema,
   verifyArbitratorSchema,
 } from "./../../../schema/adminSchema.schema";
 import { createAdminSchema } from "../../../schema/adminSchema.schema";
@@ -10,6 +11,7 @@ import * as trpc from "@trpc/server";
 import sha256 from "crypto-js/sha256";
 import { signJwt } from "../../utils/jwt";
 import { serialize } from "cookie";
+import { LogoutAdminSchema } from "../../../schema/arbitratorSchema.schema";
 
 export const adminRouter = createRouter()
   .mutation("admin-register", {
@@ -159,30 +161,29 @@ export const adminRouter = createRouter()
         });
       }
     },
-  }).
-  query("add-hearing",{
+  })
+  .query("add-hearing", {
     input: addHearingSchema,
     async resolve({ ctx, input }) {
-      const {dateTime,caseId,mode, arbitratorId}= input;
+      const { dateTime, caseId, mode, arbitratorId } = input;
       try {
         await ctx.prisma.hearing.create({
           data: {
             dateTime,
             mode,
-            case:{
-              connect:{
-                id:caseId
-              }
+            case: {
+              connect: {
+                id: caseId,
+              },
             },
-            Arbitrator:{
-              connect:{
-                  id:arbitratorId
-              }
-            }
-          }
-        })
-      }
-      catch (e) {
+            Arbitrator: {
+              connect: {
+                id: arbitratorId,
+              },
+            },
+          },
+        });
+      } catch (e) {
         if (e instanceof PrismaClientKnownRequestError) {
           if (e.code === "P2002") {
             throw new trpc.TRPCError({
@@ -197,6 +198,19 @@ export const adminRouter = createRouter()
           message: "Internal server error",
         });
       }
-    }
-
+    },
+  })
+  .mutation("log-out", {
+    input: logoutAdminSchema,
+    resolve: async ({ ctx, input }) => {
+      const { adminId } = input;
+      await ctx.prisma.arbitrationCentre.update({
+        where: {
+          id: adminId,
+        },
+        data: {
+          session: false,
+        },
+      });
+    },
   });

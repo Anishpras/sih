@@ -17,6 +17,7 @@ import * as trpc from "@trpc/server";
 import sha256 from "crypto-js/sha256";
 import { signJwt } from "../../utils/jwt";
 import { serialize } from "cookie";
+import { logoutArbitratorSchema } from "../../../schema/arbitratorSchema.schema";
 
 export const arbitratorRouter = createRouter()
   .mutation("register-arbitrator", {
@@ -312,5 +313,19 @@ export const arbitratorRouter = createRouter()
         return true;
       }
       return false;
+    },
+  })
+  .mutation("log-out", {
+    input: logoutArbitratorSchema,
+    resolve: async ({ ctx, input }) => {
+      const { arbitratorId } = input;
+      await ctx.prisma.arbitrationCentre.update({
+        where: {
+          id: arbitratorId,
+        },
+        data: {
+          session: false,
+        },
+      });
     },
   });

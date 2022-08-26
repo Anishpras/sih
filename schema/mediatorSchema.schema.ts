@@ -14,6 +14,10 @@ export const loginMediatorSchema = z.object({
   password: z.string(),
 });
 
+export const logoutMediatorSchema = z.object({
+  mediatorId: z.string().optional(),
+});
+
 export const createMediationCaseSchema = z.object({
   caseName: z.string(),
   description: z.string(),
@@ -54,3 +58,5 @@ export type CreateMediationCaseSchema = z.infer<
 export type CreateMediatorSchema = z.TypeOf<typeof createMediatorSchema>;
 
 export type LoginMediatorSchema = z.TypeOf<typeof loginMediatorSchema>;
+
+export type LogoutMediatorSchema = z.TypeOf<typeof logoutMediatorSchema>;

@@ -30,6 +30,16 @@ const Arbitrator = () => {
 
   const arbitratorData = useArbitratorContext();
   const { data } = trpc.useQuery(["arbitrators.verify-arbitrator"]);
+
+  const { mutate, error } = trpc.useMutation(["arbitration-centres.log-out"], {
+    onError: (error: any) => {
+      console.log(error);
+    },
+    onSuccess: () => {
+      router.push("/arbitration-centre/login");
+    },
+  });
+
   if (!arbitratorData) {
     router.push("/arbitrator/login");
     return <Loader />;
