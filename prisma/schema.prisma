@@ -31,6 +31,7 @@ model Arbitrator {
 model Hearing {
   id           String      @id @default(cuid())
   dateTime     DateTime
+
   case         Case        @relation(fields: [caseId], references: [caseId])
   Arbitrator   Arbitrator? @relation(fields: [arbitratorId], references: [id])
   arbitratorId String?

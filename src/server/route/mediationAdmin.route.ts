@@ -9,6 +9,7 @@ import {
   loginMediationAdminSchema,
   verifyMediatorSchema,
 } from "../../../schema/mediationAdmin.schema";
+import { addOrderSchema } from "../../../schema/arbitratorSchema.schema";
 
 export const mediationAdminRouter = createRouter()
   .mutation("mediation-admin-register", {
@@ -154,5 +155,21 @@ export const mediationAdminRouter = createRouter()
           message: "Internal server error",
         });
       }
+    },
+  })
+  .mutation("add-order", {
+    input: addOrderSchema,
+    async resolve({ ctx, input }) {
+      const { caseId, orderData } = input;
+      await ctx.prisma..create({
+        data: {
+          description: orderData,
+          Case: {
+            connect: {
+              id: caseId,
+            },
+          },
+        },
+      });
     },
   });

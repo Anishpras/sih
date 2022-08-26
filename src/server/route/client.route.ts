@@ -75,7 +75,12 @@ export const clientRouter = createRouter()
           caseId: ctx?.client?.caseId,
         },
       });
-      return { caseDetail: caseDetail, orders: orders };
+      const annexure = await ctx.prisma.annexure.findMany({
+        where: {
+          caseId: ctx?.client?.caseId,
+        },
+      });
+      return { caseDetail: caseDetail, orders: orders, annexure: annexure };
     },
   })
   .mutation("accept-order", {

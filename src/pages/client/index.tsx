@@ -90,6 +90,7 @@ const Client = () => {
     router.push("/client/login");
     return <Loader />;
   }
+  console.log(data);
   return (
     <>
       <MainLayout
@@ -155,6 +156,36 @@ const Client = () => {
                 );
               })}
             </div>
+            <div className="my-3 flex flex-wrap">
+              {data.annexure.map((n, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="customShadow rounded-xl bg-white  py-3 px-5"
+                  >
+                    <h1>Annexure Name : {n.name}</h1>
+                    <p>Annexure description : {n.description} </p>
+                    <a
+                      //  @ts-ignore
+                      href={n.link}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <span>View Annexure</span>
+                    </a>
+                  </div>
+                );
+              })}
+            </div>
+            <a
+              //  @ts-ignore
+              href={data?.caseDetail?.award}
+              className={CommonButton}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span>View Award</span>
+            </a>
           </div>
         </div>
       </MainLayout>

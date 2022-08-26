@@ -111,7 +111,7 @@ const ClientLogin = () => {
       </div>
       <div className={loginScreenFormContainer}>
         <div className="relative pt-32">
-          <h1 className="font-Montserrat text-2xl font-bold ">Client LOGIN</h1>
+          <h1 className="font-Montserrat text-2xl font-bold ">Party Login</h1>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className={formContainer}>
           <Input
