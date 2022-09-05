@@ -1,11 +1,10 @@
 import Link from "next/link";
 import React from "react";
 
-
 interface Props {
   sidebarData: { route: string; name: string }[];
   toggleSidebar: boolean;
-  logout: string;
+  logout: () => void | string;
   setToggleSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -55,7 +54,7 @@ export default function SidebarComponent({
             <button
               type="button"
               className="my-5 flex w-full items-center  rounded-lg bg-black p-2 text-left font-Raleway text-xl font-semibold text-white  hover:bg-darkSecondary"
-              onClick={() => cookieRemove(logout)}
+              onClick={logout}
             >
               Log-Out
             </button>

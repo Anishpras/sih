@@ -8,7 +8,7 @@ interface MainLayoutProps {
   toggleSidebar: boolean;
   setToggleSidebar: React.Dispatch<React.SetStateAction<boolean>>;
   headerTitle: string;
-  logout: string;
+  logout: () => void | string;
 }
 export default function MainLayout({
   children,
